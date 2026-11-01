@@ -59,6 +59,11 @@ def chat_prompt(user, system=SYSTEM):
     return f"<|im_start|>system\n{system}<|im_end|>\n<|im_start|>user\n{user}<|im_end|>\n<|im_start|>assistant\n"
 
 
+def phi3_prompt(user, system=SYSTEM):
+    """Phi-3 chat text ending at the assistant turn, for the baseline only. Checked against the tokenizer's template in the job."""
+    return f"<|system|>\n{system}<|end|>\n<|user|>\n{user}<|end|>\n<|assistant|>\n"
+
+
 def row_prompt(row: Row, order="evidence_first"):
     if not row.usable:
         raise ValueError(f"annotation {row.annotation_id} has no criterion text")

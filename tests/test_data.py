@@ -150,3 +150,9 @@ def test_encoding_fails_instead_of_truncating(rows):
     row = next(r for r in rows if r.usable)
     with pytest.raises(TruncationError):
         encode_example(row, toy_encode, max_len=100)
+
+
+def test_phi3_prompt_format():
+    from trialmatch.data.prompt import phi3_prompt
+
+    assert phi3_prompt("U", "S") == "<|system|>\nS<|end|>\n<|user|>\nU<|end|>\n<|assistant|>\n"
