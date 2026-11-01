@@ -1,0 +1,49 @@
+{
+  "name": "final_lora_over4",
+  "decision": "Highest mean validation macro-F1 over seeds 42, 43, 44 among the three sweep leaders, by the rule set in docs/PLAN.md (select on validation macro-F1). r32 is not statistically distinguishable (see docs/STATUS.md).",
+  "script": "scripts/train.py",
+  "source_tree_hash": "9b7b27a6b76946a3dcbc09f03d15ab134f270b3c1b493bb316b0028dc8a0ed9e",
+  "source_commit": "74b76d09cf3de4d2626dede682b1128dd330b499",
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "train_args": {
+    "mode": "lora",
+    "r": 16,
+    "alpha": 32,
+    "dropout": 0.05,
+    "lr": 0.0002,
+    "epochs": 3,
+    "batch_size": 8,
+    "micro_batch": 4,
+    "warmup_ratio": 0.05,
+    "order": "evidence_first",
+    "oversample": 4,
+    "max_new_tokens": 64,
+    "eval_batch_size": 16,
+    "val_loss_batch": 4,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj"
+    ]
+  },
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "checkpoint_rule": "per run, the epoch with the highest strict validation macro-F1",
+  "runs": {
+    "42": "over4",
+    "43": "over4_s43",
+    "44": "over4_s44"
+  },
+  "deployed_adapter": "over4_s44 (highest validation macro-F1, 0.473)",
+  "val_macro_f1": {
+    "over4": 0.426,
+    "over4_s43": 0.44,
+    "over4_s44": 0.473
+  },
+  "test_plan": "scripts/final_eval.py scores all three seed adapters once on the test split and reports mean and spread."
+}

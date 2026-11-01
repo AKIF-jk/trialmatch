@@ -3,14 +3,14 @@
 Read this first, then `docs/PLAN.md`. Update this file at the end of every phase or work session, and commit and push it.
 
 **Last updated:** 2026-11-01
-**Current phase:** Phase 2 started. The shared evaluator and the untuned baselines are done (see Phase 2 Results). Phase 1 code is done. The Phase 1 exit-gate tests pass locally and on a CPU Kaggle kernel (15 tests, `results/tests/`). The source review is done for the main text of all 7 papers. `docs/sources.md` lists what was not read (appendices, the TrialGPT Methods section, parts of the Qwen2.5 evaluation).
+**Current phase:** Phase 2 mostly done. Evaluator, untuned baselines, sweep and 3-seed runs are done and the config is frozen (`configs/final.json`). Adapters are not yet on HF and the draft LoRA is not trained. Phase 1 code is done. The Phase 1 exit-gate tests pass locally and on a CPU Kaggle kernel (15 tests, `results/tests/`). The source review is done for the main text of all 7 papers. `docs/sources.md` lists what was not read (appendices, the TrialGPT Methods section, parts of the Qwen2.5 evaluation).
 **Deadline:** November 10, 2026, plus a 2-hour grace period. Target submission is November 9.
 
 ## Next Steps
 
-1. Freeze the final config (decision pending with the user, see below), then train seeds 42/43/44 on it and report mean and spread.
-2. Train the draft LoRA (same pipeline on `Qwen2.5-0.5B`; `train.py` needs a model switch), and upload both adapters with `~/.local/bin/hf`.
-3. Rare classes are unsolved: no run predicts `excluded` correctly. Decide how to report that (support-aware, no claims) and whether one more attempt is worth it (for example a higher oversampling factor or class-weighted loss), judged on val only.
+1. Download the three `over4` best adapters from the seed kernels (`trialmatch-sweep-b` for `over4`, `trialmatch-seeds-x` for `over4_s43`, `trialmatch-seeds-y` for `over4_s44`), upload them to HF with `~/.local/bin/hf` (private, read-back check), and record the repo ids and revisions here.
+2. Train the draft LoRA (same pipeline on `Qwen2.5-0.5B-Instruct`; `train.py` needs a model switch) with the frozen args, and upload it.
+3. Phase 3: write the KV-cached decoder and its equivalence tests (`trialmatch/decoding`).
 
 ## Accounts And Locations
 
@@ -77,6 +77,21 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
   - **`last2` is clearly worse** (accuracy 0.675, evidence micro-F1 0.305), but only one learning rate (2e-5) was tried. Report that limit.
   - **Cost:** about 11 to 13 min per run on a T4, peak memory 7.4 GB (8.6 GB for `last2`) with micro-batch 4. The two kernels ran in parallel in about 37 min wall time.
 
+
+- **Seeds 42/43/44 on the top three configs (val 206 rows, `results/train/*/report.json`, `results/train/seeds_summary.json`):**
+
+| Config | Val macro-F1 per seed (best epoch) | Mean | SD | Accuracy mean | Evidence macro-F1 mean | `not applicable` F1 per seed |
+|---|---|---|---|---|---|---|
+| `over4` (r=16, rare labels x4) | 0.426 / 0.440 / 0.473 | 0.446 | 0.024 | 0.731 | 0.739 | 0.40 / 0.00 / 0.47 |
+| `r32` (alpha 64) | 0.428 / 0.446 / 0.429 | 0.434 | 0.010 | 0.739 | 0.737 | 0.45 / 0.47 / 0.45 |
+| `label_first` (r=16) | 0.440 / 0.366 / 0.363 | 0.390 | 0.044 | 0.741 | 0.744 | 0.47 / 0.00 / 0.00 |
+
+  - **The seed-42 lead of `label_first` was a lucky draw.** Seeds 43 and 44 score 0.366 and 0.363 because they never predict `not applicable`. Single-seed rankings in the sweep table above should not be quoted.
+  - **`over4` has the best mean, but `over4` and `r32` are not distinguishable** (ranges 0.426 to 0.473 and 0.428 to 0.446 overlap, and the gap is half an SD). `r32` is more stable and always finds `not applicable` (F1 0.45 to 0.47). `over4` is the only config that ever gets a rare class right: seed 43 scores `excluded` F1 0.50 (2 predicted, 1 correct, support 2), seed 44 scores `not included` F1 0.22 (6 predicted, 1 correct, support 3). That is one correct row each, so it is a hint and not a result.
+  - **Rare classes are still essentially unsolved.** `excluded` has support 2 and `not included` has support 3 on val, so no claim about them is possible from these numbers.
+  - **Cost:** 11 to 13 min per run, peak 7.4 to 7.5 GB, no malformed outputs in any of the 9 runs.
+  - **Frozen config:** `configs/final.json` (`over4`: r=16, alpha 32, evidence-first, rare labels x4, 3 epochs, lr 2e-4, micro-batch 4), chosen by the pre-set rule (highest mean val macro-F1). It is a close call with `r32`, and the report must say so. Checkpoint per run is its best epoch by val macro-F1. The adapter for the app is `over4_s44` (val 0.473). Phase 7 scores all three seed adapters on test once and reports mean and spread.
+
 ## Known Constraints
 
 - **Local machine:** 7 GB RAM and about 1.7 GB free disk. Do not install PyTorch or download models locally.
@@ -96,11 +111,7 @@ None. Resolved on 2026-11-01: the rubric total is 135 (the table is right and th
 
 ## Kernels In Flight
 
-- `akifjawad/trialmatch-seeds-x` v1: `label_first_s43`, `label_first_s44`, `over4_s43`.
-- `akifjawad/trialmatch-seeds-y` v1: `r32_s43`, `r32_s44`, `over4_s44`.
-- Started 2026-11-01, source v9 (tree `9b7b27a6`), 3 epochs, micro-batch 4, every flag set explicitly per run. Seed 42 for these three configs is the sweep run (`label_first`, `r32`, `over4`). Expect about 37 min. Results go to `results/train/<run>/`.
-
-Earlier: sweep kernels finished (`trialmatch-sweep-a` v1, `trialmatch-sweep-b` v1). Their best adapters sit in the kernel outputs and are not yet downloaded or uploaded to HF. Old notes follow.
+None. Finished: `trialmatch-seeds-x` v1 and `trialmatch-seeds-y` v1 (seed runs, source v9), sweep kernels (`trialmatch-sweep-a` v1, `trialmatch-sweep-b` v1). Their best adapters sit in the kernel outputs and are not yet downloaded or uploaded to HF. Old notes follow.
 
 - (done) `akifjawad/trialmatch-sweep-a` v1: `base_r16`, `r8` (alpha 16), `r32` (alpha 64). T4, 3 epochs, micro-batch 4, seed 42.
 - `akifjawad/trialmatch-sweep-b` v1: `label_first`, `over4` (rare labels x4), `last2` (lr 2e-5). Same settings; later runs pass `--order evidence_first` explicitly because runs inherit the first run's flags.
