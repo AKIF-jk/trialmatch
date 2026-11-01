@@ -96,7 +96,11 @@ None. Resolved on 2026-11-01: the rubric total is 135 (the table is right and th
 
 ## Kernels In Flight
 
-None. Sweep kernels finished (`trialmatch-sweep-a` v1, `trialmatch-sweep-b` v1). Their best adapters sit in the kernel outputs and are not yet downloaded or uploaded to HF. Old notes follow.
+- `akifjawad/trialmatch-seeds-x` v1: `label_first_s43`, `label_first_s44`, `over4_s43`.
+- `akifjawad/trialmatch-seeds-y` v1: `r32_s43`, `r32_s44`, `over4_s44`.
+- Started 2026-11-01, source v9 (tree `9b7b27a6`), 3 epochs, micro-batch 4, every flag set explicitly per run. Seed 42 for these three configs is the sweep run (`label_first`, `r32`, `over4`). Expect about 37 min. Results go to `results/train/<run>/`.
+
+Earlier: sweep kernels finished (`trialmatch-sweep-a` v1, `trialmatch-sweep-b` v1). Their best adapters sit in the kernel outputs and are not yet downloaded or uploaded to HF. Old notes follow.
 
 - (done) `akifjawad/trialmatch-sweep-a` v1: `base_r16`, `r8` (alpha 16), `r32` (alpha 64). T4, 3 epochs, micro-batch 4, seed 42.
 - `akifjawad/trialmatch-sweep-b` v1: `label_first`, `over4` (rare labels x4), `last2` (lr 2e-5). Same settings; later runs pass `--order evidence_first` explicitly because runs inherit the first run's flags.
