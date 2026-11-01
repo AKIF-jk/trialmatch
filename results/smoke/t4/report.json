@@ -1,0 +1,56 @@
+{
+  "python": "3.13.15",
+  "cpu_count": 4,
+  "packages": {
+    "torch": "2.11.0+cu128",
+    "transformers": "5.16.1",
+    "peft": "0.20.0",
+    "accelerate": "1.14.0",
+    "datasets": "4.8.5",
+    "gradio": "6.26.0",
+    "numpy": "2.1.3",
+    "scikit-learn": "1.6.1"
+  },
+  "torch_cuda": "12.8",
+  "cuda": true,
+  "stages": {
+    "hf_reachable": true,
+    "target": {
+      "params": 1543714304,
+      "dtype": "torch.float16",
+      "attn": "sdpa",
+      "load_s": 34.8,
+      "gen_s": 1.53,
+      "text": "Clinical trials are research studies that test new drugs, treatments, or medical devices to",
+      "cache_len": 38,
+      "cache_len_after_crop": 37,
+      "logits": [
+        1,
+        38,
+        151936
+      ],
+      "peak_gpu_gb": 2.9
+    },
+    "draft": {
+      "params": 494032768,
+      "dtype": "torch.float16",
+      "attn": "sdpa",
+      "load_s": 7.5,
+      "gen_s": 4.36,
+      "text": "Clinical trials are essential research methods used to evaluate the safety and efficacy of new drugs",
+      "cache_len": 38,
+      "cache_len_after_crop": 37,
+      "logits": [
+        1,
+        38,
+        151936
+      ],
+      "peak_gpu_gb": 3.83
+    }
+  },
+  "gpus": [
+    "Tesla T4",
+    "Tesla T4"
+  ],
+  "bf16": true
+}
