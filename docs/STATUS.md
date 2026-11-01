@@ -3,12 +3,14 @@
 Read this first, then `docs/PLAN.md`. Update this file at the end of every phase or work session, and commit and push it.
 
 **Last updated:** 2026-11-01
-**Current phase:** Phase 0 is done. Phase 1 (data and split) has not started. The delta source build is done.
+**Current phase:** Phase 1 code is done. The Phase 1 exit-gate tests pass locally (15 tests). The source review has started: paper identities are checked in `docs/sources.md`, but no paper is read yet.
 **Deadline:** November 10, 2026, plus a 2-hour grace period. Target submission is November 9.
 
 ## Next Steps
 
-1. Start Phase 1 as written in `docs/PLAN.md`.
+1. Run `pytest tests` once on a CPU Kaggle kernel (delta source build, first use of `--base-url`). This confirms the tests also pass on the Kaggle image.
+2. Read the papers in `docs/sources.md` and fill in the Read column.
+3. Start Phase 2 as written in `docs/PLAN.md`. Write the shared evaluator first.
 
 ## Accounts And Locations
 
@@ -20,6 +22,16 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
 | Hugging Face user | `AkifJK` |
 | Dataset revision | `ncbi/TrialGPT-Criterion-Annotations` at `1cfcafde94a1560a33b4addc1638664fe28fc059` |
 | GPU quota | 30 h/week, resets November 7, 00:00 UTC. About 1.4 min used on November 1. |
+
+## Phase 1 Results
+
+- **Split:** 37/8/8 patients, giving 603 train, 206 val and 206 test annotations. Seed 42, `splits/manifest.json`, sha256 `357486d0`. The seed was not changed after seeing class counts.
+- **Rare classes:** train has 8 `excluded` and 13 `not included`. Val has 2 `excluded` and 3 `not included`. Val macro-F1 on those classes will be very noisy, so report support next to every score.
+- **Unusable row:** annotation 883 (null criterion) is in the manifest, flagged in `unusable_annotation_ids`, and dropped by `select_rows`.
+- **Lengths:** `results/phase1/token_lengths.json`. Longest example is 623 tokens, `MAX_LEN` is 2048, nothing is truncated, and `encode_example` raises instead of truncating. Target is at most 29 tokens.
+- **Prompt:** Qwen ChatML text written by hand in `trialmatch/data/prompt.py`, with label definitions. Phase 2 must check it equals `tokenizer.apply_chat_template` on the Kaggle tokenizer. Output order is a parameter (`evidence_first` or `label_first`).
+- **Test guard:** `select_rows(..., "test")` raises `LockedSplitError` unless `allow_test=True`. Only `scripts/final_eval.py` (not written yet) may pass it. Only aggregate class counts for test are in the manifest, as the plan requires.
+- **Local env:** `.venv` holds numpy, pyarrow, huggingface_hub, tokenizers and pytest (`requirements-dev.txt`). Run tests with `PYTHONPATH=. .venv/bin/python -m pytest -q tests`. Tests download the 176 KB dataset from the pinned revision.
 
 ## Known Constraints
 
