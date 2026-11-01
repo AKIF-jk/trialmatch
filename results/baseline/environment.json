@@ -1,0 +1,26 @@
+{
+  "commit": "aee78891498f9e0367138b02835bfda9fe394c6d",
+  "python": "3.13.15",
+  "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+  "cpu_count": 4,
+  "packages": {
+    "torch": "2.11.0+cu128",
+    "transformers": "5.16.1",
+    "peft": "0.20.0",
+    "accelerate": "1.14.0",
+    "datasets": "4.8.5",
+    "gradio": "6.26.0",
+    "numpy": "2.1.3",
+    "scikit-learn": "1.6.1"
+  },
+  "cuda_available": true,
+  "torch_cuda": "12.8",
+  "gpus": [
+    {
+      "name": "Tesla T4",
+      "memory_gb": 14.6
+    }
+  ],
+  "bf16_supported": true,
+  "nvidia_smi": "Tesla T4, 580.178.04, 15360 MiB\nTesla T4, 580.178.04, 15360 MiB"
+}

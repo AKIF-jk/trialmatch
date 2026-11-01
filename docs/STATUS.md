@@ -3,13 +3,13 @@
 Read this first, then `docs/PLAN.md`. Update this file at the end of every phase or work session, and commit and push it.
 
 **Last updated:** 2026-11-01
-**Current phase:** Phase 2 started. The shared evaluator is done (see Phase 2 Results). Phase 1 code is done. The Phase 1 exit-gate tests pass locally and on a CPU Kaggle kernel (15 tests, `results/tests/`). The source review is done for the main text of all 7 papers. `docs/sources.md` lists what was not read (appendices, the TrialGPT Methods section, parts of the Qwen2.5 evaluation).
+**Current phase:** Phase 2 started. The shared evaluator and the untuned baselines are done (see Phase 2 Results). Phase 1 code is done. The Phase 1 exit-gate tests pass locally and on a CPU Kaggle kernel (15 tests, `results/tests/`). The source review is done for the main text of all 7 papers. `docs/sources.md` lists what was not read (appendices, the TrialGPT Methods section, parts of the Qwen2.5 evaluation).
 **Deadline:** November 10, 2026, plus a 2-hour grace period. Target submission is November 9.
 
 ## Next Steps
 
-1. Phase 2, next: write the baseline generation script (`scripts/baseline.py`). It runs Qwen2.5-1.5B-Instruct and Phi-3-mini on val with the Phase 1 prompt and greedy settings, then scores through `trialmatch.eval.metrics.evaluate`. First check that `chat_prompt` equals `tokenizer.apply_chat_template` on the Kaggle tokenizer. This is also the first T4 job through the source-tarball path.
-2. Then the LoRA training script (`trialmatch/train`), sweep and seeds as in `docs/PLAN.md`.
+1. Phase 2, next: write the LoRA training script (`trialmatch/train` plus a `scripts/` entry point) with the starting config in `docs/PLAN.md`. Run a short smoke job first (a few steps, check loss falls and the adapter saves), then the sweep.
+2. Then the sweep (`r`, output order, oversampling, last-2-layers), seeds 42/43/44, and the draft LoRA.
 
 ## Accounts And Locations
 
@@ -17,7 +17,7 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
 |---|---|
 | GitHub repo | `AKIF-jk/trialmatch` (private until submission) |
 | Kaggle user | `akifjawad` |
-| Source kernel | `akifjawad/trialmatch-src` (version 4 at commit `f07a7b0`; version 3 was a mistaken partial upload and failed) |
+| Source kernel | `akifjawad/trialmatch-src` (version 5 at commit `aee7889`; version 3 was a mistaken partial upload and failed) |
 | Test kernel | `akifjawad/trialmatch-tests` (CPU, version 1, commit `f07a7b0`, 15 passed) |
 | Hugging Face user | `AkifJK` |
 | Dataset revision | `ncbi/TrialGPT-Criterion-Annotations` at `1cfcafde94a1560a33b4addc1638664fe28fc059` |
@@ -39,11 +39,26 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
 - **Headline metric:** `labels.overall.macro_f1` over the fixed 6-label list. `macro_f1_supported` is the cross-check. Always quote `support` per class.
 - **Majority baseline (val, per criterion type, empty evidence):** accuracy 0.621, macro-F1 0.215, evidence macro-F1 0.563. Global-majority variant: accuracy 0.490, macro-F1 0.140 with 66 invalid labels, because `not excluded` is invalid for inclusion rows. Report the per-type one.
 
+- **Untuned baselines (val, 206 rows, greedy, fp16, T4, commit `aee7889`, `results/baseline/`):** the prompt text equals `tokenizer.apply_chat_template` for all 206 rows on both tokenizers. This was also the first T4 run through the source-tarball path, and it worked.
+
+| Model | Parse | Accuracy | Macro-F1 | Malformed | Evidence macro-F1 |
+|---|---|---|---|---|---|
+| Majority (per type) | n/a | 0.621 | 0.215 | 0 | 0.563 |
+| Qwen2.5-1.5B-Instruct | strict | 0.015 | 0.015 | 97 | 0.358 |
+| Qwen2.5-1.5B-Instruct | repaired | 0.180 | 0.125 | 0 | 0.451 |
+| Phi-3-mini-4k-instruct | strict | 0.184 | 0.141 | 64 | 0.293 |
+| Phi-3-mini-4k-instruct | repaired | 0.417 | 0.229 | 0 | 0.565 |
+
+  - **Why strict is so low:** Qwen wraps 97 outputs in a json code fence. Phi-3 appends extra text to 64. The repair step (first JSON object in the text) is logged as `repaired` and recovers them. Report both.
+  - **Real weakness after repair:** Qwen predicts `excluded` for 140 rows (support 2) and `not excluded` for none (support 101). Phi-3 predicts `excluded` 68 times, `not excluded` 69 times. Neither beats the majority baseline on accuracy. Phi-3 repaired macro-F1 0.229 is just above 0.215. Fine-tuning has a large gap to close, and the comparison is meaningful.
+  - **Cost:** Qwen load 24.5 s, generate 36.2 s, peak 3.18 GB. Phi-3 load 43.6 s, generate 160 s, peak 8.8 GB, 9 outputs hit the 96-token cap. About 6 min of T4 time in total.
+  - **Phi-3 pin:** `microsoft/Phi-3-mini-4k-instruct` at `f39ac1d28e925b323eae81227eaba4464caced4e`, MIT licence, not gated.
+
 ## Known Constraints
 
 - **Local machine:** 7 GB RAM and about 1.7 GB free disk. Do not install PyTorch or download models locally.
 - **Kaggle attachments:** `kernelDataSources` is silently dropped by the MCP server. Pass outputs between kernels through signed output URLs from `list_notebook_session_output`. Fetch a fresh URL for each job, because their lifetime is unknown.
-- **Delta source build:** `python3 tools/build_kernel.py src --base-url URL --base-commit SHA` inlines only files that differ from `SHA`. `URL` is the `src.tar.gz` output URL of the previous source kernel version, and `SHA` is the commit that version was built from (version 2 is `3cc217d`). The kernel asserts the base tree hash and the new tree hash. Tested locally for change, delete and wrong-base cases. Run on Kaggle from `3cc217d` to `f07a7b0`: both hash asserts passed and 20 files were packed. The next delta must use the version 4 `src.tar.gz` URL with `--base-commit f07a7b0`. Without the flags, the build inlines every file.
+- **Delta source build:** `python3 tools/build_kernel.py src --base-url URL --base-commit SHA` inlines only files that differ from `SHA`. `URL` is the `src.tar.gz` output URL of the previous source kernel version, and `SHA` is the commit that version was built from (version 2 is `3cc217d`). The kernel asserts the base tree hash and the new tree hash. Tested locally for change, delete and wrong-base cases. Run on Kaggle from `3cc217d` to `f07a7b0`: both hash asserts passed and 20 files were packed. The next delta must use the version 5 `src.tar.gz` URL with `--base-commit aee7889`. `tools/build_kernel.py job` needs its positionals before the options (`job scripts/x.py arg1 arg2 --source-url URL`). Without the flags, the build inlines every file.
 - **Source kernel size:** every byte of a delta is retyped through `save_notebook`, so keep committed files small. The manifest is written one key per line for this reason. Check that the text sent matches `build/src_kernel.py` in full. The hash asserts catch a truncated or mistyped upload.
 - **Kaggle slugs:** Create a kernel with `newTitle`. Update one with `slug: "akifjawad/<name>"`.
 - **Blocked actions:** A secret gist upload and `gh repo create` were blocked by the permission classifier. Do not route around a block. Tell the user and let them decide.
@@ -58,4 +73,4 @@ None. Resolved on 2026-11-01: the rubric total is 135 (the table is right and th
 
 ## Kernels In Flight
 
-- `akifjawad/trialmatch-baseline` v1: `scripts/baseline.py qwen phi3` on T4, commit `aee7889`, started 2026-11-01. Source kernel is now version 5 (delta from `f07a7b0`, both hash asserts passed, 25 files). Results go to `results/baseline/`.
+None. Source kernel `akifjawad/trialmatch-src` is now version 5 (commit `aee7889`, built as a delta from `f07a7b0`, both hash asserts passed, 25 files). Its `src.tar.gz` URL changes per fetch, so get a fresh one from `list_notebook_session_output`. The next delta uses `--base-commit aee78891498f9e0367138b02835bfda9fe394c6d`. Baseline kernel: `akifjawad/trialmatch-baseline` v1, complete.

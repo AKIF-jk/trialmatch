@@ -1,0 +1,206 @@
+{"annotation_id": 0, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5,6,7,8],\"label\":\"included\"}", "new_tokens": 35}
+{"annotation_id": 1, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5,6,7,8],\"label\":\"included\"}", "new_tokens": 35}
+{"annotation_id": 2, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5,6,7,8],\"label\":\"included\"}", "new_tokens": 35}
+{"annotation_id": 3, "text": "{\"evidence_sentence_ids\":[8],\"label\":\"included\"}", "new_tokens": 19}
+{"annotation_id": 4, "text": "{\"evidence_sentence_ids\":[8],\"label\":\"included\"}", "new_tokens": 19}
+{"annotation_id": 5, "text": "{\"evidence_sentence_ids\":[3],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 6, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any history or symptoms that would suggest valvular heart disease or cardiomyopathy. The patient's symptoms are more indicative of angina or possibly a non-cardiac cause, given the absence of risk factors such as smoking, diabetes, hypercholesterolemia, or a family history", "new_tokens": 96}
+{"annotation_id": 7, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5,6,7,8],\"label\":\"excluded\"}", "new_tokens": 35}
+{"annotation_id": 8, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5,6,7,8],\"label\":\"excluded\"}", "new_tokens": 35}
+{"annotation_id": 9, "text": "{\"evidence_sentence_ids\":[3,4,5,6,7,8],\"label\":\"excluded\"}", "new_tokens": 29}
+{"annotation_id": 10, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any information about the patient's hemoglobin levels or any indication of severe anemia. Therefore, there is no evidence to support the exclusion of the patient based on the criterion of severe anemia (Hb 7G/dl).", "new_tokens": 80}
+{"annotation_id": 11, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any cardiac arrhythmias or AV block, which are the exclusion criteria for the trial. The patient's symptoms and history are related to chest pain, but there is no information provided about her cardiac rhythm or conduction system.", "new_tokens": 81}
+{"annotation_id": 12, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any liver or renal dysfunction, which is the exclusion criterion in question. Therefore, based on the information provided, the patient does not meet the exclusion criterion for significant liver or renal dysfunction.", "new_tokens": 76}
+{"annotation_id": 13, "text": "{\"evidence_sentence_ids\":[4,5],\"label\":\"excluded\"}", "new_tokens": 21}
+{"annotation_id": 14, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention the patient's blood pressure, so there is no evidence to support the exclusion based on the criterion of systolic blood pressure < 100 mm Hg.", "new_tokens": 64}
+{"annotation_id": 15, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention anything about pregnancy or nursing status, which is the exclusion criterion in question. Therefore, based on the information provided, the patient does not meet the exclusion criterion.", "new_tokens": 67}
+{"annotation_id": 16, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any known hypersensitivity to nicorandil, which is the exclusion criterion in question. Therefore, based on the information provided in the note, the patient does not meet the exclusion criterion.", "new_tokens": 71}
+{"annotation_id": 17, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 19}
+{"annotation_id": 18, "text": "{\"evidence_sentence_ids\":[1,3,4,5,6,7,8],\"label\":\"excluded\"}", "new_tokens": 31}
+{"annotation_id": 19, "text": "{\"evidence_sentence_ids\":[4,5,6,8],\"label\":\"excluded\"}", "new_tokens": 25}
+{"annotation_id": 20, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any issues related to geographical inaccessibility for treatment or follow-up evaluations. Therefore, the criterion does not apply to this patient.", "new_tokens": 57}
+{"annotation_id": 21, "text": "{\"evidence_sentence_ids\":[3],\"label\":\"included\"}", "new_tokens": 19}
+{"annotation_id": 22, "text": "{\"evidence_sentence_ids\":[1,3,4,5,6,7],\"label\":\"included\"}", "new_tokens": 29}
+{"annotation_id": 23, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any administration of ARB (Angiotensin II Receptor Blockers), which is the exclusion criterion for the clinical trial. Therefore, based on the information provided, the patient does not meet the exclusion criterion.", "new_tokens": 75}
+{"annotation_id": 24, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any recent percutaneous coronary intervention (PCI) or coronary artery bypass grafting (CABG), nor does it indicate that the patient has had an acute coronary syndrome (IHD) within the last 6 months. The patient's symptoms and history do not align with the exclusion", "new_tokens": 96}
+{"annotation_id": 25, "text": "{\"evidence_sentence_ids\":[3,4],\"label\":\"excluded\"}", "new_tokens": 21}
+{"annotation_id": 26, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention anything about pregnancy or childbearing potential, which is the exclusion criterion in question. Therefore, based on the information provided, the patient does not meet the exclusion criterion.", "new_tokens": 68}
+{"annotation_id": 27, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any history of heart failure, unstable angina, myocardial infarction, PTCA, or CABG within the preceding 6 months, which is the exclusion criterion for the clinical trial. Therefore, based on the information provided in the note, the patient does not meet the exclusion criterion.", "new_tokens": 96}
+{"annotation_id": 28, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any arrhythmia or AV block, which are the exclusion criteria for the trial. The patient's symptoms and history do not suggest the presence of these conditions.", "new_tokens": 63}
+{"annotation_id": 29, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 19}
+{"annotation_id": 30, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any hepatic impairment, nor does it provide any information that would suggest severe hepatic impairment. Therefore, based on the information given, the patient does not meet the exclusion criterion for severe hepatic impairment.", "new_tokens": 79}
+{"annotation_id": 31, "text": "{\"evidence_sentence_ids\":[0,1,2,4,5],\"label\":\"included\"}", "new_tokens": 27}
+{"annotation_id": 32, "text": "{\"evidence_sentence_ids\":[0],\"label\":\"included\"}", "new_tokens": 19}
+{"annotation_id": 33, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not included\"}", "new_tokens": 18}
+{"annotation_id": 34, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5,6],\"label\":\"excluded\"}", "new_tokens": 31}
+{"annotation_id": 35, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5,6],\"label\":\"excluded\"}", "new_tokens": 31}
+{"annotation_id": 36, "text": "{\"evidence_sentence_ids\":[6],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 37, "text": "{\"evidence_sentence_ids\":[6],\"label\":\"included\"}", "new_tokens": 19}
+{"annotation_id": 38, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5],\"label\":\"included\"}", "new_tokens": 29}
+{"annotation_id": 39, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention the presence of chest tubes, which is the exclusion criterion for the clinical trial. Therefore, based on the information provided, the patient does not meet the exclusion criterion.", "new_tokens": 67}
+{"annotation_id": 40, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 19}
+{"annotation_id": 41, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 42, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention anything about the patient being pregnant, which is the exclusion criterion. Therefore, based on the information provided, the patient does not meet the exclusion criterion.", "new_tokens": 63}
+{"annotation_id": 235, "text": "{\"evidence_sentence_ids\":[1,4],\"label\":\"included\"}", "new_tokens": 21}
+{"annotation_id": 236, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 237, "text": "{\"evidence_sentence_ids\":[3,6],\"label\":\"excluded\"}", "new_tokens": 21}
+{"annotation_id": 238, "text": "{\"evidence_sentence_ids\":[1,4],\"label\":\"excluded\"}", "new_tokens": 21}
+{"annotation_id": 239, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5,6],\"label\":\"excluded\"}", "new_tokens": 31}
+{"annotation_id": 240, "text": "{\"evidence_sentence_ids\":[1,4],\"label\":\"excluded\"}", "new_tokens": 21}
+{"annotation_id": 241, "text": "{\"evidence_sentence_ids\":[1,4],\"label\":\"excluded\"}", "new_tokens": 21}
+{"annotation_id": 242, "text": "{\"evidence_sentence_ids\":[1,4],\"label\":\"excluded\"}", "new_tokens": 21}
+{"annotation_id": 243, "text": "{\"evidence_sentence_ids\":[1,4],\"label\":\"included\"}", "new_tokens": 21}
+{"annotation_id": 244, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not included\"}", "new_tokens": 18}
+{"annotation_id": 245, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not included\"}", "new_tokens": 18}
+{"annotation_id": 246, "text": "{\"evidence_sentence_ids\":[6],\"label\":\"included\"}", "new_tokens": 19}
+{"annotation_id": 247, "text": "{\"evidence_sentence_ids\":[5],\"label\":\"included\"}", "new_tokens": 19}
+{"annotation_id": 248, "text": "{\"evidence_sentence_ids\":[6],\"label\":\"included\"}", "new_tokens": 19}
+{"annotation_id": 249, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"included\"}", "new_tokens": 19}
+{"annotation_id": 250, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"included\"}", "new_tokens": 19}
+{"annotation_id": 251, "text": "{\"evidence_sentence_ids\":[3],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 252, "text": "{\"evidence_sentence_ids\":[1,4],\"label\":\"excluded\"}", "new_tokens": 21}
+{"annotation_id": 253, "text": "{\"evidence_sentence_ids\":[1,4],\"label\":\"excluded\"}", "new_tokens": 21}
+{"annotation_id": 254, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 255, "text": "{\"evidence_sentence_ids\":[5],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 256, "text": "{\"evidence_sentence_ids\":[6],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 257, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention the patient's hematocrit level, so there is no evidence to support the exclusion based on the criterion provided.", "new_tokens": 54}
+{"annotation_id": 258, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any information about hemolytic anemia, which is the exclusion criterion in question. Therefore, based on the provided information, the patient does not meet the exclusion criterion.", "new_tokens": 66}
+{"annotation_id": 259, "text": "{\"evidence_sentence_ids\":[],\"label\":\"excluded\"}", "new_tokens": 18}
+{"annotation_id": 260, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention anything about the ASA (American Society of Anesthesiologists) score, which is the criterion for exclusion. Therefore, there is no evidence in the note to support the exclusion of the patient based on the given criterion.", "new_tokens": 78}
+{"annotation_id": 261, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any severe cerebrovascular disease, multiple CVA, or CVA within the last 6 months. Therefore, the patient does not meet the exclusion criterion.", "new_tokens": 63}
+{"annotation_id": 262, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention anything about the patient being on anti-coagulation therapy or having an underlying bleeding disorder. Therefore, based on the information provided, the patient does not meet the exclusion criterion.", "new_tokens": 68}
+{"annotation_id": 263, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 264, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any active pelvic infection or history of pelvic inflammatory disease, which is the exclusion criterion in question. Therefore, based on the information provided, the patient does not meet the exclusion criterion.", "new_tokens": 73}
+{"annotation_id": 265, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 266, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention the patient's weight, so there is no evidence to support the exclusion criterion based on weight.", "new_tokens": 49}
+{"annotation_id": 267, "text": "{\"evidence_sentence_ids\":[1,4],\"label\":\"excluded\"}", "new_tokens": 21}
+{"annotation_id": 268, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any implanted metallic devices, which is the standard contraindication for MR imaging as per the given criterion. Therefore, the patient does not meet the exclusion criterion.", "new_tokens": 67}
+{"annotation_id": 269, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any known intolerance to MRI contrast agents such as Gadolinium or Magnevist. Therefore, the patient does not meet the exclusion criterion based on the information provided in the note.", "new_tokens": 71}
+{"annotation_id": 270, "text": "{\"evidence_sentence_ids\":[6],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 271, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention anything about an intrauterine contraceptive device, which is the exclusion criterion in question. Therefore, based on the information provided, the patient does not meet the exclusion criterion.", "new_tokens": 68}
+{"annotation_id": 272, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention anything about breastfeeding, which is the exclusion criterion in question. Therefore, based on the information provided, the patient does not meet the exclusion criterion of being breastfeeding.", "new_tokens": 67}
+{"annotation_id": 273, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 364, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5,6],\"label\":\"included\"}", "new_tokens": 31}
+{"annotation_id": 365, "text": "{\"evidence_sentence_ids\":[6],\"label\":\"included\"}", "new_tokens": 19}
+{"annotation_id": 366, "text": "{\"evidence_sentence_ids\":[4,5],\"label\":\"included\"}", "new_tokens": 21}
+{"annotation_id": 367, "text": "{\"evidence_sentence_ids\":[4,5],\"label\":\"included\"}", "new_tokens": 21}
+{"annotation_id": 368, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\n\nThe patient note does not mention any known allergies, including an allergy to Chlorhexidine Gluconate (CHG). Therefore, based on the information provided, the patient does not meet the exclusion criterion related to a known allergy to CHG.", "new_tokens": 80}
+{"annotation_id": 369, "text": "{\"evidence_sentence_ids\":[4,5],\"label\":\"excluded\"}", "new_tokens": 21}
+{"annotation_id": 370, "text": "{\"evidence_sentence_ids\":[4,5],\"label\":\"excluded\"}", "new_tokens": 21}
+{"annotation_id": 371, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention anything about the patient being pregnant or breastfeeding. Therefore, the criterion of excluding female volunteers who are pregnant and/or breastfeeding does not apply to this patient.", "new_tokens": 69}
+{"annotation_id": 372, "text": "{\"evidence_sentence_ids\":[4,5],\"label\":\"excluded\"}", "new_tokens": 21}
+{"annotation_id": 373, "text": "{\"evidence_sentence_ids\":[4,5],\"label\":\"excluded\"}", "new_tokens": 21}
+{"annotation_id": 374, "text": "{\"evidence_sentence_ids\":[6],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 375, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5,6],\"label\":\"included\"}", "new_tokens": 31}
+{"annotation_id": 376, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5,6],\"label\":\"included\"}", "new_tokens": 31}
+{"annotation_id": 377, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 19}
+{"annotation_id": 378, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention anything about the patient being a prisoner, which is the exclusion criterion in question. Therefore, based on the information provided, the patient does not meet the exclusion criterion of being a prisoner.", "new_tokens": 68}
+{"annotation_id": 379, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention anything about pregnancy, so we cannot conclude that she meets the exclusion criterion of being pregnant.", "new_tokens": 51}
+{"annotation_id": 380, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient is a 32-year-old woman, which clearly indicates that she is older than 18 years of age. Therefore, she does not meet the exclusion criterion based on age.", "new_tokens": 64}
+{"annotation_id": 499, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5],\"label\":\"included\"}", "new_tokens": 29}
+{"annotation_id": 500, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not included\"}", "new_tokens": 18}
+{"annotation_id": 501, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not included\"}", "new_tokens": 18}
+{"annotation_id": 502, "text": "{\"evidence_sentence_ids\":[],\"label\":\"included\"}\n\nThe patient note indicates that the patient is a 21-year-old college student who is otherwise healthy, as evidenced by the statement \"The patient will provide informed consent, and will comply with the trial protocol without any practical issues.\" This suggests that the patient is able to perform normal daily activities and is not significantly limited by their health condition, which aligns", "new_tokens": 96}
+{"annotation_id": 503, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not applicable\"}", "new_tokens": 18}
+{"annotation_id": 504, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not included\"}", "new_tokens": 18}
+{"annotation_id": 505, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 19}
+{"annotation_id": 506, "text": "{\"evidence_sentence_ids\":[5],\"label\":\"included\"}", "new_tokens": 19}
+{"annotation_id": 507, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any prior treatment with investigational drugs, which is the criterion for exclusion. Therefore, the patient does not meet the exclusion criterion based on the information provided in the note.", "new_tokens": 66}
+{"annotation_id": 508, "text": "{\"evidence_sentence_ids\":[1,2,4],\"label\":\"excluded\"}", "new_tokens": 23}
+{"annotation_id": 509, "text": "{\"evidence_sentence_ids\":[1,2,3,4],\"label\":\"excluded\"}", "new_tokens": 25}
+{"annotation_id": 510, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 19}
+{"annotation_id": 511, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any symptoms of gastrointestinal bleeding such as dyspnea, fatigue, angina, weakness, malaise, melena, hematochezia, hematemesis, anemia, or abdominal pain. The patient's colonoscopy findings and family history are relevant to the trial", "new_tokens": 96}
+{"annotation_id": 512, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention anything about the patient taking any anti-coagulation medication. Therefore, based on the information provided, the patient does not meet the exclusion criterion.", "new_tokens": 60}
+{"annotation_id": 513, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention anything about the patient being pregnant or breastfeeding, which is the exclusion criterion. Therefore, based on the information provided, the patient does not meet the exclusion criterion.", "new_tokens": 67}
+{"annotation_id": 514, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 19}
+{"annotation_id": 515, "text": "{\"evidence_sentence_ids\":[3,4],\"label\":\"included\"}", "new_tokens": 21}
+{"annotation_id": 516, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5],\"label\":\"included\"}", "new_tokens": 29}
+{"annotation_id": 517, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5],\"label\":\"excluded\"}", "new_tokens": 29}
+{"annotation_id": 518, "text": "{\"evidence_sentence_ids\":[1,2],\"label\":\"excluded\"}", "new_tokens": 21}
+{"annotation_id": 541, "text": "{\"evidence_sentence_ids\":[7],\"label\":\"included\"}", "new_tokens": 19}
+{"annotation_id": 542, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5,6,7,8],\"label\":\"included\"}", "new_tokens": 35}
+{"annotation_id": 543, "text": "{\"evidence_sentence_ids\":[7],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 544, "text": "{\"evidence_sentence_ids\":[2,3,4,5,6,7],\"label\":\"excluded\"}", "new_tokens": 29}
+{"annotation_id": 545, "text": "{\"evidence_sentence_ids\":[2,3,5,7],\"label\":\"excluded\"}", "new_tokens": 25}
+{"annotation_id": 546, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any severe respiratory condition, which is the criterion for exclusion. All the symptoms and medical history provided in the note are related to cardiovascular issues, not respiratory conditions.", "new_tokens": 70}
+{"annotation_id": 547, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any history of upper limb deep vein thrombosis, which is the criterion for exclusion. Therefore, the patient does not meet the exclusion criterion based on the information provided in the note.", "new_tokens": 71}
+{"annotation_id": 548, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 549, "text": "{\"evidence_sentence_ids\":[6,7],\"label\":\"excluded\"}", "new_tokens": 21}
+{"annotation_id": 550, "text": "{\"evidence_sentence_ids\":[2,6],\"label\":\"excluded\"}", "new_tokens": 21}
+{"annotation_id": 551, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe criterion in question is pregnancy, which is not applicable to the patient described in the note. The patient is a 72-year-old man, and therefore cannot be pregnant. There is no information in the note that would suggest the patient meets the exclusion criterion of pregnancy.", "new_tokens": 87}
+{"annotation_id": 552, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any previous major limb amputation, which is the criterion for exclusion. Therefore, the patient does not meet the exclusion criterion based on the information provided in the note.", "new_tokens": 65}
+{"annotation_id": 553, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5,6,7,8],\"label\":\"included\"}", "new_tokens": 35}
+{"annotation_id": 554, "text": "{\"evidence_sentence_ids\":[7],\"label\":\"included\"}", "new_tokens": 19}
+{"annotation_id": 555, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5,6,7,8],\"label\":\"included\"}", "new_tokens": 35}
+{"annotation_id": 556, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5,7],\"label\":\"included\"}", "new_tokens": 31}
+{"annotation_id": 557, "text": "{\"evidence_sentence_ids\":[2,3,4,5,6,7],\"label\":\"included\"}", "new_tokens": 29}
+{"annotation_id": 558, "text": "{\"evidence_sentence_ids\":[8],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 559, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any previous angiogenic therapy, which is the criterion for exclusion. Therefore, based on the information provided, the patient does not meet the exclusion criterion.", "new_tokens": 64}
+{"annotation_id": 560, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any known sensitivity to gentamycin or amphotericin B, which are the criteria for exclusion in this case. Therefore, the patient does not meet the exclusion criterion based on the information provided in the note.", "new_tokens": 76}
+{"annotation_id": 561, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention the use or expected use of antineoplastic drugs, which is the criterion for exclusion. Therefore, based on the information provided, the patient does not meet the exclusion criterion.", "new_tokens": 69}
+{"annotation_id": 562, "text": "{\"evidence_sentence_ids\":[2,3,4,5,6,7],\"label\":\"excluded\"}", "new_tokens": 29}
+{"annotation_id": 563, "text": "{\"evidence_sentence_ids\":[2,3,4,5,6,7],\"label\":\"excluded\"}", "new_tokens": 29}
+{"annotation_id": 564, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any signs of acute infection, such as fever, chills, or other symptoms that would indicate an active infection. The patient's complaints and medical history are related to cardiovascular issues, not infection.", "new_tokens": 78}
+{"annotation_id": 565, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention the patient's white blood cell (WBC) count, so there is no evidence to support the exclusion based on the criterion of WBC > 15000.", "new_tokens": 66}
+{"annotation_id": 566, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not applicable\"}", "new_tokens": 18}
+{"annotation_id": 567, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention anything about the patient's serum creatinine levels, nor does it indicate that the patient is not in hemodialysis. Therefore, there is no evidence to support the exclusion of the patient based on the criterion provided.", "new_tokens": 76}
+{"annotation_id": 568, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention anything about pregnancy, pregnancy planning, or birth control methods. Therefore, the criterion does not apply to this patient.", "new_tokens": 55}
+{"annotation_id": 569, "text": "{\"evidence_sentence_ids\":[2],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 798, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5],\"label\":\"included\"}", "new_tokens": 29}
+{"annotation_id": 799, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4],\"label\":\"included\"}", "new_tokens": 27}
+{"annotation_id": 800, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4],\"label\":\"included\"}", "new_tokens": 27}
+{"annotation_id": 801, "text": "{\"evidence_sentence_ids\":[1,2],\"label\":\"excluded\"}", "new_tokens": 21}
+{"annotation_id": 802, "text": "{\"evidence_sentence_ids\":[2],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 803, "text": "{\"evidence_sentence_ids\":[2],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 804, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 805, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 806, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 807, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any obvious culpable systemic illness such as endocarditis. The sentences provided do not support the exclusion criterion.", "new_tokens": 55}
+{"annotation_id": 808, "text": "{\"evidence_sentence_ids\":[5],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 809, "text": "{\"evidence_sentence_ids\":[0,1,2],\"label\":\"included\"}", "new_tokens": 23}
+{"annotation_id": 810, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not included\"}", "new_tokens": 18}
+{"annotation_id": 811, "text": "{\"evidence_sentence_ids\":[5],\"label\":\"included\"}", "new_tokens": 19}
+{"annotation_id": 812, "text": "{\"evidence_sentence_ids\":[1,2],\"label\":\"included\"}", "new_tokens": 21}
+{"annotation_id": 813, "text": "{\"evidence_sentence_ids\":[2,4],\"label\":\"excluded\"}", "new_tokens": 21}
+{"annotation_id": 814, "text": "{\"evidence_sentence_ids\":[2],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 815, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not provide any information that would indicate the patient meets the exclusion criterion of having significant atherosclerosis or dissection of the aorta, collagen vascular disease, arteritis, vasculitis, or coagulopathy. The sentences provided focus on the patient's history of stroke, current stable condition", "new_tokens": 96}
+{"annotation_id": 816, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any recent myocardial infarction or unstable angina. The patient's history only includes occasional palpitations, shortness of breath, and chest pain that resolve on their own, which does not meet the exclusion criterion of having an acute or recent myocardial infarction or unstable ang", "new_tokens": 96}
+{"annotation_id": 817, "text": "{\"evidence_sentence_ids\":[1,2],\"label\":\"excluded\"}", "new_tokens": 21}
+{"annotation_id": 818, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5],\"label\":\"not excluded\"}", "new_tokens": 30}
+{"annotation_id": 819, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5],\"label\":\"not excluded\"}", "new_tokens": 30}
+{"annotation_id": 820, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any left ventricular aneurysm or akinesis. The sentences provided do not support the exclusion criterion.", "new_tokens": 53}
+{"annotation_id": 821, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 822, "text": "{\"evidence_sentence_ids\":[2],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 823, "text": "{\"evidence_sentence_ids\":[2],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 824, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any contraindications to aspirin or Clopidogrel therapy. The patient's medical history and current condition do not provide any information that would suggest she cannot take these medications. Therefore, she does not meet the exclusion criterion based on the information provided.", "new_tokens": 86}
+{"annotation_id": 825, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention anything about pregnancy or the desire to become pregnant within the next year. Therefore, the criterion does not apply to this patient.", "new_tokens": 57}
+{"annotation_id": 826, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any underlying malignancy, which is the exclusion criterion for the clinical trial. Therefore, based on the information provided, the patient does not meet the exclusion criterion.", "new_tokens": 65}
+{"annotation_id": 929, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4],\"label\":\"included\"}", "new_tokens": 27}
+{"annotation_id": 930, "text": "{\"evidence_sentence_ids\":[0,1,2,3],\"label\":\"included\"}", "new_tokens": 25}
+{"annotation_id": 931, "text": "{\"evidence_sentence_ids\":[0,1,2,3],\"label\":\"included\"}", "new_tokens": 25}
+{"annotation_id": 932, "text": "{\"evidence_sentence_ids\":[1,3],\"label\":\"included\"}", "new_tokens": 21}
+{"annotation_id": 933, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"included\"}", "new_tokens": 19}
+{"annotation_id": 934, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"included\"}", "new_tokens": 19}
+{"annotation_id": 935, "text": "{\"evidence_sentence_ids\":[1,3],\"label\":\"included\"}", "new_tokens": 21}
+{"annotation_id": 936, "text": "{\"evidence_sentence_ids\":[0,1,3],\"label\":\"included\"}", "new_tokens": 23}
+{"annotation_id": 937, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"included\"}", "new_tokens": 19}
+{"annotation_id": 938, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"included\"}", "new_tokens": 19}
+{"annotation_id": 939, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"included\"}", "new_tokens": 19}
+{"annotation_id": 940, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\n\nThe patient note does not mention any acute liver or kidney disease, which is the exclusion criterion for the clinical trial. Therefore, based on the information provided in the note, the patient does not meet the exclusion criterion.", "new_tokens": 73}
+{"annotation_id": 941, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"excluded\"}", "new_tokens": 19}
+{"annotation_id": 942, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"included\"}", "new_tokens": 19}
+{"annotation_id": 943, "text": "{\"evidence_sentence_ids\":[1,3],\"label\":\"included\"}", "new_tokens": 21}
+{"annotation_id": 944, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4],\"label\":\"included\"}", "new_tokens": 27}
+{"annotation_id": 945, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any treatment with an unlicensed investigational drug for aspergillosis. The note instead describes a patient with a history of tuberculosis, a productive cough with blood, a round opaque mass in the left upper lobe, and a culture revealing septated, low-angle branching hyphae. These", "new_tokens": 96}
+{"annotation_id": 946, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any administration of antifungal agents for the treatment of invasive aspergillosis. The patient's symptoms and the presence of septated, low-angle branching hyphae in the sputum culture suggest a fungal infection, but there is no information about the use of antifungal medications.", "new_tokens": 96}
+{"annotation_id": 947, "text": "{\"evidence_sentence_ids\":[1,3],\"label\":\"excluded\"}", "new_tokens": 21}
+{"annotation_id": 948, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 19}
+{"annotation_id": 949, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any information regarding alkaline phosphatase, ALT, AST, or total bilirubin levels. Therefore, there is no evidence to support the exclusion of the patient based on the given criterion.", "new_tokens": 73}
+{"annotation_id": 950, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\n\nThe patient note does not mention any hepatic cirrhosis, which is the exclusion criterion. Therefore, based on the information provided, the patient does not meet the exclusion criterion.", "new_tokens": 64}
+{"annotation_id": 951, "text": "{\"evidence_sentence_ids\":[1,2,3,4],\"label\":\"excluded\"}", "new_tokens": 25}
+{"annotation_id": 952, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention anything about the patient being on artificial ventilation or any issues related to extubation. Therefore, the criterion does not apply to this patient.", "new_tokens": 57}
+{"annotation_id": 953, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not mention any history of allergy, hypersensitivity, or serious reaction to azole or echinocandin class of antifungal agents. Therefore, the patient does not meet the exclusion criterion based on the information provided.", "new_tokens": 76}
+{"annotation_id": 954, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\n\nThe patient note does not mention any previous enrollment in the study, which is the criterion for exclusion. Therefore, based on the information provided, the patient does not meet the exclusion criterion.", "new_tokens": 65}
+{"annotation_id": 955, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4],\"label\":\"excluded\"}", "new_tokens": 27}
+{"annotation_id": 956, "text": "{\"evidence_sentence_ids\":[1,3],\"label\":\"excluded\"}", "new_tokens": 21}
+{"annotation_id": 957, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}\n\nThe patient note does not provide any information regarding the patient's life expectancy, which is the criterion for exclusion. Therefore, there is no evidence to support the exclusion of the patient from the trial based on the given criterion.", "new_tokens": 71}
