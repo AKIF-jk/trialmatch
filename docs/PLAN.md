@@ -153,7 +153,7 @@ Results are in `results/smoke/`. Open follow-up: the T4 has only run the direct 
 - Create the model on `cuda` at module level, and wrap inference with `@spaces.GPU(duration=...)` using a dynamic duration. Use Python 3.12 and PyTorch 2.8 or newer.
 - Daily quota is 2 min for anonymous visitors and 5 min for free accounts, so cap criteria per run and display the estimated cost.
 - Keep the Space private until submission, then make it public.
-- Write path: the connector cannot deploy. Adapters and app files go through a small local venv with `huggingface_hub`, using your own `hf auth login` token. Uploads may also need your approval or a permission rule, since other outbound uploads were blocked. If so, I prepare the exact commands and you run them.
+- Write path: the connector and plugin tools cannot deploy. Adapters and app files go through `~/.local/bin/hf`, which is logged in and passed a private create, upload and read-back test. Space creation uses `hf repos create --type space --sdk gradio --private --flavor zero-a10g`, which is not tested yet.
 - Weights: adapters only (tens of MB), with the Space loading base models from HF. Merged weights never touch the laptop.
 - Backup: a tested kernel that launches the same app with `share=True`. It depends on a running session and is only for emergencies.
 - **Exit gate:** From a clean browser session, the deployed URL completes screening, an invalid-input recovery, a live benchmark and a report download.
@@ -194,8 +194,7 @@ This fits within the 30 h available before November 7, with another 30 h after t
 
 ## Actions Only You Can Do
 
-- Before Phase 2 ends: run `hf auth login` with a write token in a local venv, so adapters can be uploaded. Never paste the token into chat.
-- Before Phase 6: create the Space and select ZeroGPU in its settings, and confirm your HF email is verified.
+- Before Phase 6: confirm your HF email is verified.
 - Ask the instructor about 100 versus 135 marks.
 - Make the repo, model and Space public when ready.
 - Record the video, submit through Google Classroom, and attend the demo.
