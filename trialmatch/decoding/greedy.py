@@ -76,7 +76,7 @@ class _Run:
     def pick(self, logits):
         """Greedy token per row from last-column logits [B, V]. Rows that already stopped get pad_id."""
         if self.keep_logits:
-            self.logits.append(logits.float().cpu())
+            self.logits.append(logits.cpu())  # Native dtype, so float64 distances are not rounded to float32.
         token = logits.argmax(-1).masked_fill(self.done, self.pad_id)
         self.tokens[:, self.count] = token
         self.count += 1

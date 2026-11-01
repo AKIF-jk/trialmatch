@@ -6,7 +6,7 @@ import pytest
 from trialmatch.data.encode import IGNORE
 from trialmatch.data.split import load_manifest, select_rows
 from trialmatch.train.data import RARE, batches, collate, cosine_factor, encode_rows, epoch_order, oversample
-from tests.test_data import toy_encode
+from test_data import toy_encode
 
 
 def test_oversample_repeats_only_rare_labels(rows):
