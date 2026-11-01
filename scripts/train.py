@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Fine-tune Qwen2.5-1.5B-Instruct on the training split and select by validation macro-F1.
 
-    python scripts/train.py --name r16 [--mode lora|last2] [--r 16] [--order evidence_first] [--oversample 1] [-- --name r8 --r 8]
+    python scripts/train.py --name r16 [--model target|draft] [--mode lora|last2] [--r 16] [--order evidence_first] [--oversample 1] [-- --name r8 --r 8]
 
 Arguments after a bare `--` start another run in the same process. Each run writes
 results/train/<name>/{config.json,train_log.jsonl,report.json,best/}. The best epoch by strict
@@ -29,16 +29,18 @@ from trialmatch.data.prompt import row_prompt
 from trialmatch.data.split import load_manifest, select_rows
 from trialmatch.eval.generate import generate
 from trialmatch.eval.metrics import evaluate
-from trialmatch.runtime import TARGET_MODEL, TARGET_REVISION, check_versions, environment, results_dir, write_json
+from trialmatch.runtime import DRAFT_MODEL, DRAFT_REVISION, TARGET_MODEL, TARGET_REVISION, check_versions, environment, results_dir, write_json
 from trialmatch.train.data import batches, collate, cosine_factor, encode_rows, epoch_order, oversample
 
 STOP_TOKENS = ("<|im_end|>", "<|endoftext|>")
 TARGET_MODULES = ("q_proj", "k_proj", "v_proj", "o_proj")
+MODELS = {"target": (TARGET_MODEL, TARGET_REVISION), "draft": (DRAFT_MODEL, DRAFT_REVISION)}
 
 
 def parse_args(argv):
     p = argparse.ArgumentParser()
     p.add_argument("--name", required=True)
+    p.add_argument("--model", default="target", choices=tuple(MODELS))
     p.add_argument("--mode", default="lora", choices=("lora", "last2"))
     p.add_argument("--r", type=int, default=16)
     p.add_argument("--alpha", type=int, default=32)
@@ -61,7 +63,8 @@ def parse_args(argv):
 
 
 def build_model(args, device):
-    model = AutoModelForCausalLM.from_pretrained(TARGET_MODEL, revision=TARGET_REVISION, dtype=torch.float16).to(device)
+    name, revision = MODELS[args.model]
+    model = AutoModelForCausalLM.from_pretrained(name, revision=revision, dtype=torch.float16).to(device)
     model.config.use_cache = False
     model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
     if args.mode == "lora":
@@ -128,6 +131,8 @@ def save_best(model, args, out):
 
 
 def run(args):
+    if args.model == "draft" and args.mode != "lora":
+        raise ValueError("the draft model is trained with LoRA only (save_best assumes the target's 28 layers for last2)")
     out = results_dir(f"train/{args.name}")
     write_json(out / "config.json", vars(args))
     device = "cuda"
@@ -138,7 +143,8 @@ def run(args):
     val_rows = select_rows(rows, manifest, "val")[:args.limit_val]
     train_rows = oversample(train_rows, args.oversample)
 
-    tokenizer = AutoTokenizer.from_pretrained(TARGET_MODEL, revision=TARGET_REVISION, padding_side="left")
+    model_name, model_revision = MODELS[args.model]
+    tokenizer = AutoTokenizer.from_pretrained(model_name, revision=model_revision, padding_side="left")
     stop_ids = [tokenizer.convert_tokens_to_ids(t) for t in STOP_TOKENS]
 
     def encode(text):
