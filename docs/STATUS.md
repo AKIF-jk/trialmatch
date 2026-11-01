@@ -17,7 +17,7 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
 |---|---|
 | GitHub repo | `AKIF-jk/trialmatch` (private until submission) |
 | Kaggle user | `akifjawad` |
-| Source kernel | `akifjawad/trialmatch-src` (version 9 at commit `74b76d0`; version 3 was a mistaken partial upload and failed) |
+| Source kernel | `akifjawad/trialmatch-src` (version 10 at commit `92b8887`; version 3 was a mistaken partial upload and failed) |
 | Test kernel | `akifjawad/trialmatch-tests` (CPU, version 1, commit `f07a7b0`, 15 passed) |
 | Hugging Face user | `AkifJK` |
 | Adapter repo | `AkifJK/trialmatch-qwen2.5-1.5b-lora` (private), revision `a4c9e3292b18addccec4c0e80af4b10d12ac6c6d`: `seed42/`, `seed43/`, `seed44/` (each `adapter_model.safetensors` + `adapter_config.json`) and a model card. Read back and checksums matched. Make it public only at submission. |
@@ -96,7 +96,7 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
 
 - **Local machine:** 7 GB RAM and about 1.7 GB free disk. Do not install PyTorch or download models locally.
 - **Kaggle attachments:** `kernelDataSources` is silently dropped by the MCP server. Pass outputs between kernels through signed output URLs from `list_notebook_session_output`. Fetch a fresh URL for each job, because their lifetime is unknown.
-- **Delta source build:** `python3 tools/build_kernel.py src --base-url URL --base-commit SHA` inlines only files that differ from `SHA`. `URL` is the `src.tar.gz` output URL of the previous source kernel version, and `SHA` is the commit that version was built from (version 2 is `3cc217d`). The kernel asserts the base tree hash and the new tree hash. Tested locally for change, delete and wrong-base cases. Run on Kaggle from `3cc217d` to `f07a7b0`: both hash asserts passed and 20 files were packed. The next delta must use a fresh version 9 `src.tar.gz` URL with `--base-commit 74b76d09cf3de4d2626dede682b1128dd330b499`. `tools/build_kernel.py job` needs its positionals before the options (`job scripts/x.py arg1 arg2 --source-url URL`). It cannot take arguments that start with `--`, so build with a dummy arg `x` and replace `['x']` in `build/<name>_kernel.py` with the real list (this also allows the bare `--` run separator). Without the flags, the build inlines every file.
+- **Delta source build:** `python3 tools/build_kernel.py src --base-url URL --base-commit SHA` inlines only files that differ from `SHA`. `URL` is the `src.tar.gz` output URL of the previous source kernel version, and `SHA` is the commit that version was built from (version 2 is `3cc217d`). The kernel asserts the base tree hash and the new tree hash. Tested locally for change, delete and wrong-base cases. Run on Kaggle from `3cc217d` to `f07a7b0`: both hash asserts passed and 20 files were packed. The next delta must use a fresh version 10 `src.tar.gz` URL with `--base-commit 92b88876d7c62bc26757f6b37d346e55c9ab0f46`. `tools/build_kernel.py job` needs its positionals before the options (`job scripts/x.py arg1 arg2 --source-url URL`). It cannot take arguments that start with `--`, so build with a dummy arg `x` and replace `['x']` in `build/<name>_kernel.py` with the real list (this also allows the bare `--` run separator). Without the flags, the build inlines every file.
 - **Source kernel size:** every byte of a delta is retyped through `save_notebook`, so keep committed files small. The manifest is written one key per line for this reason. Check that the text sent matches `build/src_kernel.py` in full. The hash asserts catch a truncated or mistyped upload.
 - **Kaggle slugs:** Create a kernel with `newTitle`. Update one with `slug: "akifjawad/<name>"`.
 - **Blocked actions:** A secret gist upload and `gh repo create` were blocked by the permission classifier. Do not route around a block. Tell the user and let them decide.
@@ -111,7 +111,9 @@ None. Resolved on 2026-11-01: the rubric total is 135 (the table is right and th
 
 ## Kernels In Flight
 
-None. Finished: `trialmatch-seeds-x` v1 and `trialmatch-seeds-y` v1 (seed runs, source v9), sweep kernels (`trialmatch-sweep-a` v1, `trialmatch-sweep-b` v1). Their best adapters sit in the kernel outputs and are not yet downloaded or uploaded to HF. Old notes follow.
+- `akifjawad/trialmatch-draft` v1: `draft_over4`, `--model draft` (Qwen2.5-0.5B-Instruct at `7ae557604a`), frozen args (r=16, alpha 32, evidence-first, rare labels x4, 3 epochs, micro-batch 4, seed 42), source v10 (commit `92b8887`, tree `a812573f`). Expect about 10 min. Result goes to `results/train/draft_over4/`.
+
+Earlier: Finished: `trialmatch-seeds-x` v1 and `trialmatch-seeds-y` v1 (seed runs, source v9), sweep kernels (`trialmatch-sweep-a` v1, `trialmatch-sweep-b` v1). Their best adapters sit in the kernel outputs and are not yet downloaded or uploaded to HF. Old notes follow.
 
 - (done) `akifjawad/trialmatch-sweep-a` v1: `base_r16`, `r8` (alpha 16), `r32` (alpha 64). T4, 3 epochs, micro-batch 4, seed 42.
 - `akifjawad/trialmatch-sweep-b` v1: `label_first`, `over4` (rare labels x4), `last2` (lr 2e-5). Same settings; later runs pass `--order evidence_first` explicitly because runs inherit the first run's flags.
