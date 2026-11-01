@@ -58,4 +58,4 @@ None. Resolved on 2026-11-01: the rubric total is 135 (the table is right and th
 
 ## Kernels In Flight
 
-None.
+- `akifjawad/trialmatch-baseline` v1: `scripts/baseline.py qwen phi3` on T4, commit `aee7889`, started 2026-11-01. Source kernel is now version 5 (delta from `f07a7b0`, both hash asserts passed, 25 files). Results go to `results/baseline/`.
