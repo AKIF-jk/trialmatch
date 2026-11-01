@@ -8,8 +8,8 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
 
 ## Next Steps
 
-1. Phase 2, next: write the LoRA training script (`trialmatch/train` plus a `scripts/` entry point) with the starting config in `docs/PLAN.md`. Run a short smoke job first (a few steps, check loss falls and the adapter saves), then the sweep.
-2. Then the sweep (`r`, output order, oversampling, last-2-layers), seeds 42/43/44, and the draft LoRA.
+1. Run the Phase 2 sweep on val with `scripts/train.py` (several runs per kernel via `--` separators, all with `--micro-batch 4`): the base config (`r=16`, evidence-first, no oversampling, lr 2e-4, 3 epochs), then `r` 8 and 32, label-first, oversampling on, and `--mode last2 --lr 2e-5`. One run is about 8 to 9 minutes on a T4 (about 2 min per epoch plus about 45 s validation). Pick the best by strict val macro-F1, report support, and freeze the config by commit SHA.
+2. Then seeds 42/43/44 on the frozen config, the draft LoRA (same pipeline, `Qwen2.5-0.5B`, needs a model switch in `train.py`), and the adapter upload with `~/.local/bin/hf`.
 
 ## Accounts And Locations
 
@@ -17,7 +17,7 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
 |---|---|
 | GitHub repo | `AKIF-jk/trialmatch` (private until submission) |
 | Kaggle user | `akifjawad` |
-| Source kernel | `akifjawad/trialmatch-src` (version 5 at commit `aee7889`; version 3 was a mistaken partial upload and failed) |
+| Source kernel | `akifjawad/trialmatch-src` (version 9 at commit `74b76d0`; version 3 was a mistaken partial upload and failed) |
 | Test kernel | `akifjawad/trialmatch-tests` (CPU, version 1, commit `f07a7b0`, 15 passed) |
 | Hugging Face user | `AkifJK` |
 | Dataset revision | `ncbi/TrialGPT-Criterion-Annotations` at `1cfcafde94a1560a33b4addc1638664fe28fc059` |
@@ -54,11 +54,16 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
   - **Cost:** Qwen load 24.5 s, generate 36.2 s, peak 3.18 GB. Phi-3 load 43.6 s, generate 160 s, peak 8.8 GB, 9 outputs hit the 96-token cap. About 6 min of T4 time in total.
   - **Phi-3 pin:** `microsoft/Phi-3-mini-4k-instruct` at `f39ac1d28e925b323eae81227eaba4464caced4e`, MIT licence, not gated.
 
+- **Training script smoke (commit `74b76d0`, `results/train_smoke/`):** `scripts/train.py` ran 6 steps on 48 train rows and validated on 16 val rows, in both modes. LoRA `r=16` has 4,358,144 trainable parameters, loss 0.49 to 0.23, peak 11.84 GB. `last2` (layers 26 and 27 in float32) has 93,595,648 trainable parameters, peak 12.66 GB. Both save a best checkpoint. These 16-row scores mean nothing, so do not quote them.
+  - **Peak memory is close to the T4's 14.6 GB.** Float32 logits for batch 8 at the longest sequence (623 tokens) are several GB. Use `--micro-batch 4` for real runs. The default is 8 and the smoke runs used it.
+  - **Bugs found and fixed by the smoke runs:** Kaggle's torchao 0.10.0 makes peft 0.20.0 fail at `get_peft_model` (the script hides torchao from peft); validation-loss batch 16 ran out of memory (now `--val-loss-batch 4` and `expandable_segments`); `last2` generation needs fp16 autocast because of its float32 layers (applied to `last2` only).
+  - **First GradScaler step in `last2` shows `grad inf`.** That is the scaler lowering its scale and skipping the step. It is expected.
+
 ## Known Constraints
 
 - **Local machine:** 7 GB RAM and about 1.7 GB free disk. Do not install PyTorch or download models locally.
 - **Kaggle attachments:** `kernelDataSources` is silently dropped by the MCP server. Pass outputs between kernels through signed output URLs from `list_notebook_session_output`. Fetch a fresh URL for each job, because their lifetime is unknown.
-- **Delta source build:** `python3 tools/build_kernel.py src --base-url URL --base-commit SHA` inlines only files that differ from `SHA`. `URL` is the `src.tar.gz` output URL of the previous source kernel version, and `SHA` is the commit that version was built from (version 2 is `3cc217d`). The kernel asserts the base tree hash and the new tree hash. Tested locally for change, delete and wrong-base cases. Run on Kaggle from `3cc217d` to `f07a7b0`: both hash asserts passed and 20 files were packed. The next delta must use the version 5 `src.tar.gz` URL with `--base-commit aee7889`. `tools/build_kernel.py job` needs its positionals before the options (`job scripts/x.py arg1 arg2 --source-url URL`). Without the flags, the build inlines every file.
+- **Delta source build:** `python3 tools/build_kernel.py src --base-url URL --base-commit SHA` inlines only files that differ from `SHA`. `URL` is the `src.tar.gz` output URL of the previous source kernel version, and `SHA` is the commit that version was built from (version 2 is `3cc217d`). The kernel asserts the base tree hash and the new tree hash. Tested locally for change, delete and wrong-base cases. Run on Kaggle from `3cc217d` to `f07a7b0`: both hash asserts passed and 20 files were packed. The next delta must use a fresh version 9 `src.tar.gz` URL with `--base-commit 74b76d09cf3de4d2626dede682b1128dd330b499`. `tools/build_kernel.py job` needs its positionals before the options (`job scripts/x.py arg1 arg2 --source-url URL`). It cannot take arguments that start with `--`, so build with a dummy arg `x` and replace `['x']` in `build/<name>_kernel.py` with the real list (this also allows the bare `--` run separator). Without the flags, the build inlines every file.
 - **Source kernel size:** every byte of a delta is retyped through `save_notebook`, so keep committed files small. The manifest is written one key per line for this reason. Check that the text sent matches `build/src_kernel.py` in full. The hash asserts catch a truncated or mistyped upload.
 - **Kaggle slugs:** Create a kernel with `newTitle`. Update one with `slug: "akifjawad/<name>"`.
 - **Blocked actions:** A secret gist upload and `gh repo create` were blocked by the permission classifier. Do not route around a block. Tell the user and let them decide.
@@ -73,4 +78,4 @@ None. Resolved on 2026-11-01: the rubric total is 135 (the table is right and th
 
 ## Kernels In Flight
 
-None. Source kernel `akifjawad/trialmatch-src` is now version 5 (commit `aee7889`, built as a delta from `f07a7b0`, both hash asserts passed, 25 files). Its `src.tar.gz` URL changes per fetch, so get a fresh one from `list_notebook_session_output`. The next delta uses `--base-commit aee78891498f9e0367138b02835bfda9fe394c6d`. Baseline kernel: `akifjawad/trialmatch-baseline` v1, complete.
+None. Source kernel `akifjawad/trialmatch-src` is version 9 (commit `74b76d0`, delta from `b31148d`, both hash asserts passed, 29 files). Its `src.tar.gz` URL changes per fetch, so get a fresh one from `list_notebook_session_output`. Finished kernels: `trialmatch-baseline` v1, `trialmatch-train-smoke` v4.
