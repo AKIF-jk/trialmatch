@@ -40,7 +40,7 @@ Local machine limits: i5-6300U, 7 GB RAM, no usable GPU, **1.6 GB free disk**. U
 GitHub is the source of truth. The repo stays private until submission so that this individual work is not exposed early.
 
 1. Commit the code.
-2. When source changes, run `tools/build_kernel.py src` and send it as a new version of the private `akifjawad/trialmatch-src` kernel. It writes `src.tar.gz` to its output. First task in Phase 1: make this a delta build that downloads the previous tarball and inlines only changed files, since every source byte is retyped through the MCP call.
+2. When source changes, run `tools/build_kernel.py src` and send it as a new version of the private `akifjawad/trialmatch-src` kernel. It writes `src.tar.gz` to its output. Use `--base-url URL --base-commit SHA` for a delta build that downloads the previous tarball and inlines only changed files, since every source byte is retyped through the MCP call.
 3. Run `tools/build_kernel.py job --source-url URL <script>`. The job kernel downloads the tarball from the signed output URL and verifies a tree hash.
 4. Submit with `save_notebook` as a private script kernel with internet on. Use T4 GPU for GPU jobs and CPU for tests, which saves quota.
 5. Poll `get_notebook_session_status`, then read logs and file URLs from `list_notebook_session_output` and save outputs to `results/<job>/`.

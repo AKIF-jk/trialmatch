@@ -7,7 +7,13 @@ download it from the signed output URL and verify a hash of the file tree.
 kernelDataSources is not used because the MCP server drops it without an error.
 
     python3 tools/build_kernel.py src
-        Write build/src_kernel.py to send with save_notebook.
+        Write build/src_kernel.py to send with save_notebook. It inlines every file.
+
+    python3 tools/build_kernel.py src --base-url URL --base-commit SHA
+        Delta build. URL is the src.tar.gz output URL of the previous source kernel
+        version and SHA is the commit that version was built from. Only files that
+        differ from SHA are inlined. The kernel checks the base tree hash before
+        applying the delta and the new tree hash after.
 
     python3 tools/build_kernel.py job --source-url URL scripts/smoke.py [job args]
         Write build/<job>_kernel.py, where URL is the src.tar.gz output URL from
@@ -38,6 +44,39 @@ with tarfile.open("/kaggle/working/src.tar.gz", "w:gz") as archive:
 print("packed", len(FILES), "files for", COMMIT)
 """
 
+DELTA_TEMPLATE = """\
+import hashlib, io, json, tarfile, urllib.request
+
+COMMIT, BASE_COMMIT = {commit!r}, {base_commit!r}
+BASE_TREE_HASH, TREE_HASH = {base_tree_hash!r}, {tree_hash!r}
+URL = {url!r}
+CHANGED = {files}
+DELETED = {deleted!r}
+
+
+def tree_hash(files):
+    tree = {{path: hashlib.sha256(data).hexdigest() for path, data in files.items()}}
+    return hashlib.sha256(json.dumps(tree, sort_keys=True).encode()).hexdigest()
+
+
+with tarfile.open(fileobj=io.BytesIO(urllib.request.urlopen(URL, timeout=120).read()), mode="r:gz") as base:
+    files = {{m.name: base.extractfile(m).read() for m in base.getmembers()}}
+found = tree_hash(files)
+assert found == BASE_TREE_HASH, f"base tree hash {{found}} does not match {{BASE_TREE_HASH}} ({{BASE_COMMIT}})"
+for path in DELETED:
+    del files[path]
+files.update({{path: text.encode() for path, text in CHANGED.items()}})
+found = tree_hash(files)
+assert found == TREE_HASH, f"new tree hash {{found}} does not match {{TREE_HASH}}"
+
+with tarfile.open("/kaggle/working/src.tar.gz", "w:gz") as archive:
+    for path, data in files.items():
+        info = tarfile.TarInfo(path)
+        info.size = len(data)
+        archive.addfile(info, io.BytesIO(data))
+print("packed", len(files), "files for", COMMIT, "from", BASE_COMMIT, "changed", len(CHANGED), "deleted", len(DELETED))
+"""
+
 JOB_TEMPLATE = """\
 import hashlib, io, json, os, subprocess, sys, tarfile, urllib.request
 
@@ -59,12 +98,17 @@ def git(*args):
     return subprocess.run(["git", *args], cwd=ROOT, check=True, capture_output=True, text=True).stdout.strip()
 
 
+def files_at(rev):
+    """Return tracked source files at a revision, keyed by repo path."""
+    paths = [p for p in SOURCE_PATHS if git("ls-tree", "--name-only", rev, p)]
+    return {path: git("show", f"{rev}:{path}") + "\n" for path in git("ls-tree", "-r", "--name-only", rev, *paths).splitlines()}
+
+
 def committed_files():
     """Return tracked source files from HEAD, keyed by repo path."""
     if git("status", "--porcelain", "--", *SOURCE_PATHS):
         raise SystemExit("Source has uncommitted changes. Commit first, so the kernel maps to one commit.")
-    paths = [p for p in SOURCE_PATHS if (ROOT / p).exists()]
-    return {path: git("show", f"HEAD:{path}") + "\n" for path in git("ls-files", *paths).splitlines()}
+    return files_at("HEAD")
 
 
 def tree_hash(files):
@@ -83,12 +127,23 @@ def main():
     parser.add_argument("job", nargs="?")
     parser.add_argument("args", nargs="*")
     parser.add_argument("--source-url")
+    parser.add_argument("--base-url")
+    parser.add_argument("--base-commit")
     opts = parser.parse_args()
 
     BUILD.mkdir(exist_ok=True)
     commit = git("rev-parse", "HEAD")
     files = committed_files()
-    if opts.kind == "src":
+    if opts.kind == "src" and (opts.base_url or opts.base_commit):
+        if not (opts.base_url and opts.base_commit):
+            parser.error("a delta build needs both --base-url and --base-commit")
+        base = files_at(opts.base_commit)
+        changed = {path: text for path, text in files.items() if base.get(path) != text}
+        deleted = sorted(set(base) - set(files))
+        out = BUILD / "src_kernel.py"
+        out.write_text(DELTA_TEMPLATE.format(commit=commit, base_commit=git("rev-parse", opts.base_commit), base_tree_hash=tree_hash(base), tree_hash=tree_hash(files), url=opts.base_url, files=render_files(changed), deleted=deleted))
+        print(f"delta against {opts.base_commit}: {len(changed)} changed, {len(deleted)} deleted")
+    elif opts.kind == "src":
         out = BUILD / "src_kernel.py"
         out.write_text(SRC_TEMPLATE.format(commit=commit, files=render_files(files)))
     else:
