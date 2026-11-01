@@ -3,14 +3,13 @@
 Read this first, then `docs/PLAN.md`. Update this file at the end of every phase or work session, and commit and push it.
 
 **Last updated:** 2026-11-01
-**Current phase:** Phase 1 code is done. The Phase 1 exit-gate tests pass locally (15 tests). The source review has started: paper identities are checked in `docs/sources.md`, but no paper is read yet.
+**Current phase:** Phase 1 code is done. The Phase 1 exit-gate tests pass locally and on a CPU Kaggle kernel (15 tests, `results/tests/`). The source review has started: paper identities are checked in `docs/sources.md`, but no paper is read yet.
 **Deadline:** November 10, 2026, plus a 2-hour grace period. Target submission is November 9.
 
 ## Next Steps
 
-1. Run `pytest tests` once on a CPU Kaggle kernel (delta source build, first use of `--base-url`). This confirms the tests also pass on the Kaggle image.
-2. Read the papers in `docs/sources.md` and fill in the Read column.
-3. Start Phase 2 as written in `docs/PLAN.md`. Write the shared evaluator first.
+1. Read the papers in `docs/sources.md` and fill in the Read column.
+2. Start Phase 2 as written in `docs/PLAN.md`. Write the shared evaluator first.
 
 ## Accounts And Locations
 
@@ -18,7 +17,8 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
 |---|---|
 | GitHub repo | `AKIF-jk/trialmatch` (private until submission) |
 | Kaggle user | `akifjawad` |
-| Source kernel | `akifjawad/trialmatch-src` (version 2 at commit `3cc217d`) |
+| Source kernel | `akifjawad/trialmatch-src` (version 4 at commit `f07a7b0`; version 3 was a mistaken partial upload and failed) |
+| Test kernel | `akifjawad/trialmatch-tests` (CPU, version 1, commit `f07a7b0`, 15 passed) |
 | Hugging Face user | `AkifJK` |
 | Dataset revision | `ncbi/TrialGPT-Criterion-Annotations` at `1cfcafde94a1560a33b4addc1638664fe28fc059` |
 | GPU quota | 30 h/week, resets November 7, 00:00 UTC. About 1.4 min used on November 1. |
@@ -37,7 +37,8 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
 
 - **Local machine:** 7 GB RAM and about 1.7 GB free disk. Do not install PyTorch or download models locally.
 - **Kaggle attachments:** `kernelDataSources` is silently dropped by the MCP server. Pass outputs between kernels through signed output URLs from `list_notebook_session_output`. Fetch a fresh URL for each job, because their lifetime is unknown.
-- **Delta source build:** `python3 tools/build_kernel.py src --base-url URL --base-commit SHA` inlines only files that differ from `SHA`. `URL` is the `src.tar.gz` output URL of the previous source kernel version, and `SHA` is the commit that version was built from (version 2 is `3cc217d`). The kernel asserts the base tree hash and the new tree hash. Tested locally for change, delete and wrong-base cases. Not yet run on Kaggle. Without the flags, the build inlines every file.
+- **Delta source build:** `python3 tools/build_kernel.py src --base-url URL --base-commit SHA` inlines only files that differ from `SHA`. `URL` is the `src.tar.gz` output URL of the previous source kernel version, and `SHA` is the commit that version was built from (version 2 is `3cc217d`). The kernel asserts the base tree hash and the new tree hash. Tested locally for change, delete and wrong-base cases. Run on Kaggle from `3cc217d` to `f07a7b0`: both hash asserts passed and 20 files were packed. The next delta must use the version 4 `src.tar.gz` URL with `--base-commit f07a7b0`. Without the flags, the build inlines every file.
+- **Source kernel size:** every byte of a delta is retyped through `save_notebook`, so keep committed files small. The manifest is written one key per line for this reason. Check that the text sent matches `build/src_kernel.py` in full. The hash asserts catch a truncated or mistyped upload.
 - **Kaggle slugs:** Create a kernel with `newTitle`. Update one with `slug: "akifjawad/<name>"`.
 - **Blocked actions:** A secret gist upload and `gh repo create` were blocked by the permission classifier. Do not route around a block. Tell the user and let them decide.
 - **Hugging Face writes:** The connector and plugin tools are read-only. Use `~/.local/bin/hf`, which is logged in as `AkifJK` and passed a private create, upload and read-back test. The test repo has been deleted.
