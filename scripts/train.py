@@ -13,6 +13,7 @@ Loss is the mean over assistant tokens of each micro-batch, averaged over the mi
 import argparse
 import gc
 import json
+import sys
 import time
 
 import torch
@@ -58,6 +59,9 @@ def build_model(args, device):
     model.config.use_cache = False
     model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
     if args.mode == "lora":
+        # Kaggle ships torchao 0.10.0 and peft 0.20.0 refuses it at adapter injection. We use no torchao
+        # quantization, so make it look uninstalled to peft's find_spec check.
+        sys.modules.setdefault("torchao", None)
         from peft import LoraConfig, get_peft_model
 
         config = LoraConfig(r=args.r, lora_alpha=args.alpha, lora_dropout=args.dropout, target_modules=list(TARGET_MODULES), task_type="CAUSAL_LM")
@@ -204,8 +208,6 @@ def run(args):
 
 
 def main(argv=None):
-    import sys
-
     argv = list(sys.argv[1:] if argv is None else argv)
     runs, current = [], []
     for token in argv:
