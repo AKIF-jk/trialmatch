@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+build/
+.gist_id
+*.safetensors
+*.bin
+*.pt
+checkpoints/
+GenAI_Assignment#2.pdf
+report/*.aux
+report/*.bbl
+report/*.blg
+report/*.log
+report/*.out
