@@ -11,6 +11,7 @@ Precision: the base is fp16, trainable weights are float32, forward runs under f
 Loss is the mean over assistant tokens of each micro-batch, averaged over the micro-batches of a step.
 """
 import argparse
+import contextlib
 import gc
 import json
 import os
@@ -107,7 +108,10 @@ def validation_loss(model, pad_id, examples, size, device):
 def validate(model, tokenizer, rows, prompts, stop_ids, args):
     model.eval()
     model.config.use_cache = True
-    outputs = generate(model, tokenizer, prompts, args.eval_batch_size, args.max_new_tokens, stop_ids)
+    # last2 keeps two layers in float32 next to a float16 lm_head, which only works under autocast.
+    mixed = torch.autocast("cuda", dtype=torch.float16) if args.mode == "last2" else contextlib.nullcontext()
+    with mixed:
+        outputs = generate(model, tokenizer, prompts, args.eval_batch_size, args.max_new_tokens, stop_ids)
     model.config.use_cache = False
     texts = [o["text"] for o in outputs]
     return outputs, evaluate(rows, texts), evaluate(rows, texts, repair=True)
