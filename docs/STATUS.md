@@ -78,4 +78,8 @@ None. Resolved on 2026-11-01: the rubric total is 135 (the table is right and th
 
 ## Kernels In Flight
 
-None. Source kernel `akifjawad/trialmatch-src` is version 9 (commit `74b76d0`, delta from `b31148d`, both hash asserts passed, 29 files). Its `src.tar.gz` URL changes per fetch, so get a fresh one from `list_notebook_session_output`. Finished kernels: `trialmatch-baseline` v1, `trialmatch-train-smoke` v4.
+- `akifjawad/trialmatch-sweep-a` v1: `base_r16`, `r8` (alpha 16), `r32` (alpha 64). T4, 3 epochs, micro-batch 4, seed 42.
+- `akifjawad/trialmatch-sweep-b` v1: `label_first`, `over4` (rare labels x4), `last2` (lr 2e-5). Same settings; later runs pass `--order evidence_first` explicitly because runs inherit the first run's flags.
+- Both started 2026-11-01 from source v9 (tree hash `9b7b27a6`, commit `74b76d0`; the job's recorded commit is `937dcfa`, which differs only in docs and results). Expect about 30 min each. Results go to `results/train/<run>/`.
+
+Finished earlier: Source kernel `akifjawad/trialmatch-src` is version 9 (commit `74b76d0`, delta from `b31148d`, both hash asserts passed, 29 files). Its `src.tar.gz` URL changes per fetch, so get a fresh one from `list_notebook_session_output`. Finished kernels: `trialmatch-baseline` v1, `trialmatch-train-smoke` v4.
