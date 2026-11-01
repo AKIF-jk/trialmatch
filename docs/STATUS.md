@@ -3,12 +3,13 @@
 Read this first, then `docs/PLAN.md`. Update this file at the end of every phase or work session, and commit and push it.
 
 **Last updated:** 2026-11-01
-**Current phase:** Phase 1 code is done. The Phase 1 exit-gate tests pass locally and on a CPU Kaggle kernel (15 tests, `results/tests/`). The source review is done for the main text of all 7 papers. `docs/sources.md` lists what was not read (appendices, the TrialGPT Methods section, parts of the Qwen2.5 evaluation).
+**Current phase:** Phase 2 started. The shared evaluator is done (see Phase 2 Results). Phase 1 code is done. The Phase 1 exit-gate tests pass locally and on a CPU Kaggle kernel (15 tests, `results/tests/`). The source review is done for the main text of all 7 papers. `docs/sources.md` lists what was not read (appendices, the TrialGPT Methods section, parts of the Qwen2.5 evaluation).
 **Deadline:** November 10, 2026, plus a 2-hour grace period. Target submission is November 9.
 
 ## Next Steps
 
-1. Start Phase 2 as written in `docs/PLAN.md`. Write the shared evaluator first.
+1. Phase 2, next: write the baseline generation script (`scripts/baseline.py`). It runs Qwen2.5-1.5B-Instruct and Phi-3-mini on val with the Phase 1 prompt and greedy settings, then scores through `trialmatch.eval.metrics.evaluate`. First check that `chat_prompt` equals `tokenizer.apply_chat_template` on the Kaggle tokenizer. This is also the first T4 job through the source-tarball path.
+2. Then the LoRA training script (`trialmatch/train`), sweep and seeds as in `docs/PLAN.md`.
 
 ## Accounts And Locations
 
@@ -31,6 +32,12 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
 - **Prompt:** Qwen ChatML text written by hand in `trialmatch/data/prompt.py`, with label definitions. Phase 2 must check it equals `tokenizer.apply_chat_template` on the Kaggle tokenizer. Output order is a parameter (`evidence_first` or `label_first`).
 - **Test guard:** `select_rows(..., "test")` raises `LockedSplitError` unless `allow_test=True`. Only `scripts/final_eval.py` (not written yet) may pass it. Only aggregate class counts for test are in the manifest, as the plan requires.
 - **Local env:** `.venv` holds numpy, pyarrow, huggingface_hub, tokenizers and pytest (`requirements-dev.txt`). Run tests with `PYTHONPATH=. .venv/bin/python -m pytest -q tests`. Tests download the 176 KB dataset from the pinned revision.
+
+## Phase 2 Results
+
+- **Evaluator:** `trialmatch/eval/{parse,metrics,baselines}.py`, tests in `tests/test_eval.py` (34 tests pass locally with the Phase 1 tests). Input is raw model text plus rows, so every model, baseline and decoding mode is scored through the same code. The rules (fixed label lists, zero-division 0, empty-evidence handling, invalid and malformed outputs) are in the `metrics.py` docstring. Strict JSON parsing is the default. The one repair step (first JSON object in the text) is opt-in via `repair=True` and counted in `repaired`.
+- **Headline metric:** `labels.overall.macro_f1` over the fixed 6-label list. `macro_f1_supported` is the cross-check. Always quote `support` per class.
+- **Majority baseline (val, per criterion type, empty evidence):** accuracy 0.621, macro-F1 0.215, evidence macro-F1 0.563. Global-majority variant: accuracy 0.490, macro-F1 0.140 with 66 invalid labels, because `not excluded` is invalid for inclusion rows. Report the per-type one.
 
 ## Known Constraints
 
