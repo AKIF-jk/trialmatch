@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
-"""Package the committed source and build a Kaggle notebook that runs one job.
+"""Build Kaggle kernel scripts from the committed source.
 
-The source tarball goes to a secret gist, because notebook text passes through
-an MCP call and must stay small. The notebook verifies the tarball's SHA-256
-before extracting it, so each run is tied to one exact commit.
+Source reaches Kaggle through a private "source kernel", so nothing is uploaded
+to a public host. The source kernel writes the package to its output, and job
+kernels attach it through kernelDataSources and import from there.
 
-Usage:
-    python3 tools/build_kernel.py scripts/smoke.py [--requirements requirements/kaggle.txt] [-- job args]
+    python3 tools/build_kernel.py src
+        Write build/src_kernel.py, and build/src_manifest.json holding the
+        SHA-256 of every file. Compare the manifest with the kernel's output
+        to confirm the text sent to Kaggle matches the commit.
 
-The notebook is written to build/<job>.ipynb.
+    python3 tools/build_kernel.py job scripts/smoke.py [job args]
+        Write build/<job>_kernel.py, which runs one script from the source kernel.
 """
 import argparse
-import base64
 import hashlib
 import json
 import subprocess
@@ -19,42 +21,41 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 BUILD = ROOT / "build"
-GIST_ID_FILE = ROOT / ".gist_id"
-GIST_FILE = "src.tar.gz.b64"
-SOURCE_PATHS = ["trialmatch", "scripts", "configs", "tests", "splits", "requirements"]
+SOURCE_PATHS = ["trialmatch", "scripts", "configs", "tests", "splits"]
+SOURCE_KERNEL = "akifjawad/trialmatch-src"
 
-RUNNER = """\
-import base64, hashlib, io, os, subprocess, sys, tarfile, urllib.request
+SRC_TEMPLATE = """\
+import hashlib, json, os
 
-JOB, COMMIT, URL, SHA256 = {job!r}, {commit!r}, {url!r}, {sha256!r}
-REQUIREMENTS, ARGS = {requirements!r}, {args!r}
-SRC, OUT = "/tmp/src", "/kaggle/working"
+COMMIT = {commit!r}
+FILES = {files}
 
-blob = urllib.request.urlopen(URL, timeout=120).read()
-assert hashlib.sha256(blob).hexdigest() == SHA256, "source tarball hash mismatch"
-os.makedirs(SRC, exist_ok=True)
-tarfile.open(fileobj=io.BytesIO(base64.b64decode(blob)), mode="r:gz").extractall(SRC, filter="data")
+manifest = {{}}
+for path, text in FILES.items():
+    target = os.path.join("/kaggle/working/src", path)
+    os.makedirs(os.path.dirname(target), exist_ok=True)
+    with open(target, "w", newline="") as handle:
+        handle.write(text)
+    manifest[path] = hashlib.sha256(text.encode()).hexdigest()
+with open("/kaggle/working/src_manifest.json", "w") as handle:
+    json.dump({{"commit": COMMIT, "files": manifest}}, handle, indent=2, sort_keys=True)
+print("wrote", len(manifest), "files for", COMMIT)
+"""
 
-os.makedirs(f"{{OUT}}/logs", exist_ok=True)
-log_path = f"{{OUT}}/logs/{{os.path.basename(JOB)}}.log"
-env = dict(os.environ, PYTHONPATH=SRC, PYTHONUNBUFFERED="1", TRIALMATCH_COMMIT=COMMIT, TRIALMATCH_RESULTS=f"{{OUT}}/results")
+JOB_TEMPLATE = """\
+import glob, json, os, shutil, subprocess, sys
 
-with open(log_path, "w") as log:
-    def run(cmd):
-        proc = subprocess.Popen(cmd, cwd=SRC, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
-        for line in proc.stdout:
-            print(line, end="")
-            log.write(line)
-            log.flush()
-        return proc.wait()
+JOB, ARGS, EXPECTED_COMMIT = {job!r}, {args!r}, {commit!r}
 
-    code = 0
-    if REQUIREMENTS:
-        code = run([sys.executable, "-m", "pip", "install", "-q", "-r", REQUIREMENTS])
-    if code == 0:
-        code = run([sys.executable, JOB, *ARGS])
+manifests = glob.glob("/kaggle/input/**/src_manifest.json", recursive=True)
+assert len(manifests) == 1, f"expected one attached source kernel, found {{manifests}}"
+source = os.path.join(os.path.dirname(manifests[0]), "src")
+commit = json.load(open(manifests[0]))["commit"]
+assert commit == EXPECTED_COMMIT, f"source kernel is at {{commit}}, job expects {{EXPECTED_COMMIT}}"
+shutil.copytree(source, "/tmp/src", dirs_exist_ok=True)
 
-assert code == 0, f"job failed with exit code {{code}}; see {{log_path}}"
+env = dict(os.environ, PYTHONPATH="/tmp/src", PYTHONUNBUFFERED="1", TRIALMATCH_COMMIT=commit, TRIALMATCH_RESULTS="/kaggle/working/results", CUDA_VISIBLE_DEVICES="0")
+sys.exit(subprocess.run([sys.executable, JOB, *ARGS], cwd="/tmp/src", env=env).returncode)
 """
 
 
@@ -62,55 +63,40 @@ def git(*args):
     return subprocess.run(["git", *args], cwd=ROOT, check=True, capture_output=True, text=True).stdout.strip()
 
 
-def publish(payload_path):
-    """Upload the tarball to the secret gist and return its pinned raw URL."""
-    if GIST_ID_FILE.exists():
-        gist_id = GIST_ID_FILE.read_text().strip()
-        subprocess.run(["gh", "gist", "edit", gist_id, "--filename", GIST_FILE, str(payload_path)], cwd=ROOT, check=True)
-    else:
-        url = subprocess.run(
-            ["gh", "gist", "create", "--desc", "trialmatch kernel source", str(payload_path)],
-            cwd=ROOT, check=True, capture_output=True, text=True,
-        ).stdout.strip()
-        gist_id = url.rsplit("/", 1)[-1]
-        GIST_ID_FILE.write_text(gist_id)
-    meta = json.loads(subprocess.run(["gh", "api", f"gists/{gist_id}"], check=True, capture_output=True, text=True).stdout)
-    return f"https://gist.githubusercontent.com/{meta['owner']['login']}/{gist_id}/raw/{meta['history'][0]['version']}/{GIST_FILE}"
+def committed_files():
+    """Return tracked source files from HEAD, keyed by repo path."""
+    if git("status", "--porcelain", "--", *SOURCE_PATHS):
+        raise SystemExit("Source has uncommitted changes. Commit first, so the kernel maps to one commit.")
+    paths = [p for p in SOURCE_PATHS if (ROOT / p).exists()]
+    return {path: git("show", f"HEAD:{path}") + "\n" for path in git("ls-files", *paths).splitlines()}
+
+
+def render_files(files):
+    """Render files as a readable dict literal, so the kernel text can be reviewed."""
+    return "{\n" + "".join(f"{path!r}: {text!r},\n" for path, text in files.items()) + "}"
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("job")
-    parser.add_argument("--requirements", default="")
+    parser.add_argument("kind", choices=["src", "job"])
+    parser.add_argument("job", nargs="?")
     parser.add_argument("args", nargs="*")
     opts = parser.parse_args()
 
-    if git("status", "--porcelain"):
-        raise SystemExit("Working tree is dirty. Commit first, so the kernel maps to one commit.")
-    commit = git("rev-parse", "HEAD")
-
-    paths = [p for p in SOURCE_PATHS if (ROOT / p).exists() and git("ls-files", p)]
-    tarball = subprocess.run(["git", "archive", "--format=tar.gz", "HEAD", "--", *paths], cwd=ROOT, check=True, capture_output=True).stdout
-    payload = base64.b64encode(tarball)
-
     BUILD.mkdir(exist_ok=True)
-    payload_path = BUILD / GIST_FILE
-    payload_path.write_bytes(payload)
-    url = publish(payload_path)
-
-    source = RUNNER.format(
-        job=opts.job, commit=commit, url=url, sha256=hashlib.sha256(payload).hexdigest(),
-        requirements=opts.requirements, args=opts.args,
-    )
-    notebook = {
-        "cells": [{"cell_type": "code", "execution_count": None, "metadata": {}, "outputs": [], "source": source.splitlines(keepends=True)}],
-        "metadata": {"kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"}},
-        "nbformat": 4,
-        "nbformat_minor": 5,
-    }
-    out = BUILD / f"{Path(opts.job).stem}.ipynb"
-    out.write_text(json.dumps(notebook))
-    print(f"commit {commit}\nnotebook {out} ({out.stat().st_size} bytes)")
+    commit = git("rev-parse", "HEAD")
+    if opts.kind == "src":
+        files = committed_files()
+        (BUILD / "src_kernel.py").write_text(SRC_TEMPLATE.format(commit=commit, files=render_files(files)))
+        manifest = {path: hashlib.sha256(text.encode()).hexdigest() for path, text in files.items()}
+        (BUILD / "src_manifest.json").write_text(json.dumps({"commit": commit, "files": manifest}, indent=2, sort_keys=True))
+        out = BUILD / "src_kernel.py"
+    else:
+        if not opts.job:
+            parser.error("job needs a script path")
+        out = BUILD / f"{Path(opts.job).stem}_kernel.py"
+        out.write_text(JOB_TEMPLATE.format(job=opts.job, args=opts.args, commit=commit))
+    print(f"commit {commit}\nwrote {out} ({out.stat().st_size} bytes)")
 
 
 if __name__ == "__main__":

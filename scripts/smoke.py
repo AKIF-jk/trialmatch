@@ -11,13 +11,13 @@ import urllib.request
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, DynamicCache
 
-from trialmatch.runtime import DATASET, DRAFT_MODEL, DRAFT_REVISION, TARGET_MODEL, TARGET_REVISION, environment, results_dir, write_json
+from trialmatch.runtime import DATASET, DRAFT_MODEL, DRAFT_REVISION, TARGET_MODEL, TARGET_REVISION, check_versions, environment, results_dir, write_json
 
 
 def check_model(name, revision, device, dtype):
     start = time.perf_counter()
     tokenizer = AutoTokenizer.from_pretrained(name, revision=revision)
-    model = AutoModelForCausalLM.from_pretrained(name, revision=revision, torch_dtype=dtype).to(device).eval()
+    model = AutoModelForCausalLM.from_pretrained(name, revision=revision, dtype=dtype).to(device).eval()
     load_seconds = time.perf_counter() - start
 
     messages = [{"role": "user", "content": "Reply with one short sentence about clinical trials."}]
@@ -37,7 +37,7 @@ def check_model(name, revision, device, dtype):
     with torch.inference_mode():
         out = model(**inputs, past_key_values=cache, use_cache=True)
     seq_before = cache.get_seq_length()
-    cache.crop(seq_before - 1)
+    cache.crop(-1)  # Positive crop lengths are removed in transformers 5.18.
 
     return {
         "parameters": sum(p.numel() for p in model.parameters()),
@@ -54,6 +54,7 @@ def check_model(name, revision, device, dtype):
 
 
 def main():
+    check_versions()
     out = results_dir("smoke")
     report = {"environment": environment(), "stages": {}}
     print(json.dumps(report["environment"], indent=2))

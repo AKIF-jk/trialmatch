@@ -30,6 +30,18 @@ def package_versions(names=("torch", "transformers", "peft", "accelerate", "data
     return versions
 
 
+def check_versions():
+    """Fail fast if the Kaggle image no longer matches requirements-kaggle.txt."""
+    expected = {
+        "torch": "2.11.0", "transformers": "5.16.1", "peft": "0.20.0", "accelerate": "1.14.0",
+        "datasets": "4.8.5", "numpy": "2.1.3", "scikit-learn": "1.6.1",
+    }
+    found = package_versions(expected)
+    wrong = {name: found[name] for name, version in expected.items() if (found[name] or "").split("+")[0] != version}
+    if wrong:
+        raise RuntimeError(f"Package versions differ from the lock: {wrong}")
+
+
 def environment():
     info = {
         "commit": os.environ.get("TRIALMATCH_COMMIT"),
