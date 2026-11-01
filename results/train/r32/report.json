@@ -1,0 +1,764 @@
+{
+  "config": {
+    "name": "r32",
+    "mode": "lora",
+    "r": 32,
+    "alpha": 64,
+    "dropout": 0.05,
+    "lr": 0.0002,
+    "epochs": 3,
+    "batch_size": 8,
+    "micro_batch": 4,
+    "warmup_ratio": 0.05,
+    "order": "evidence_first",
+    "oversample": 1,
+    "seed": 42,
+    "max_new_tokens": 64,
+    "eval_batch_size": 16,
+    "val_loss_batch": 4,
+    "limit_train": null,
+    "limit_val": null,
+    "max_steps": null
+  },
+  "trainable_parameters": 8716288,
+  "total_parameters": 1552430592,
+  "train_rows": 602,
+  "val_rows": 206,
+  "steps": 228,
+  "total_steps": 228,
+  "train_seconds": 643.3,
+  "peak_gpu_gb": 7.47,
+  "epochs": [
+    {
+      "epoch": 0,
+      "step": 76,
+      "val_loss": 0.14673806864200803,
+      "strict_macro_f1": 0.35917136774053177,
+      "strict_accuracy": 0.7281553398058253,
+      "malformed": 0,
+      "repaired_macro_f1": 0.35917136774053177,
+      "evidence_macro_f1": 0.73632791157063
+    },
+    {
+      "epoch": 1,
+      "step": 152,
+      "val_loss": 0.14044985170929322,
+      "strict_macro_f1": 0.4196991246402159,
+      "strict_accuracy": 0.7135922330097088,
+      "malformed": 0,
+      "repaired_macro_f1": 0.4196991246402159,
+      "evidence_macro_f1": 0.7522422561257512
+    },
+    {
+      "epoch": 2,
+      "step": 228,
+      "val_loss": 0.1543194160551064,
+      "strict_macro_f1": 0.4280841945301728,
+      "strict_accuracy": 0.7281553398058253,
+      "malformed": 0,
+      "repaired_macro_f1": 0.4280841945301728,
+      "evidence_macro_f1": 0.7405108645399907
+    }
+  ],
+  "best": {
+    "macro_f1": 0.4280841945301728,
+    "epoch": 2,
+    "step": 228,
+    "strict": {
+      "n": 206,
+      "malformed": 0,
+      "invalid_label": 0,
+      "repaired": 0,
+      "errors": [],
+      "labels": {
+        "overall": {
+          "n": 206,
+          "accuracy": 0.7281553398058253,
+          "macro_f1": 0.4280841945301728,
+          "macro_f1_supported": 0.4280841945301728,
+          "per_class": {
+            "included": {
+              "precision": 0.8518518518518519,
+              "recall": 0.6571428571428571,
+              "f1": 0.7419354838709677,
+              "support": 35,
+              "predicted": 27
+            },
+            "not included": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 3,
+              "predicted": 0
+            },
+            "excluded": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 2,
+              "predicted": 1
+            },
+            "not excluded": {
+              "precision": 0.765625,
+              "recall": 0.9702970297029703,
+              "f1": 0.8558951965065502,
+              "support": 101,
+              "predicted": 128
+            },
+            "not enough information": {
+              "precision": 0.6,
+              "recall": 0.4528301886792453,
+              "f1": 0.5161290322580645,
+              "support": 53,
+              "predicted": 40
+            },
+            "not applicable": {
+              "precision": 0.5,
+              "recall": 0.4166666666666667,
+              "f1": 0.45454545454545453,
+              "support": 12,
+              "predicted": 10
+            }
+          },
+          "confusion": {
+            "labels": [
+              "included",
+              "not included",
+              "excluded",
+              "not excluded",
+              "not enough information",
+              "not applicable",
+              "<invalid>"
+            ],
+            "matrix": [
+              [
+                23,
+                0,
+                0,
+                0,
+                12,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                3,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                2,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                1,
+                98,
+                0,
+                2,
+                0
+              ],
+              [
+                4,
+                0,
+                0,
+                22,
+                24,
+                3,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                6,
+                1,
+                5,
+                0
+              ]
+            ]
+          }
+        },
+        "inclusion": {
+          "n": 66,
+          "accuracy": 0.696969696969697,
+          "macro_f1": 0.3597262952101662,
+          "macro_f1_supported": 0.3597262952101662,
+          "per_class": {
+            "included": {
+              "precision": 0.8518518518518519,
+              "recall": 0.6571428571428571,
+              "f1": 0.7419354838709677,
+              "support": 35,
+              "predicted": 27
+            },
+            "not included": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 3,
+              "predicted": 0
+            },
+            "not enough information": {
+              "precision": 0.5897435897435898,
+              "recall": 0.8518518518518519,
+              "f1": 0.6969696969696971,
+              "support": 27,
+              "predicted": 39
+            },
+            "not applicable": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1,
+              "predicted": 0
+            }
+          },
+          "confusion": {
+            "labels": [
+              "included",
+              "not included",
+              "not enough information",
+              "not applicable",
+              "<invalid>"
+            ],
+            "matrix": [
+              [
+                23,
+                0,
+                12,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                3,
+                0,
+                0
+              ],
+              [
+                4,
+                0,
+                23,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "exclusion": {
+          "n": 140,
+          "accuracy": 0.7428571428571429,
+          "macro_f1": 0.3515399366927751,
+          "macro_f1_supported": 0.3515399366927751,
+          "per_class": {
+            "excluded": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 2,
+              "predicted": 1
+            },
+            "not excluded": {
+              "precision": 0.765625,
+              "recall": 0.9702970297029703,
+              "f1": 0.8558951965065502,
+              "support": 101,
+              "predicted": 128
+            },
+            "not enough information": {
+              "precision": 1.0,
+              "recall": 0.038461538461538464,
+              "f1": 0.07407407407407407,
+              "support": 26,
+              "predicted": 1
+            },
+            "not applicable": {
+              "precision": 0.5,
+              "recall": 0.45454545454545453,
+              "f1": 0.47619047619047616,
+              "support": 11,
+              "predicted": 10
+            }
+          },
+          "confusion": {
+            "labels": [
+              "excluded",
+              "not excluded",
+              "not enough information",
+              "not applicable",
+              "<invalid>"
+            ],
+            "matrix": [
+              [
+                0,
+                2,
+                0,
+                0,
+                0
+              ],
+              [
+                1,
+                98,
+                0,
+                2,
+                0
+              ],
+              [
+                0,
+                22,
+                1,
+                3,
+                0
+              ],
+              [
+                0,
+                6,
+                0,
+                5,
+                0
+              ]
+            ]
+          }
+        }
+      },
+      "evidence": {
+        "overall": {
+          "n": 206,
+          "n_gold_nonempty": 90,
+          "micro": {
+            "precision": 0.5071428571428571,
+            "recall": 0.6173913043478261,
+            "f1": 0.5568627450980392,
+            "tp": 71,
+            "fp": 69,
+            "fn": 44
+          },
+          "macro": {
+            "precision": 0.73541377716135,
+            "recall": 0.7673948220064726,
+            "f1": 0.7405108645399907
+          },
+          "macro_gold_nonempty": {
+            "precision": 0.5943915343915344,
+            "recall": 0.6675925925925926,
+            "f1": 0.6060582010582011
+          },
+          "invalid_ids": 0
+        },
+        "inclusion": {
+          "n": 66,
+          "n_gold_nonempty": 50,
+          "micro": {
+            "precision": 0.5106382978723404,
+            "recall": 0.7164179104477612,
+            "f1": 0.5962732919254657,
+            "tp": 48,
+            "fp": 46,
+            "fn": 19
+          },
+          "macro": {
+            "precision": 0.6766955266955268,
+            "recall": 0.773989898989899,
+            "f1": 0.6976551226551226
+          },
+          "macro_gold_nonempty": {
+            "precision": 0.6732380952380953,
+            "recall": 0.8016666666666667,
+            "f1": 0.7009047619047619
+          },
+          "invalid_ids": 0
+        },
+        "exclusion": {
+          "n": 140,
+          "n_gold_nonempty": 40,
+          "micro": {
+            "precision": 0.5,
+            "recall": 0.4791666666666667,
+            "f1": 0.48936170212765956,
+            "tp": 23,
+            "fp": 23,
+            "fn": 25
+          },
+          "macro": {
+            "precision": 0.763095238095238,
+            "recall": 0.7642857142857142,
+            "f1": 0.7607142857142857
+          },
+          "macro_gold_nonempty": {
+            "precision": 0.4958333333333333,
+            "recall": 0.5,
+            "f1": 0.4875
+          },
+          "invalid_ids": 0
+        }
+      },
+      "malformed_rate": 0.0
+    },
+    "repair": {
+      "n": 206,
+      "malformed": 0,
+      "invalid_label": 0,
+      "repaired": 0,
+      "errors": [],
+      "labels": {
+        "overall": {
+          "n": 206,
+          "accuracy": 0.7281553398058253,
+          "macro_f1": 0.4280841945301728,
+          "macro_f1_supported": 0.4280841945301728,
+          "per_class": {
+            "included": {
+              "precision": 0.8518518518518519,
+              "recall": 0.6571428571428571,
+              "f1": 0.7419354838709677,
+              "support": 35,
+              "predicted": 27
+            },
+            "not included": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 3,
+              "predicted": 0
+            },
+            "excluded": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 2,
+              "predicted": 1
+            },
+            "not excluded": {
+              "precision": 0.765625,
+              "recall": 0.9702970297029703,
+              "f1": 0.8558951965065502,
+              "support": 101,
+              "predicted": 128
+            },
+            "not enough information": {
+              "precision": 0.6,
+              "recall": 0.4528301886792453,
+              "f1": 0.5161290322580645,
+              "support": 53,
+              "predicted": 40
+            },
+            "not applicable": {
+              "precision": 0.5,
+              "recall": 0.4166666666666667,
+              "f1": 0.45454545454545453,
+              "support": 12,
+              "predicted": 10
+            }
+          },
+          "confusion": {
+            "labels": [
+              "included",
+              "not included",
+              "excluded",
+              "not excluded",
+              "not enough information",
+              "not applicable",
+              "<invalid>"
+            ],
+            "matrix": [
+              [
+                23,
+                0,
+                0,
+                0,
+                12,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                3,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                2,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                1,
+                98,
+                0,
+                2,
+                0
+              ],
+              [
+                4,
+                0,
+                0,
+                22,
+                24,
+                3,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                6,
+                1,
+                5,
+                0
+              ]
+            ]
+          }
+        },
+        "inclusion": {
+          "n": 66,
+          "accuracy": 0.696969696969697,
+          "macro_f1": 0.3597262952101662,
+          "macro_f1_supported": 0.3597262952101662,
+          "per_class": {
+            "included": {
+              "precision": 0.8518518518518519,
+              "recall": 0.6571428571428571,
+              "f1": 0.7419354838709677,
+              "support": 35,
+              "predicted": 27
+            },
+            "not included": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 3,
+              "predicted": 0
+            },
+            "not enough information": {
+              "precision": 0.5897435897435898,
+              "recall": 0.8518518518518519,
+              "f1": 0.6969696969696971,
+              "support": 27,
+              "predicted": 39
+            },
+            "not applicable": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 1,
+              "predicted": 0
+            }
+          },
+          "confusion": {
+            "labels": [
+              "included",
+              "not included",
+              "not enough information",
+              "not applicable",
+              "<invalid>"
+            ],
+            "matrix": [
+              [
+                23,
+                0,
+                12,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                3,
+                0,
+                0
+              ],
+              [
+                4,
+                0,
+                23,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "exclusion": {
+          "n": 140,
+          "accuracy": 0.7428571428571429,
+          "macro_f1": 0.3515399366927751,
+          "macro_f1_supported": 0.3515399366927751,
+          "per_class": {
+            "excluded": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 2,
+              "predicted": 1
+            },
+            "not excluded": {
+              "precision": 0.765625,
+              "recall": 0.9702970297029703,
+              "f1": 0.8558951965065502,
+              "support": 101,
+              "predicted": 128
+            },
+            "not enough information": {
+              "precision": 1.0,
+              "recall": 0.038461538461538464,
+              "f1": 0.07407407407407407,
+              "support": 26,
+              "predicted": 1
+            },
+            "not applicable": {
+              "precision": 0.5,
+              "recall": 0.45454545454545453,
+              "f1": 0.47619047619047616,
+              "support": 11,
+              "predicted": 10
+            }
+          },
+          "confusion": {
+            "labels": [
+              "excluded",
+              "not excluded",
+              "not enough information",
+              "not applicable",
+              "<invalid>"
+            ],
+            "matrix": [
+              [
+                0,
+                2,
+                0,
+                0,
+                0
+              ],
+              [
+                1,
+                98,
+                0,
+                2,
+                0
+              ],
+              [
+                0,
+                22,
+                1,
+                3,
+                0
+              ],
+              [
+                0,
+                6,
+                0,
+                5,
+                0
+              ]
+            ]
+          }
+        }
+      },
+      "evidence": {
+        "overall": {
+          "n": 206,
+          "n_gold_nonempty": 90,
+          "micro": {
+            "precision": 0.5071428571428571,
+            "recall": 0.6173913043478261,
+            "f1": 0.5568627450980392,
+            "tp": 71,
+            "fp": 69,
+            "fn": 44
+          },
+          "macro": {
+            "precision": 0.73541377716135,
+            "recall": 0.7673948220064726,
+            "f1": 0.7405108645399907
+          },
+          "macro_gold_nonempty": {
+            "precision": 0.5943915343915344,
+            "recall": 0.6675925925925926,
+            "f1": 0.6060582010582011
+          },
+          "invalid_ids": 0
+        },
+        "inclusion": {
+          "n": 66,
+          "n_gold_nonempty": 50,
+          "micro": {
+            "precision": 0.5106382978723404,
+            "recall": 0.7164179104477612,
+            "f1": 0.5962732919254657,
+            "tp": 48,
+            "fp": 46,
+            "fn": 19
+          },
+          "macro": {
+            "precision": 0.6766955266955268,
+            "recall": 0.773989898989899,
+            "f1": 0.6976551226551226
+          },
+          "macro_gold_nonempty": {
+            "precision": 0.6732380952380953,
+            "recall": 0.8016666666666667,
+            "f1": 0.7009047619047619
+          },
+          "invalid_ids": 0
+        },
+        "exclusion": {
+          "n": 140,
+          "n_gold_nonempty": 40,
+          "micro": {
+            "precision": 0.5,
+            "recall": 0.4791666666666667,
+            "f1": 0.48936170212765956,
+            "tp": 23,
+            "fp": 23,
+            "fn": 25
+          },
+          "macro": {
+            "precision": 0.763095238095238,
+            "recall": 0.7642857142857142,
+            "f1": 0.7607142857142857
+          },
+          "macro_gold_nonempty": {
+            "precision": 0.4958333333333333,
+            "recall": 0.5,
+            "f1": 0.4875
+          },
+          "invalid_ids": 0
+        }
+      },
+      "malformed_rate": 0.0
+    }
+  }
+}

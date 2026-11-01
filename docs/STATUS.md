@@ -8,8 +8,9 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
 
 ## Next Steps
 
-1. Run the Phase 2 sweep on val with `scripts/train.py` (several runs per kernel via `--` separators, all with `--micro-batch 4`): the base config (`r=16`, evidence-first, no oversampling, lr 2e-4, 3 epochs), then `r` 8 and 32, label-first, oversampling on, and `--mode last2 --lr 2e-5`. One run is about 8 to 9 minutes on a T4 (about 2 min per epoch plus about 45 s validation). Pick the best by strict val macro-F1, report support, and freeze the config by commit SHA.
-2. Then seeds 42/43/44 on the frozen config, the draft LoRA (same pipeline, `Qwen2.5-0.5B`, needs a model switch in `train.py`), and the adapter upload with `~/.local/bin/hf`.
+1. Freeze the final config (decision pending with the user, see below), then train seeds 42/43/44 on it and report mean and spread.
+2. Train the draft LoRA (same pipeline on `Qwen2.5-0.5B`; `train.py` needs a model switch), and upload both adapters with `~/.local/bin/hf`.
+3. Rare classes are unsolved: no run predicts `excluded` correctly. Decide how to report that (support-aware, no claims) and whether one more attempt is worth it (for example a higher oversampling factor or class-weighted loss), judged on val only.
 
 ## Accounts And Locations
 
@@ -59,6 +60,23 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
   - **Bugs found and fixed by the smoke runs:** Kaggle's torchao 0.10.0 makes peft 0.20.0 fail at `get_peft_model` (the script hides torchao from peft); validation-loss batch 16 ran out of memory (now `--val-loss-batch 4` and `expandable_segments`); `last2` generation needs fp16 autocast because of its float32 layers (applied to `last2` only).
   - **First GradScaler step in `last2` shows `grad inf`.** That is the scaler lowering its scale and skipping the step. It is expected.
 
+
+- **Sweep (val 206 rows, seed 42, 3 epochs, micro-batch 4, commit `74b76d0`, `results/train/<run>/report.json`):** 602 usable train rows (603 minus annotation 883). No outputs were malformed in any run, so strict and repaired scores are equal.
+
+| Run | Change | Val macro-F1 by epoch | Best epoch | Accuracy | Evidence macro-F1 | `not applicable` F1 | Peak GB |
+|---|---|---|---|---|---|---|---|
+| `base_r16` | base: r=16, alpha 32, evidence-first, no oversampling | 0.360/0.362/0.346 | 2 | 0.738 | 0.723 | 0.00 | 7.41 |
+| `r8` | r=8, alpha 16 | 0.355/0.371/0.354 | 2 | 0.748 | 0.745 | 0.00 | 7.37 |
+| `r32` | r=32, alpha 64 | 0.359/0.420/0.428 | 3 | 0.728 | 0.741 | 0.45 | 7.47 |
+| `label_first` | label-first output order | 0.332/0.429/0.440 | 3 | 0.752 | 0.742 | 0.47 | 7.41 |
+| `over4` | rare labels x4 in train | 0.401/0.365/0.426 | 3 | 0.738 | 0.739 | 0.40 | 7.41 |
+| `last2` | last 2 layers, lr 2e-5 | 0.254/0.298/0.295 | 2 | 0.675 | 0.621 | 0.00 | 8.56 |
+
+  - **Rank by the pre-set rule (best strict val macro-F1):** `label_first` 0.440, `r32` 0.428, `over4` 0.426, `r8` 0.371, `base_r16` 0.362, `last2` 0.298. For reference the majority baseline is 0.215 and the untuned models are 0.125 to 0.229, so every LoRA run is a real gain.
+  - **The gaps among the top three and the base are not reliable.** The macro-F1 differences come almost entirely from `not applicable` (support 12), which the base run never predicts. `not included` (support 3) and `excluded` (support 2) score F1 0.00 in every run. `over4` predicted `not included` 3 times and all were wrong. Seed variance has not been measured, so read the table as one draw.
+  - **`last2` is clearly worse** (accuracy 0.675, evidence micro-F1 0.305), but only one learning rate (2e-5) was tried. Report that limit.
+  - **Cost:** about 11 to 13 min per run on a T4, peak memory 7.4 GB (8.6 GB for `last2`) with micro-batch 4. The two kernels ran in parallel in about 37 min wall time.
+
 ## Known Constraints
 
 - **Local machine:** 7 GB RAM and about 1.7 GB free disk. Do not install PyTorch or download models locally.
@@ -78,7 +96,9 @@ None. Resolved on 2026-11-01: the rubric total is 135 (the table is right and th
 
 ## Kernels In Flight
 
-- `akifjawad/trialmatch-sweep-a` v1: `base_r16`, `r8` (alpha 16), `r32` (alpha 64). T4, 3 epochs, micro-batch 4, seed 42.
+None. Sweep kernels finished (`trialmatch-sweep-a` v1, `trialmatch-sweep-b` v1). Their best adapters sit in the kernel outputs and are not yet downloaded or uploaded to HF. Old notes follow.
+
+- (done) `akifjawad/trialmatch-sweep-a` v1: `base_r16`, `r8` (alpha 16), `r32` (alpha 64). T4, 3 epochs, micro-batch 4, seed 42.
 - `akifjawad/trialmatch-sweep-b` v1: `label_first`, `over4` (rare labels x4), `last2` (lr 2e-5). Same settings; later runs pass `--order evidence_first` explicitly because runs inherit the first run's flags.
 - Both started 2026-11-01 from source v9 (tree hash `9b7b27a6`, commit `74b76d0`; the job's recorded commit is `937dcfa`, which differs only in docs and results). Expect about 30 min each. Results go to `results/train/<run>/`.
 
