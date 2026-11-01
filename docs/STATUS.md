@@ -3,13 +3,14 @@
 Read this first, then `docs/PLAN.md`. Update this file at the end of every phase or work session, and commit and push it.
 
 **Last updated:** 2026-11-01
-**Current phase:** Phase 2 mostly done. Evaluator, untuned baselines, sweep and 3-seed runs are done and the config is frozen (`configs/final.json`). The three `over4` adapters are on HF (private). The draft LoRA is not trained. Phase 1 code is done. The Phase 1 exit-gate tests pass locally and on a CPU Kaggle kernel (15 tests, `results/tests/`). The source review is done for the main text of all 7 papers. `docs/sources.md` lists what was not read (appendices, the TrialGPT Methods section, parts of the Qwen2.5 evaluation).
+**Current phase:** Phase 2 mostly done. Evaluator, untuned baselines, sweep and 3-seed runs are done and the config is frozen (`configs/final.json`). The three `over4` target adapters and the draft adapter are on HF (private). Phase 1 code is done. The Phase 1 exit-gate tests pass locally and on a CPU Kaggle kernel (15 tests, `results/tests/`). The source review is done for the main text of all 7 papers. `docs/sources.md` lists what was not read (appendices, the TrialGPT Methods section, parts of the Qwen2.5 evaluation).
 **Deadline:** November 10, 2026, plus a 2-hour grace period. Target submission is November 9.
 
 ## Next Steps
 
-1. Train the draft LoRA (same pipeline on `Qwen2.5-0.5B-Instruct`; `train.py` needs a model switch and a revision constant `DRAFT_REVISION` is already in `runtime.py`) with the frozen args, then upload it to the same HF repo under `draft/`.
-2. Phase 3: write the KV-cached decoder and its equivalence tests (`trialmatch/decoding`).
+1. Phase 3: write the KV-cached decoder and its equivalence tests (`trialmatch/decoding`), then benchmark it.
+2. Phase 4: tiled online-softmax attention. Phase 5: speculative decoding with the base and LoRA drafts, using the adapters in the HF repo.
+3. The rare-class gap (no run predicts `excluded` correctly) is still open. Revisit only if time allows, on validation data only.
 
 ## Accounts And Locations
 
@@ -20,7 +21,7 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
 | Source kernel | `akifjawad/trialmatch-src` (version 10 at commit `92b8887`; version 3 was a mistaken partial upload and failed) |
 | Test kernel | `akifjawad/trialmatch-tests` (CPU, version 1, commit `f07a7b0`, 15 passed) |
 | Hugging Face user | `AkifJK` |
-| Adapter repo | `AkifJK/trialmatch-qwen2.5-1.5b-lora` (private), revision `a4c9e3292b18addccec4c0e80af4b10d12ac6c6d`: `seed42/`, `seed43/`, `seed44/` (each `adapter_model.safetensors` + `adapter_config.json`) and a model card. Read back and checksums matched. Make it public only at submission. |
+| Adapter repo | `AkifJK/trialmatch-qwen2.5-1.5b-lora` (private), revision `6fd2471b3894cdbe84d46f9d1278233a3279e77e`: `seed42/`, `seed43/`, `seed44/` (target adapters, first uploaded at `a4c9e329`), `draft/` (0.5B draft adapter), each with `adapter_model.safetensors` + `adapter_config.json`, and a model card. Read back and checksums matched. Make it public only at submission. |
 | Dataset revision | `ncbi/TrialGPT-Criterion-Annotations` at `1cfcafde94a1560a33b4addc1638664fe28fc059` |
 | GPU quota | 30 h/week, resets November 7, 00:00 UTC. About 1.4 min used on November 1. |
 
@@ -92,6 +93,9 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
   - **Cost:** 11 to 13 min per run, peak 7.4 to 7.5 GB, no malformed outputs in any of the 9 runs.
   - **Frozen config:** `configs/final.json` (`over4`: r=16, alpha 32, evidence-first, rare labels x4, 3 epochs, lr 2e-4, micro-batch 4), chosen by the pre-set rule (highest mean val macro-F1). It is a close call with `r32`, and the report must say so. Checkpoint per run is its best epoch by val macro-F1. The adapter for the app is `over4_s44` (val 0.473). Phase 7 scores all three seed adapters on test once and reports mean and spread.
 
+
+- **Draft LoRA (`draft_over4`, Qwen2.5-0.5B-Instruct, frozen args, seed 42, source v10 commit `92b8887`, `results/train/draft_over4/report.json`):** 2,162,688 trainable of 496,195,456 parameters. Val macro-F1 by epoch 0.310 / 0.400 / 0.438, best epoch 3. Accuracy 0.738, evidence macro-F1 0.661, no malformed outputs. It predicted `not included` 3 times (none right) and never `excluded`. About 5 min of T4 time, peak 5.3 GB. This is a single seed and is only the draft for speculative decoding, so its scores are context and not a result to quote on their own. The adapter is on HF under `draft/`.
+
 ## Known Constraints
 
 - **Local machine:** 7 GB RAM and about 1.7 GB free disk. Do not install PyTorch or download models locally.
@@ -111,9 +115,7 @@ None. Resolved on 2026-11-01: the rubric total is 135 (the table is right and th
 
 ## Kernels In Flight
 
-- `akifjawad/trialmatch-draft` v1: `draft_over4`, `--model draft` (Qwen2.5-0.5B-Instruct at `7ae557604a`), frozen args (r=16, alpha 32, evidence-first, rare labels x4, 3 epochs, micro-batch 4, seed 42), source v10 (commit `92b8887`, tree `a812573f`). Expect about 10 min. Result goes to `results/train/draft_over4/`.
-
-Earlier: Finished: `trialmatch-seeds-x` v1 and `trialmatch-seeds-y` v1 (seed runs, source v9), sweep kernels (`trialmatch-sweep-a` v1, `trialmatch-sweep-b` v1). Their best adapters sit in the kernel outputs and are not yet downloaded or uploaded to HF. Old notes follow.
+None. Finished: `trialmatch-draft` v1 (draft training). Finished: `trialmatch-seeds-x` v1 and `trialmatch-seeds-y` v1 (seed runs, source v9), sweep kernels (`trialmatch-sweep-a` v1, `trialmatch-sweep-b` v1). Their best adapters sit in the kernel outputs and are not yet downloaded or uploaded to HF. Old notes follow.
 
 - (done) `akifjawad/trialmatch-sweep-a` v1: `base_r16`, `r8` (alpha 16), `r32` (alpha 64). T4, 3 epochs, micro-batch 4, seed 42.
 - `akifjawad/trialmatch-sweep-b` v1: `label_first`, `over4` (rare labels x4), `last2` (lr 2e-5). Same settings; later runs pass `--order evidence_first` explicitly because runs inherit the first run's flags.
