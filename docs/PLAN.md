@@ -33,7 +33,7 @@ Local machine limits: i5-6300U, 7 GB RAM, no usable GPU, **1.6 GB free disk**. U
 - **Generation defaults:** Both models default to `do_sample=true` and `repetition_penalty=1.1`. Every comparison must explicitly set `do_sample=False` and `repetition_penalty=1.0`.
 - **Cache shape:** The target uses grouped KV heads, so each KV tensor is `[B, 2, T, 128]`. That is about 28.7 KB per token in fp16, or about 12.3 KB for the draft.
 - **Sentence IDs:** Notes use a `0. ... 1. ...` format. The app must segment unseen notes into the same format.
-- **Rubric total:** The heading says 100 marks but the table sums to 135. Ask the instructor. Work is prioritized using the table.
+- **Rubric total:** The heading says 100 marks but the table sums to 135. Confirmed by the user on 2026-11-01: the total is 135. Work is prioritized using the table.
 
 ## Kaggle Execution Loop
 
@@ -194,8 +194,6 @@ This fits within the 30 h available before November 7, with another 30 h after t
 
 ## Actions Only You Can Do
 
-- Before Phase 6: confirm your HF email is verified.
-- Ask the instructor about 100 versus 135 marks.
 - Make the repo, model and Space public when ready.
 - Record the video, submit through Google Classroom, and attend the demo.
 

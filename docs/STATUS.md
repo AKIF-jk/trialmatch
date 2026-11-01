@@ -3,13 +3,12 @@
 Read this first, then `docs/PLAN.md`. Update this file at the end of every phase or work session, and commit and push it.
 
 **Last updated:** 2026-11-01
-**Current phase:** Phase 1 code is done. The Phase 1 exit-gate tests pass locally and on a CPU Kaggle kernel (15 tests, `results/tests/`). The source review has started: paper identities are checked in `docs/sources.md`, but no paper is read yet.
+**Current phase:** Phase 1 code is done. The Phase 1 exit-gate tests pass locally and on a CPU Kaggle kernel (15 tests, `results/tests/`). The source review is done for the main text of all 7 papers. `docs/sources.md` lists what was not read (appendices, the TrialGPT Methods section, parts of the Qwen2.5 evaluation).
 **Deadline:** November 10, 2026, plus a 2-hour grace period. Target submission is November 9.
 
 ## Next Steps
 
-1. Read the papers in `docs/sources.md` and fill in the Read column.
-2. Start Phase 2 as written in `docs/PLAN.md`. Write the shared evaluator first.
+1. Start Phase 2 as written in `docs/PLAN.md`. Write the shared evaluator first.
 
 ## Accounts And Locations
 
@@ -48,8 +47,7 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
 
 ## Open Items For The User
 
-- Ask the instructor whether the rubric is out of 100 or 135. The heading and the table disagree.
-- Before Phase 6: confirm the HF email is verified. The two existing Spaces use `cpu-basic`, so both free ZeroGPU slots should be available.
+None. Resolved on 2026-11-01: the rubric total is 135 (the table is right and the 100 in the heading is wrong), and the HF email is verified. The two existing Spaces use `cpu-basic`, so both free ZeroGPU slots should be available.
 
 ## Kernels In Flight
 
