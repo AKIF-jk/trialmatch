@@ -45,5 +45,19 @@
     "over4_s43": 0.44,
     "over4_s44": 0.473
   },
-  "test_plan": "scripts/final_eval.py scores all three seed adapters once on the test split and reports mean and spread."
+  "test_plan": "scripts/final_eval.py scores all three seed adapters once on the test split and reports mean and spread.",
+  "adapters": {
+    "hf_repo": "AkifJK/trialmatch-qwen2.5-1.5b-lora",
+    "hf_revision": "a4c9e3292b18addccec4c0e80af4b10d12ac6c6d",
+    "folders": {
+      "42": "seed42",
+      "43": "seed43",
+      "44": "seed44"
+    },
+    "sha256": {
+      "seed42": "a5b54d4c13b886136d47172f45977ca9d9de3ffe4f6573e17c70acea093e40a6",
+      "seed43": "7ba9e86f6f2c7b1bf19977e9c3e33eea6e9626969d7410b6052bc27cd0bc04c2",
+      "seed44": "6d6cc082e60431ee6accf28146b58d03f51e966ec16a1866d19364a79f535034"
+    }
+  }
 }

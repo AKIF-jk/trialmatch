@@ -3,14 +3,13 @@
 Read this first, then `docs/PLAN.md`. Update this file at the end of every phase or work session, and commit and push it.
 
 **Last updated:** 2026-11-01
-**Current phase:** Phase 2 mostly done. Evaluator, untuned baselines, sweep and 3-seed runs are done and the config is frozen (`configs/final.json`). Adapters are not yet on HF and the draft LoRA is not trained. Phase 1 code is done. The Phase 1 exit-gate tests pass locally and on a CPU Kaggle kernel (15 tests, `results/tests/`). The source review is done for the main text of all 7 papers. `docs/sources.md` lists what was not read (appendices, the TrialGPT Methods section, parts of the Qwen2.5 evaluation).
+**Current phase:** Phase 2 mostly done. Evaluator, untuned baselines, sweep and 3-seed runs are done and the config is frozen (`configs/final.json`). The three `over4` adapters are on HF (private). The draft LoRA is not trained. Phase 1 code is done. The Phase 1 exit-gate tests pass locally and on a CPU Kaggle kernel (15 tests, `results/tests/`). The source review is done for the main text of all 7 papers. `docs/sources.md` lists what was not read (appendices, the TrialGPT Methods section, parts of the Qwen2.5 evaluation).
 **Deadline:** November 10, 2026, plus a 2-hour grace period. Target submission is November 9.
 
 ## Next Steps
 
-1. Download the three `over4` best adapters from the seed kernels (`trialmatch-sweep-b` for `over4`, `trialmatch-seeds-x` for `over4_s43`, `trialmatch-seeds-y` for `over4_s44`), upload them to HF with `~/.local/bin/hf` (private, read-back check), and record the repo ids and revisions here.
-2. Train the draft LoRA (same pipeline on `Qwen2.5-0.5B-Instruct`; `train.py` needs a model switch) with the frozen args, and upload it.
-3. Phase 3: write the KV-cached decoder and its equivalence tests (`trialmatch/decoding`).
+1. Train the draft LoRA (same pipeline on `Qwen2.5-0.5B-Instruct`; `train.py` needs a model switch and a revision constant `DRAFT_REVISION` is already in `runtime.py`) with the frozen args, then upload it to the same HF repo under `draft/`.
+2. Phase 3: write the KV-cached decoder and its equivalence tests (`trialmatch/decoding`).
 
 ## Accounts And Locations
 
@@ -21,6 +20,7 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
 | Source kernel | `akifjawad/trialmatch-src` (version 9 at commit `74b76d0`; version 3 was a mistaken partial upload and failed) |
 | Test kernel | `akifjawad/trialmatch-tests` (CPU, version 1, commit `f07a7b0`, 15 passed) |
 | Hugging Face user | `AkifJK` |
+| Adapter repo | `AkifJK/trialmatch-qwen2.5-1.5b-lora` (private), revision `a4c9e3292b18addccec4c0e80af4b10d12ac6c6d`: `seed42/`, `seed43/`, `seed44/` (each `adapter_model.safetensors` + `adapter_config.json`) and a model card. Read back and checksums matched. Make it public only at submission. |
 | Dataset revision | `ncbi/TrialGPT-Criterion-Annotations` at `1cfcafde94a1560a33b4addc1638664fe28fc059` |
 | GPU quota | 30 h/week, resets November 7, 00:00 UTC. About 1.4 min used on November 1. |
 
