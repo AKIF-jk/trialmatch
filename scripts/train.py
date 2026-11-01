@@ -13,8 +13,12 @@ Loss is the mean over assistant tokens of each micro-batch, averaged over the mi
 import argparse
 import gc
 import json
+import os
 import sys
 import time
+
+# Must be set before CUDA initialises. Float32 logits for a validation batch are several GB, so avoid fragmentation.
+os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
 
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -48,6 +52,7 @@ def parse_args(argv):
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--max-new-tokens", type=int, default=64)
     p.add_argument("--eval-batch-size", type=int, default=16)
+    p.add_argument("--val-loss-batch", type=int, default=4)
     p.add_argument("--limit-train", type=int)
     p.add_argument("--limit-val", type=int)
     p.add_argument("--max-steps", type=int)
@@ -170,7 +175,7 @@ def run(args):
             for micro in batches(chunk, args.micro_batch):
                 loss = step_loss(model, tokenizer.pad_token_id, [train[i] for i in micro], device) / (len(chunk) / len(micro))
                 scaler.scale(loss).backward()
-                loss_value += float(loss)
+                loss_value += float(loss.detach())
             scaler.unscale_(optimizer)
             grad_norm = float(torch.nn.utils.clip_grad_norm_(trainable, 1.0))
             scaler.step(optimizer)
@@ -181,7 +186,7 @@ def run(args):
             log.flush()
             if step % 10 == 0 or step == 1:
                 print(f"  step {step}/{total_steps} loss {loss_value:.4f} grad {grad_norm:.2f}", flush=True)
-        val_loss = validation_loss(model, tokenizer.pad_token_id, val, args.eval_batch_size, device)
+        val_loss = validation_loss(model, tokenizer.pad_token_id, val, args.val_loss_batch, device)
         outputs, strict, repaired = validate(model, tokenizer, val_rows, prompts, stop_ids, args)
         entry = {"epoch": epoch, "step": step, "val_loss": val_loss, "strict_macro_f1": strict["labels"]["overall"]["macro_f1"],
                  "strict_accuracy": strict["labels"]["overall"]["accuracy"], "malformed": strict["malformed"],
