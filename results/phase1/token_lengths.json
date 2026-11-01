@@ -1,0 +1,40 @@
+{
+  "max_len": 2048,
+  "im_end_id": 151645,
+  "train/evidence_first": {
+    "examples": 602,
+    "total_max": 623,
+    "total_median": 310.0,
+    "prompt_max": 602,
+    "target_max": 29,
+    "target_median": 13.0,
+    "truncated": 0
+  },
+  "train/label_first": {
+    "examples": 602,
+    "total_max": 623,
+    "total_median": 310.0,
+    "prompt_max": 602,
+    "target_max": 29,
+    "target_median": 13.0,
+    "truncated": 0
+  },
+  "val/evidence_first": {
+    "examples": 206,
+    "total_max": 459,
+    "total_median": 351.0,
+    "prompt_max": 440,
+    "target_max": 21,
+    "target_median": 13.0,
+    "truncated": 0
+  },
+  "val/label_first": {
+    "examples": 206,
+    "total_max": 459,
+    "total_median": 351.0,
+    "prompt_max": 440,
+    "target_max": 21,
+    "target_median": 13.0,
+    "truncated": 0
+  }
+}

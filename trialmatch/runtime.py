@@ -12,6 +12,8 @@ TARGET_REVISION = "989aa7980e4cf806f80c7fef2b1adb7bc71aa306"
 DRAFT_MODEL = "Qwen/Qwen2.5-0.5B-Instruct"
 DRAFT_REVISION = "7ae557604adf67be50417f59c2c2f167def9a775"
 DATASET = "ncbi/TrialGPT-Criterion-Annotations"
+DATASET_REVISION = "1cfcafde94a1560a33b4addc1638664fe28fc059"
+DATASET_FILE = "data/train-00000-of-00001.parquet"
 
 
 def results_dir(job):
