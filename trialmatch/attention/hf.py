@@ -6,6 +6,7 @@ expecting (output [B,Tq,Hq,D], weights or None). The function below has that sig
 that sdpa_mask builds (and that the decoders in trialmatch.decoding.greedy pass as a dict), expands nothing for
 grouped KV heads, and does not support dropout, sliding windows or returning weights.
 """
+import torch
 from transformers import AttentionInterface
 from transformers.masking_utils import AttentionMaskInterface, sdpa_mask
 
@@ -27,7 +28,7 @@ def register_tiled(tile):
             raise NotImplementedError("tiled attention has no sliding window")
         if kwargs.get("output_attentions", False):
             raise NotImplementedError("tiled attention does not return attention weights")
-        if attention_mask is not None and attention_mask.dtype != bool:
+        if attention_mask is not None and attention_mask.dtype != torch.bool:
             raise TypeError(f"tiled attention needs a boolean mask, got {attention_mask.dtype}")
         # With no mask, sdpa applies the causal rule for multi-token queries. Do the same.
         is_causal = is_causal if is_causal is not None else getattr(module, "is_causal", True)
