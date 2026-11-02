@@ -12,7 +12,8 @@ State kept between rounds, with seq = prompt + every token emitted so far (batch
   seq[:-1]. The draft is told the same prefix length and drops what it cannot keep. At the start of the next
   round it feeds every token of seq it has not seen (the correction or bonus, and d_k when all k were accepted),
   so its state follows the target's accepted text.
-- k is limited to remaining - 1, so a round never emits more tokens than are left. A stop token ends the output at
+- k is limited to remaining - 1, so a round never emits more tokens than are left. A draft may propose fewer than k tokens
+  (prompt lookup does); the round then verifies what it got, and with none it is a plain one-token step. A stop token ends the output at
   its first occurrence, whether the draft or the target produced it, as in decode_cached.
 
 Equality with decode_cached holds when both paths give identical logits at every step. The verification pass has a
@@ -158,6 +159,9 @@ def decode_speculative(target, draft, input_ids, attention_mask, max_new_tokens,
         length = seq.numel()
         t0 = _now(device)
         drafts = draft.propose(seq, kk) if kk else seq[:0]
+        if drafts.numel() > kk:
+            raise ValueError(f"draft proposed {drafts.numel()} tokens, at most {kk} were asked for")
+        kk = drafts.numel()  # A draft may propose fewer than asked, or none.
         t1 = _now(device)
         logits = _forward(target, cache, torch.cat([seq[-1:], drafts]), length - 1, kk + 1)
         picks = logits.argmax(-1)

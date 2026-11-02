@@ -19,6 +19,7 @@ from trialmatch.decoding.experiment import (
     STARTS, fetch_files, left_pad, load_model_for, load_tokenizer, token_pool, validation_prompts,
 )
 from trialmatch.decoding.greedy import compare, decode_cached
+from trialmatch.decoding.prompt_lookup import PromptLookupDraft
 from trialmatch.decoding.speculative import ModelDraft, decode_speculative
 from trialmatch.eval.generate import GREEDY
 from trialmatch.runtime import check_versions, environment, results_dir, write_json
@@ -39,6 +40,8 @@ def main():
     parser.add_argument("--dtypes", nargs="+", default=["float32"])
     parser.add_argument("--ks", type=int, nargs="+", default=[1, 2, 4, 8])
     parser.add_argument("--rows", type=int, default=16)
+    parser.add_argument("--drafts", nargs="+", default=["base", "lora"], choices=["base", "lora", "lookup"])
+    parser.add_argument("--tag", default="", help="appended to the output file names")
     parser.add_argument("--fetch", action="append", default=[], help="<folder>/<file>=<url>, repeatable")
     parser.add_argument("--adapter-root", default="adapters")
     parser.add_argument("--target-adapter", default="target")
@@ -62,21 +65,24 @@ def main():
 
     for dtype in args.dtypes:
         records = []
-        path = out / f"records_{dtype}.jsonl"
+        path = out / f"records_{dtype}{args.tag}.jsonl"
         target = load_model_for("target", dtype, device, f"{args.adapter_root}/{args.target_adapter}")
-        drafts = {
-            "base": load_model_for("draft", dtype, device),
-            "lora": load_model_for("draft", dtype, device, f"{args.adapter_root}/{args.draft_adapter}"),
-        }
-        for model in (target, *drafts.values()):
+        drafts = {}
+        if "base" in args.drafts:
+            drafts["base"] = load_model_for("draft", dtype, device)
+        if "lora" in args.drafts:
+            drafts["lora"] = load_model_for("draft", dtype, device, f"{args.adapter_root}/{args.draft_adapter}")
+        if "lookup" in args.drafts:
+            drafts["lookup"] = None
+        for model in (target, *[m for m in drafts.values() if m is not None]):
             model.generation_config.eos_token_id = None  # Stops are passed explicitly, so a no-stop case runs to its full length.
         baseline = [decode_cached(target, ids, mask, n, stops, pad_id, keep_logits=True) for _, _, (ids, mask), n, stops in cases]
         for name, draft_model in drafts.items():
             for k in args.ks:
                 for i, (kind, label, (ids, mask), n, stops) in enumerate(cases):
-                    result = decode_speculative(target, ModelDraft(draft_model, target.config), ids, mask, n, k, stops, keep_logits=True)
+                    result = decode_speculative(target, PromptLookupDraft() if name == "lookup" else ModelDraft(draft_model, target.config), ids, mask, n, k, stops, keep_logits=True)
                     record = {"kind": kind, "dtype": dtype, "draft": name, "k": k, **label, **compare(baseline[i], result), **result.summary()}
-                    if dtype == "float32":
+                    if dtype == "float32" and name != "lookup":
                         library = assisted(target, draft_model, ids, mask, n, list(stops), pad_id)
                         record["assisted_equal_to_greedy"] = library.tolist() == baseline[i].tokens[0].tolist()
                     records.append(record)
@@ -90,10 +96,10 @@ def main():
             "tokens_equal_by_draft_and_k": {f"{d}/k{k}": all(r["tokens_equal"] for r in records if r["draft"] == d and r["k"] == k) for d in group("draft") for k in group("k")},
             "max_logit_diff": max(r["max_logit_diff"] or 0 for r in records),
             "min_top2_margin": min(r["min_top2_margin"] for r in records if r["min_top2_margin"] is not None),
-            "assisted_all_equal": all(r["assisted_equal_to_greedy"] for r in records) if dtype == "float32" else None,
+            "assisted_all_equal": all(r["assisted_equal_to_greedy"] for r in records if "assisted_equal_to_greedy" in r) if any("assisted_equal_to_greedy" in r for r in records) else None,
             "mismatches": [r for r in records if not r["tokens_equal"]],
         }
-        write_json(out / f"report_{dtype}.json", summary)
+        write_json(out / f"report_{dtype}{args.tag}.json", summary)
         print({key: value for key, value in summary.items() if key != "mismatches"}, "mismatches", len(summary["mismatches"]), flush=True)
         del target, drafts, baseline
         torch.cuda.empty_cache()

@@ -7,6 +7,9 @@ Workloads:
 - text: the untuned 1.5B target writes a short free-text explanation for the same rows (up to --text-tokens new tokens).
   The draft is the untuned 0.5B model, so draft and target are both untuned and the output is longer than the JSON.
 
+Drafts are chosen with --drafts: base and lora (models; lora only in the json workload) and lookup (prompt lookup, no model).
+--tag is appended to the results folder name so a run with other drafts does not overwrite an earlier report.
+
 Per cell (workload, draft, K) the same prompts run through decode_cached and decode_speculative, --repeats times after one
 discarded warm-up per path. Reported per cell: median over repeats of the sum over prompts of prefill, decode and total
 time, tokens per second, speedup over greedy, acceptance rate, tokens per round, forward counts, time inside the draft and
@@ -24,6 +27,7 @@ import torch
 from trialmatch.data.prompt import chat_prompt, row_prompt
 from trialmatch.decoding.experiment import PeakRSS, fetch_files, left_pad, load_model_for, load_tokenizer, validation_rows
 from trialmatch.decoding.greedy import decode_cached
+from trialmatch.decoding.prompt_lookup import PromptLookupDraft
 from trialmatch.decoding.speculative import ModelDraft, decode_speculative
 from trialmatch.runtime import check_versions, environment, results_dir, write_json
 
@@ -64,6 +68,8 @@ def main():
     parser.add_argument("--dtype", default="float16")
     parser.add_argument("--workloads", nargs="+", default=["json", "text"], choices=["json", "text"])
     parser.add_argument("--ks", type=int, nargs="+", default=[1, 2, 4, 8])
+    parser.add_argument("--drafts", nargs="+", default=["base", "lora"], choices=["base", "lora", "lookup"])
+    parser.add_argument("--tag", default="")
     parser.add_argument("--rows", type=int, default=12)
     parser.add_argument("--repeats", type=int, default=3)
     parser.add_argument("--json-tokens", type=int, default=96)
@@ -76,7 +82,7 @@ def main():
 
     check_versions()
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    out = results_dir(f"speculative/bench_{device}_{args.dtype}")
+    out = results_dir(f"speculative/bench_{device}_{args.dtype}{args.tag}")
     fetch_files(args.fetch, args.adapter_root)
     tokenizer = load_tokenizer()
     pad_id = tokenizer.pad_token_id
@@ -93,15 +99,18 @@ def main():
     for workload in args.workloads:
         base_target = workload == "text"
         target = load_model_for("target", args.dtype, device, None if base_target else f"{args.adapter_root}/{args.target_adapter}")
-        drafts = {"base": load_model_for("draft", args.dtype, device)}
-        if not base_target:
+        drafts = {}
+        if "base" in args.drafts:
+            drafts["base"] = load_model_for("draft", args.dtype, device)
+        if "lora" in args.drafts and not base_target:
             drafts["lora"] = load_model_for("draft", args.dtype, device, f"{args.adapter_root}/{args.draft_adapter}")
         for model in (target, *drafts.values()):
             model.generation_config.eos_token_id = None
         prompts = [row_prompt(r) for r in rows] if workload == "json" else [text_prompt(r) for r in rows]
         batch = inputs(prompts)
         new_tokens = args.json_tokens if workload == "json" else args.text_tokens
-        cells = [(name, k) for name in drafts for k in args.ks]
+        names = [name for name in args.drafts if name == "lookup" or name in drafts]
+        cells = [(name, k) for name in names for k in args.ks]
 
         def greedy(i):
             ids, mask = batch[i]
@@ -109,7 +118,7 @@ def main():
 
         def speculative(i, name, k):
             ids, mask = batch[i]
-            draft = ModelDraft(drafts[name], target.config)
+            draft = PromptLookupDraft() if name == "lookup" else ModelDraft(drafts[name], target.config)
             return measured(lambda: decode_speculative(target, draft, ids, mask, new_tokens, k, stops), device)
 
         greedy(0)  # Warm-up: kernels, allocator and the draft's shapes.
@@ -155,7 +164,7 @@ def main():
                 "total_seconds": stats(s_total), "decode_seconds": stats(s_decode), "tokens_per_second": stats([s_tokens / t for t in s_total]),
                 "speedup_total": float(np.median(g_total) / np.median(s_total)), "speedup_decode": float(np.median(g_decode) / np.median(s_decode)),
                 "acceptance_rate": accepted / proposed if proposed else None, "tokens_per_round": sum(r.tokens.numel() - 1 for r in first) / rounds if rounds else None,
-                "rounds": rounds, "target_forwards": sum(r.target_forwards for r in first), "draft_forwards": sum(r.draft_forwards for r in first),
+                "rounds": rounds, "empty_rounds": sum(1 for r in first for x in r.rounds if x["k"] == 0), "target_forwards": sum(r.target_forwards for r in first), "draft_forwards": sum(r.draft_forwards for r in first),
                 "draft_seconds": stats(sums(reps, lambda r: r.draft_seconds)), "verify_seconds": stats(sums(reps, lambda r: r.verify_seconds)),
                 "peak_extra_bytes": max(p for rep in reps for _, p in rep),
             })
