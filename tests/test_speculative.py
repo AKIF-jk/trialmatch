@@ -179,7 +179,8 @@ def test_no_crop_is_detected(target, small, monkeypatch):
     """Negative control: with cropping off the cache check must fail, so the cache tests can fail."""
     ids, mask = single(10)
     monkeypatch.setattr(DynamicCache, "crop", lambda self, n: None)
-    with pytest.raises(AssertionError):
+    # The oversized cache fails either at the decoder's length check or earlier, when sdpa sees a mask shorter than the keys.
+    with pytest.raises((AssertionError, RuntimeError)):
         decode_speculative(target, ModelDraft(small), ids, mask, 25, 4)
 
 
