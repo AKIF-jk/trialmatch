@@ -99,6 +99,9 @@ def build_ui(screen_fn, lab_fn, lookup_fn=text.fetch_trial):
         return text.numbered(text.renumber(numbered or ""))
 
     def load_example(name):
+        if name not in EXAMPLES:
+            gr.Warning("Pick an example in the dropdown first.")
+            return gr.update(), gr.update(), gr.update(), gr.update()
         example = EXAMPLES[name]
         sentences = text.segment_note(example["note"])
         return example["note"], text.numbered(sentences), example["inclusion"], example["exclusion"]
@@ -115,7 +118,7 @@ def build_ui(screen_fn, lab_fn, lookup_fn=text.fetch_trial):
     def estimate(inclusion, exclusion, rationale):
         n = len(text.split_items(inclusion or "")) + len(text.split_items(exclusion or ""))
         seconds = 10 + 3 * n + (15 if rationale else 0)
-        return f"{n} criteria entered (limit {text.MAX_CRITERIA}). Estimated GPU time about {seconds} s of your daily quota."
+        return f"{n} criteria entered (limit {text.MAX_CRITERIA}). Estimated GPU time about {seconds} s (on ZeroGPU this counts against the daily quota)."
 
     def run_screen(numbered, inclusion, exclusion, rationale):
         empty = ("", [], "", None, None)
