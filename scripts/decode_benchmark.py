@@ -8,40 +8,16 @@ Results go to results/decoding/benchmark_<device>_<dtype>, rewritten after each 
 """
 import argparse
 import gc
-import os
-import threading
-import time
 
 import numpy as np
 import torch
 
-from trialmatch.decoding.experiment import left_pad, load_model, load_tokenizer, token_pool, validation_prompts
+from trialmatch.decoding.experiment import PeakRSS, left_pad, load_model, load_tokenizer, token_pool, validation_prompts
 from trialmatch.decoding.greedy import decode_cached, decode_uncached
 from trialmatch.runtime import TARGET_REVISION, check_versions, environment, results_dir, write_json
 
 PATHS = {"uncached": decode_uncached, "cached": decode_cached}
 GRIDS = {"cuda": ([64, 256, 1024], [16, 64, 256], 8), "cpu": ([64, 256], [16, 64], 0)}
-
-
-class PeakRSS:
-    """Peak resident memory of this process during a with block."""
-
-    def __enter__(self):
-        self.peak, self.running = 0, True
-        self.thread = threading.Thread(target=self._sample, daemon=True)
-        self.thread.start()
-        return self
-
-    def _sample(self):
-        page = os.sysconf("SC_PAGE_SIZE")
-        while self.running:
-            with open("/proc/self/statm") as f:
-                self.peak = max(self.peak, int(f.read().split()[1]) * page)
-            time.sleep(0.01)
-
-    def __exit__(self, *exc):
-        self.running = False
-        self.thread.join()
 
 
 def timed_run(decode, model, ids, mask, new_tokens, pad_id, device):
