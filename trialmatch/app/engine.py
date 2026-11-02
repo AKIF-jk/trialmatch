@@ -26,7 +26,7 @@ from trialmatch.eval.generate import GREEDY
 from trialmatch.eval.parse import parse_output
 from trialmatch.runtime import DRAFT_MODEL, DRAFT_REVISION, TARGET_MODEL, TARGET_REVISION, package_versions
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(os.path.abspath(__file__)).parents[2]  # abspath, not resolve: the Hub cache links files into a blobs folder
 MAX_NEW_TOKENS = 64
 LAB_MAX_NEW_TOKENS = 64
 RATIONALE_TOKENS = 80
