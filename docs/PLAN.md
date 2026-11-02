@@ -95,7 +95,9 @@ Results are in `results/smoke/`. Open follow-up: the T4 has only run the direct 
 - Train a LoRA draft for Phase 5 with the same pipeline, and upload both adapters to HF.
 - **Exit gate:** Same-prompt before/after results on validation, training curves, and a frozen config committed by SHA. Test set still untouched.
 
-### Phase 3: KV-Cached Decoding (Nov 3-4) — D1-D3
+### Phase 3: KV-Cached Decoding (Nov 3-4) — D1-D3 — DONE
+
+Results are in `results/decoding/` and `docs/STATUS.md`. Qwen2 in transformers 5.16.1 takes no `cache_position`, so the decoder asserts the cache length instead. Three fp16 token mismatches at output 256 have a documented cause (rounding at near ties).
 
 - Reference path: greedy decoding with a full forward pass over all tokens at each step and no cache.
 - Cached path: an explicit loop using `DynamicCache`, `attention_mask`, `position_ids` and `cache_position`. Prefill runs once, then each step feeds only the last token and records cache growth.

@@ -3,16 +3,13 @@
 Read this first, then `docs/PLAN.md`. Update this file at the end of every phase or work session, and commit and push it.
 
 **Last updated:** 2026-11-02
-**Current phase:** Phase 3 in progress, paused by the user on 2026-11-02. The decoder, tests and T4 benchmark are done. The fp16 equivalence run is incomplete and has one unexplained token mismatch, so the Phase 3 exit gate is not met. Phase 2 mostly done. Evaluator, untuned baselines, sweep and 3-seed runs are done and the config is frozen (`configs/final.json`). The three `over4` target adapters and the draft adapter are on HF (private). Phase 1 code is done. The Phase 1 exit-gate tests pass locally and on a CPU Kaggle kernel (15 tests, `results/tests/`). The source review is done for the main text of all 7 papers. `docs/sources.md` lists what was not read (appendices, the TrialGPT Methods section, parts of the Qwen2.5 evaluation).
+**Current phase:** Phase 3 done (exit gate met: float32 tokens all match, and the 3 fp16 mismatches have a documented cause). Phase 4 is next. Phase 2 mostly done. Evaluator, untuned baselines, sweep and 3-seed runs are done and the config is frozen (`configs/final.json`). The three `over4` target adapters and the draft adapter are on HF (private). Phase 1 code is done. The Phase 1 exit-gate tests pass locally and on a CPU Kaggle kernel (15 tests, `results/tests/`). The source review is done for the main text of all 7 papers. `docs/sources.md` lists what was not read (appendices, the TrialGPT Methods section, parts of the Qwen2.5 evaluation).
 **Deadline:** November 10, 2026, plus a 2-hour grace period. Target submission is November 9.
 
 ## Next Steps
 
-1. Finish Phase 3 (details in "Phase 3 Results"):
-   - Collect the CPU benchmark from `akifjawad/trialmatch-decode-bench-cpu` v1 into `results/decoding/benchmark_cpu_float32/`. If it hit its 3-hour timeout, `report.json` holds the cells finished by then. Rerun any missing cells only if the report needs them.
-   - Explain the fp16 mismatch at prompt 64, output 256, step 180. `compare` stops at the first divergence, so it does not report that step. Make it also record the logit gap and top-2 margin at that step.
-   - Rerun the equivalence job with `--dtypes float16` only. Float32 is complete, so do not repeat it.
-2. Phase 4: tiled online-softmax attention. Phase 5: speculative decoding with the base and LoRA drafts, using the adapters in the HF repo.
+1. Phase 4: tiled online-softmax attention.
+2. Phase 5: speculative decoding with the base and LoRA drafts, using the adapters in the HF repo. Run its token-equality tests in float32, because fp16 greedy paths can flip near ties (see "Phase 3 Results").
 3. The rare-class gap (no run predicts `excluded` correctly) is still open. Revisit only if time allows, on validation data only.
 
 ## Accounts And Locations
@@ -21,12 +18,12 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
 |---|---|
 | GitHub repo | `AKIF-jk/trialmatch` (private until submission) |
 | Kaggle user | `akifjawad` |
-| Source kernel | `akifjawad/trialmatch-src` (version 12 at commit `677c04e`; version 3 was a mistaken partial upload and failed) |
-| Test kernel | `akifjawad/trialmatch-tests` (CPU, version 4, commit `677c04e`, 64 passed) |
+| Source kernel | `akifjawad/trialmatch-src` (version 13 at commit `97ae4db`; version 3 was a mistaken partial upload and failed) |
+| Test kernel | `akifjawad/trialmatch-tests` (CPU, version 5, commit `97ae4db`, 65 passed) |
 | Hugging Face user | `AkifJK` |
 | Adapter repo | `AkifJK/trialmatch-qwen2.5-1.5b-lora` (private), revision `6fd2471b3894cdbe84d46f9d1278233a3279e77e`: `seed42/`, `seed43/`, `seed44/` (target adapters, first uploaded at `a4c9e329`), `draft/` (0.5B draft adapter), each with `adapter_model.safetensors` + `adapter_config.json`, and a model card. Read back and checksums matched. Make it public only at submission. |
 | Dataset revision | `ncbi/TrialGPT-Criterion-Annotations` at `1cfcafde94a1560a33b4addc1638664fe28fc059` |
-| GPU quota | 30 h/week, resets November 7, 00:00 UTC. About 4.05 h used as of November 2. |
+| GPU quota | 30 h/week, resets November 7, 00:00 UTC. About 4.3 h used as of November 2. |
 
 ## Phase 1 Results
 
@@ -101,18 +98,28 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
 
 ## Phase 3 Results
 
-- **Code (commit `677c04e`, source v12):** `trialmatch/decoding/greedy.py` has `decode_uncached` and `decode_cached`, which call `model.forward` directly. They build their own 4-D causal and padding mask and their positions from `cumsum(mask)-1`. Both keep logits for the last column only (`logits_to_keep=1`), so the reference does not pay for unused `lm_head` work. `scripts/decode_equivalence.py` and `scripts/decode_benchmark.py` run the experiments. `tests/test_decoding.py` runs on a small random Qwen2 and skips locally because there is no torch.
-- **Plan change:** Qwen2 in transformers 5.16.1 takes no `cache_position`. The write slot follows the cache length, so the decoder does not pass it and instead asserts the cache length after every call. `docs/PLAN.md` still lists `cache_position`.
-- **Tests:** 64 passed on a CPU kernel (`akifjawad/trialmatch-tests` v4). Kernel results were not downloaded to `results/tests/`, which still holds the older 15-test run.
+- **Code (commit `97ae4db`, source v13):** `trialmatch/decoding/greedy.py` has `decode_uncached` and `decode_cached`, which call `model.forward` directly. They build their own 4-D causal and padding mask and their positions from `cumsum(mask)-1`. Both keep logits for the last column only (`logits_to_keep=1`), so the reference does not pay for unused `lm_head` work. `scripts/decode_equivalence.py` and `scripts/decode_benchmark.py` run the experiments. `tests/test_decoding.py` runs on a small random Qwen2 and skips locally because there is no torch.
+- **Plan change:** Qwen2 in transformers 5.16.1 takes no `cache_position`. The write slot follows the cache length, so the decoder does not pass it and instead asserts the cache length after every call.
+- **Tests:** 65 passed on a CPU kernel (`akifjawad/trialmatch-tests` v5, `results/tests/`).
 - **Bugs found and fixed:** kept logits were cast to float32, which rounded the float64 comparison. `tests/test_train_data.py` imported `tests.test_data`, which a different `tests` package shadows on Kaggle.
-- **Equivalence (T4, `results/decoding/equivalence/records.jsonl`):** the kernel hit its 3600 s timeout, so there is no `report.json`. Float32 is complete. Fp16 finished only the first 8 of 28 records: prompt start 0, every cell except 1024x256, and no padded-batch or validation-row records. Float32 took about 58 min of the hour, mostly the padded batches at output 256 (about 12 min each).
+- **Equivalence (T4, `results/decoding/equivalence/`):** 3 prompt lengths x 3 output lengths x 2 prompts, plus left-padded batches and 32 validation rows with real stop tokens. Float32 is `records_float32_run1.jsonl` (commit `677c04e`, 58 min). That kernel hit its 3600 s timeout during fp16, so the file also holds 8 partial fp16 records. Fp16 is `records.jsonl` and `report.json` (commit `97ae4db`, 16 min). The 8 repeated fp16 records are identical across the two runs, so these results are deterministic from run to run.
 
 | Dtype | Records | Tokens equal | Matches `generate` | Max logit difference | Min top-2 margin |
 |---|---|---|---|---|---|
-| float32 | 28 of 28 | 28 | 28 | 8.5e-4 | 0.0022 |
-| fp16 | 8 of 28 | 7 | 8 | 0.176 | 0.0 |
+| float32 | 28 | 28 | 28 | 8.5e-4 | 0.0022 |
+| fp16 | 28 | 25 | 27 | 0.402 | 0.0 |
 
-- **Open mismatch (fp16, start 0, prompt 64, output 256):** cached and uncached first differ at step 180. Cached agrees with `model.generate`, so only the uncached path differs. The T4 benchmark flags the same cell (`tokens_equal` false). The likely cause is fp16 rounding: logit differences reach 0.176 while top-2 margins fall as low as 0.03, and one cell has an exact tie. This is not confirmed, because the logits at step 180 were not recorded. Float32 shows no mismatch, which fits but does not prove it. The report must not claim the cause until it is checked.
+- **Cause of the 3 fp16 mismatches: logit rounding at near ties, not a cache bug.** At the first differing step all earlier tokens are the same, so the inputs match. The top two logits there are within 2 fp16 ulps. In this range (16 to 32) one ulp is 1/64 = 0.015625. Each gap is no larger than the numerical difference between the paths at that step.
+
+| Case | First differing step | Uncached logits (uncached token, cached token) | Cached logits (same order) | Max logit difference at step | Cached matches `generate` |
+|---|---|---|---|---|---|
+| Single, start 0, 64 x 256 | 180 | 26.515625, 26.5 | 26.515625, 26.515625 (tie) | 0.035 | yes |
+| Single, start 1500, 1024 x 256 | 223 | 20.171875, 20.15625 | 20.15625, 20.171875 | 0.027 | no |
+| Padded batch, start 1500, row 2 (prompt 1024), output 256 | 195 | 22.0, 22.0 (tie) | 21.9375, 21.96875 | 0.078 | yes |
+
+  - **Supporting evidence:** the same inputs in float32 show no mismatch. All 3 cases are at output 256, at step 180 or later. No validation row differed, and those outputs stop at or before 96 tokens.
+  - **Limits:** the padded-batch row also differs from the same prompt run alone (`equals_alone` false for that row), and that second comparison has no logits recorded. The first-divergence logits explain only the cached-vs-uncached flip. The cause of the numerical difference is not isolated beyond that it comes from different tensor shapes on the same inputs. `generate` differs from the hand-written cached path in one case because it builds its own mask, which is also a guess.
+  - **Consequence:** greedy token equality is not guaranteed across code paths in fp16 at long outputs. Report float32 as the equality result and fp16 flips as a numerical finding.
 - **T4 benchmark (fp16, sdpa, warm-up, 5 repeats, synchronized, median, `results/decoding/benchmark_cuda_float16/report.json`, about 20 min):**
 
 | Prompt x output | Batch | Uncached total s | Cached total s | Speedup | Uncached tok/s | Cached tok/s | Peak GB (uncached / cached) | Tokens equal |
@@ -128,16 +135,26 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
 | 1024 x 256 | 1 | 56.48 | 7.96 | 7.1 | 4.5 | 32.1 | 2.97 / 2.98 | yes |
 | 349 x 64 (padded rows) | 8 | 33.69 | 2.62 | 12.9 | 15.2 | 195.6 | 3.09 / 3.16 | yes |
 
+  - **The one `no` is the 64 x 256 flip explained above.** The benchmark's flag compares every run in the cell with the first, so it does not name a path.
   - **Reading:** cached time is about 31 ms per token at every prompt length. At prompt 64 the uncached pass costs about the same per step, so the cache saves nothing until the sequence grows. Why short sequences cost the same has not been measured; per-step overhead outside the attention work is a guess.
   - **Prefill** is equal on both paths (0.03 to 0.17 s at batch 1).
   - **Cache size** is about 28 KB per token per row in fp16, which matches the plan's estimate. The cached path's peak is at most 0.06 GB above the uncached path's in every cell, and slightly below it in some short-prompt cells.
-- **CPU benchmark:** started on 2026-11-01 and not collected. See "Kernels In Flight".
+- **CPU benchmark (float32, 2 threads on 4 CPUs, warm-up, 5 repeats, median, `results/decoding/benchmark_cpu_float32/report.json`, 89 min):** tokens equal in every cell. Reduced grid, because a 1024-token or 256-output uncached CPU run would take far too long.
+
+| Prompt x output | Uncached total s | Cached total s | Speedup | Uncached tok/s | Cached tok/s | Peak RSS GB (both) |
+|---|---|---|---|---|---|---|
+| 64 x 16 | 36.75 | 6.71 | 5.5 | 0.44 | 2.38 | 6.67 |
+| 64 x 64 | 181.40 | 22.02 | 8.2 | 0.35 | 2.91 | 6.68 |
+| 256 x 16 | 109.92 | 11.59 | 9.5 | 0.15 | 1.38 | 6.71 |
+| 256 x 64 | 478.63 | 27.26 | 17.6 | 0.13 | 2.35 | 6.71 |
+
+  - **Reading:** the cache helps much more on CPU than on the T4 at short prompts (5.5x against 1.0x at 64 x 16). CPU cost grows with the tokens processed, and the T4 cost at these lengths does not. Prefill matches on both paths (about 2.1 s at prompt 64, 6.7 s at prompt 256). Peak RSS is dominated by the float32 model, so the cache does not show in it.
 
 ## Known Constraints
 
 - **Local machine:** 7 GB RAM and about 1.7 GB free disk. Do not install PyTorch or download models locally.
 - **Kaggle attachments:** `kernelDataSources` is silently dropped by the MCP server. Pass outputs between kernels through signed output URLs from `list_notebook_session_output`. Fetch a fresh URL for each job, because their lifetime is unknown.
-- **Delta source build:** `python3 tools/build_kernel.py src --base-url URL --base-commit SHA` inlines only files that differ from `SHA`. `URL` is the `src.tar.gz` output URL of the previous source kernel version, and `SHA` is the commit that version was built from (version 2 is `3cc217d`). The kernel asserts the base tree hash and the new tree hash. Tested locally for change, delete and wrong-base cases. Run on Kaggle from `3cc217d` to `f07a7b0`: both hash asserts passed and 20 files were packed. The next delta must use a fresh version 12 `src.tar.gz` URL with `--base-commit 677c04eb95b915a5124a71935d3d9c9e4cd108b1`. `tools/build_kernel.py job` needs its positionals before the options (`job scripts/x.py arg1 arg2 --source-url URL`). It cannot take arguments that start with `--`, so build with a dummy arg `x` and replace `['x']` in `build/<name>_kernel.py` with the real list (this also allows the bare `--` run separator). Without the flags, the build inlines every file.
+- **Delta source build:** `python3 tools/build_kernel.py src --base-url URL --base-commit SHA` inlines only files that differ from `SHA`. `URL` is the `src.tar.gz` output URL of the previous source kernel version, and `SHA` is the commit that version was built from (version 2 is `3cc217d`). The kernel asserts the base tree hash and the new tree hash. Tested locally for change, delete and wrong-base cases. Run on Kaggle from `3cc217d` to `f07a7b0`: both hash asserts passed and 20 files were packed. The next delta must use a fresh version 13 `src.tar.gz` URL with `--base-commit 97ae4db038ec842abf65b4d6669ef2683acdbe6d`. `tools/build_kernel.py job` needs its positionals before the options (`job scripts/x.py arg1 arg2 --source-url URL`). It cannot take arguments that start with `--`, so build with a dummy arg `x` and replace `['x']` in `build/<name>_kernel.py` with the real list (this also allows the bare `--` run separator). Without the flags, the build inlines every file.
 - **Source kernel size:** every byte of a delta is retyped through `save_notebook`, so keep committed files small. The manifest is written one key per line for this reason. Check that the text sent matches `build/src_kernel.py` in full. The hash asserts catch a truncated or mistyped upload.
 - **Kaggle slugs:** Create a kernel with `newTitle`. Update one with `slug: "akifjawad/<name>"`.
 - **Kaggle sessions:** T4 jobs use `enableGpu: true` and `machineShape: "NvidiaTeslaT4"`. A timed-out kernel keeps the files it wrote and its log, so write results incrementally. Status then reads `CANCEL_ACKNOWLEDGED`. `cancel_notebook_session` needs a session ID, and no tool returns one for a running kernel. It only appears in output URLs (`/kf/<id>/`) after files exist, so stop a running kernel from the Kaggle page.
@@ -154,7 +171,7 @@ None. Resolved on 2026-11-01: the rubric total is 135 (the table is right and th
 
 ## Kernels In Flight
 
-`akifjawad/trialmatch-decode-bench-cpu` v1 may still be running. The user asked to cancel it on 2026-11-02, but this could not be done through the tools (no session ID). It uses no GPU quota and stops by itself at its 10800 s timeout, or it can be stopped on its Kaggle page. Timed out: `trialmatch-decode-equivalence` v1. Finished: `trialmatch-decode-bench-t4` v1, `trialmatch-draft` v1 (draft training). Finished: `trialmatch-seeds-x` v1 and `trialmatch-seeds-y` v1 (seed runs, source v9), sweep kernels (`trialmatch-sweep-a` v1, `trialmatch-sweep-b` v1). Their best adapters sit in the kernel outputs and are not yet downloaded or uploaded to HF. Old notes follow.
+None. Finished: `trialmatch-decode-equivalence` v2 (fp16; v1 timed out), `trialmatch-decode-bench-cpu` v1, `trialmatch-decode-bench-t4` v1, `trialmatch-draft` v1 (draft training). Finished: `trialmatch-seeds-x` v1 and `trialmatch-seeds-y` v1 (seed runs, source v9), sweep kernels (`trialmatch-sweep-a` v1, `trialmatch-sweep-b` v1). Their best adapters sit in the kernel outputs and are not yet downloaded or uploaded to HF. Old notes follow.
 
 - (done) `akifjawad/trialmatch-sweep-a` v1: `base_r16`, `r8` (alpha 16), `r32` (alpha 64). T4, 3 epochs, micro-batch 4, seed 42.
 - `akifjawad/trialmatch-sweep-b` v1: `label_first`, `over4` (rare labels x4), `last2` (lr 2e-5). Same settings; later runs pass `--order evidence_first` explicitly because runs inherit the first run's flags.

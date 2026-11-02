@@ -1,0 +1,115 @@
+{
+  "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "device": "cuda",
+  "n_records": 28,
+  "all_tokens_equal": false,
+  "all_match_generate": false,
+  "all_cache_growth_ok": true,
+  "all_padded_equal_alone": false,
+  "max_logit_diff": {
+    "float16": 0.40234375
+  },
+  "min_top2_margin": {
+    "float16": 0.0
+  },
+  "mismatches": [
+    {
+      "kind": "grid",
+      "dtype": "float16",
+      "start": 0,
+      "prompt": 64,
+      "output": 256,
+      "seconds": 29.4,
+      "shape_equal": true,
+      "first_divergence": 180,
+      "tokens_equal": false,
+      "max_logit_diff": 0.08984375,
+      "mean_logit_diff": 0.006252593020914637,
+      "min_top2_margin": 0.03125,
+      "divergence": {
+        "row": 0,
+        "reference_token": 518,
+        "cached_token": 448,
+        "max_logit_diff": 0.03515625,
+        "reference_path_logits": [
+          26.515625,
+          26.5
+        ],
+        "cached_path_logits": [
+          26.515625,
+          26.515625
+        ]
+      },
+      "matches_generate": true,
+      "cache_growth_ok": true
+    },
+    {
+      "kind": "grid",
+      "dtype": "float16",
+      "start": 1500,
+      "prompt": 1024,
+      "output": 256,
+      "seconds": 74.6,
+      "shape_equal": true,
+      "first_divergence": 223,
+      "tokens_equal": false,
+      "max_logit_diff": 0.115234375,
+      "mean_logit_diff": 0.007452479960442182,
+      "min_top2_margin": 0.015625,
+      "divergence": {
+        "row": 0,
+        "reference_token": 8720,
+        "cached_token": 1376,
+        "max_logit_diff": 0.02734375,
+        "reference_path_logits": [
+          20.171875,
+          20.15625
+        ],
+        "cached_path_logits": [
+          20.15625,
+          20.171875
+        ]
+      },
+      "matches_generate": false,
+      "cache_growth_ok": true
+    },
+    {
+      "kind": "padded_batch",
+      "dtype": "float16",
+      "start": 1500,
+      "prompts": [
+        64,
+        256,
+        1024
+      ],
+      "output": 256,
+      "equals_alone": [
+        true,
+        true,
+        false
+      ],
+      "shape_equal": true,
+      "first_divergence": 195,
+      "tokens_equal": false,
+      "max_logit_diff": 0.125,
+      "mean_logit_diff": 0.0064640318623605695,
+      "min_top2_margin": 0.015625,
+      "divergence": {
+        "row": 2,
+        "reference_token": 4913,
+        "cached_token": 73594,
+        "max_logit_diff": 0.078125,
+        "reference_path_logits": [
+          22.0,
+          22.0
+        ],
+        "cached_path_logits": [
+          21.9375,
+          21.96875
+        ]
+      },
+      "matches_generate": true,
+      "cache_growth_ok": true
+    }
+  ]
+}
