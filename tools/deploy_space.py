@@ -22,7 +22,7 @@ python_version: "3.12"
 app_file: app.py
 pinned: false
 license: apache-2.0
-short_description: Clinical trial criterion screening with live decoding comparison
+short_description: Trial criterion screening with live decoding comparison
 ---
 
 Educational screening prototype, not a clinical enrollment decision.

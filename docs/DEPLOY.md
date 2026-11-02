@@ -16,7 +16,11 @@ On CPU the models load in float32 (about 12 GB of RAM for all four) and one crit
 
 Hugging Face refused to create the Space on this account on 2026-11-02: ZeroGPU gave `402 Payment Required` ("not eligible to host ZeroGPU Spaces for free") and a free `cpu-basic` Gradio Space gave `402` too ("hosting Gradio and Docker Spaces on free cpu-basic requires a PRO subscription"). No Space exists. The steps below work once the account has PRO (or a grant); until then the app runs on Kaggle.
 
-## Run it on a Kaggle T4 (works without PRO)
+## Demo on Kaggle (no PRO needed): `akifjawad/trialmatch-demo`
+
+The Space `AkifJK/trialmatch` exists (private, files uploaded) but cannot run: switching it to ZeroGPU is refused. The Kaggle notebook `trialmatch-demo` downloads the code from that Space repo and the adapters from the private model repo using a Kaggle Secret `HF_TOKEN` (read token), runs `app.py` with `TRIALMATCH_SHARE=1` and prints a public `*.gradio.live` link in its log. To refresh the code, rerun `python3 tools/deploy_space.py` and `hf upload AkifJK/trialmatch build/space . --type space`.
+
+## Run it on a Kaggle T4 with a self-test (works without PRO)
 
 `scripts/serve_app.py` runs the same app on a Kaggle GPU kernel. Kaggle cannot read the private adapter repo, so the adapters arrive as signed kernel-output URLs through `--fetch <folder>/<file>=<url>` (target adapter in folder `seed44`, draft adapter in `draft`; both are checked against the sha256 in `configs/final.json`).
 

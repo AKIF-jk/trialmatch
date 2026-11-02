@@ -40,4 +40,4 @@ def lab_fn(sentences, ctype, criterion, modes, backend, tile, k, draft, new_toke
 demo = build_ui(screen_fn, lab_fn)
 
 if __name__ == "__main__":
-    demo.queue(max_size=8).launch(server_name="0.0.0.0", server_port=int(os.environ.get("PORT", 7860)))
+    demo.queue(max_size=8).launch(server_name="0.0.0.0", server_port=int(os.environ.get("PORT", 7860)), share=bool(os.environ.get("TRIALMATCH_SHARE")))
