@@ -20,6 +20,7 @@ from trialmatch.app.screen import LAB_MODES as MODES, TILES  # noqa: F401
 from trialmatch.data.note import format_note
 from trialmatch.data.prompt import build_user, chat_prompt
 from trialmatch.decoding.greedy import decode_cached, decode_uncached
+from trialmatch.decoding.prompt_lookup import PromptLookupDraft
 from trialmatch.decoding.speculative import ModelDraft, decode_speculative
 from trialmatch.eval.generate import GREEDY
 from trialmatch.eval.parse import parse_output
@@ -212,7 +213,8 @@ class Engine:
             r = decode_cached(self.target, ids, mask, new_tokens, stops, self.pad_id)
             extra = {"cache_mb": r.cache_bytes / 2**20}
         else:
-            r = decode_speculative(self.target, ModelDraft(self.drafts[draft_name], self.target.config), ids, mask, new_tokens, k, stops)
+            draft = PromptLookupDraft() if mode == "speculative (prompt lookup)" else ModelDraft(self.drafts[draft_name], self.target.config)
+            r = decode_speculative(self.target, draft, ids, mask, new_tokens, k, stops)
             extra = {
                 "acceptance": r.acceptance_rate, "tokens_per_round": r.tokens_per_round, "target_forwards": r.target_forwards,
                 "draft_forwards": r.draft_forwards, "draft_seconds": r.draft_seconds, "verify_seconds": r.verify_seconds,

@@ -12,7 +12,7 @@ AGGREGATION_NOTE = (
     "Likely ineligible. Otherwise any not enough information (or unreadable output) gives Needs review. Otherwise "
     "Preliminarily eligible. not applicable criteria do not count."
 )
-LAB_MODES = ("no cache", "KV cache", "speculative")
+LAB_MODES = ("no cache", "KV cache", "speculative", "speculative (prompt lookup)")
 TILES = (16, 64, 256)
 INELIGIBLE, REVIEW, ELIGIBLE = "Likely ineligible", "Needs review", "Preliminarily eligible"
 BLOCKING = {"inclusion": "not included", "exclusion": "excluded"}
@@ -196,12 +196,14 @@ def lab_commentary(rows):
     )
     if "KV cache" in by and "no cache" in by:
         lines.append(f"KV cache is {by['no cache']['total_seconds'] / by['KV cache']['total_seconds']:.2f}x the speed of no cache on this prompt (total time, prefill included).")
-    if "KV cache" in by and "speculative" in by:
-        s, c = by["speculative"], by["KV cache"]
+    for name in ("speculative", "speculative (prompt lookup)"):
+        if "KV cache" not in by or name not in by:
+            continue
+        s, c = by[name], by["KV cache"]
         ratio = c["total_seconds"] / s["total_seconds"]
         verdict = "faster" if ratio > 1 else "slower"
         lines.append(
-            f"Speculative decoding is {ratio:.2f}x the speed of KV cache ({verdict}). Acceptance {_fmt(s.get('acceptance'), 2)}, "
+            f"{name.capitalize()} is {ratio:.2f}x the speed of KV cache ({verdict}). Acceptance {_fmt(s.get('acceptance'), 2)}, "
             f"{_fmt(s.get('tokens_per_round'), 2)} tokens per round, {s.get('target_forwards')} target passes against {c['tokens']} tokens."
         )
         if s.get("draft_seconds") is not None and s["target_forwards"] > 1:

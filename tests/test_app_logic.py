@@ -256,3 +256,30 @@ def test_report_contents():
     assert screen.NOTICE in md and md.count(screen.NOTICE) == 2
     assert "Needs review" in md and "unreadable output" in md and "Model rationale" in md and '"commit": "abc"' in md
     assert NOTE[0] in md
+
+
+def lab_rows(speed=1.0):
+    row = lambda mode, total, **extra: {"mode": mode, "backend": "sdpa", "tokens": 20, "tokens_equal": True, "total_seconds": total, "prefill_seconds": 0.1,
+                                         "decode_seconds": total - 0.1, "tokens_per_second": 20 / total, **extra}
+    return [
+        row("no cache", 2.0), row("KV cache", 1.0),
+        row("speculative", 1.2, acceptance=0.9, tokens_per_round=2.5, target_forwards=9, draft_seconds=0.5, verify_seconds=0.6),
+        row("speculative (prompt lookup)", 0.6, acceptance=0.5, tokens_per_round=1.8, target_forwards=11, draft_seconds=0.0, verify_seconds=0.5),
+    ]
+
+
+def test_lab_commentary_compares_each_speculative_mode():
+    text = screen.lab_commentary(lab_rows())
+    assert "same tokens" in text and "2.00x the speed of no cache" in text
+    assert "Speculative is 0.83x the speed of KV cache (slower)" in text
+    assert "Speculative (prompt lookup) is 1.67x the speed of KV cache (faster)" in text
+    assert text.count("Cost per round") == 2
+
+
+def test_lab_commentary_flags_mismatch_and_handles_missing_modes():
+    rows = lab_rows()
+    rows[2]["tokens_equal"] = False
+    assert "Token mismatch in: speculative." in screen.lab_commentary(rows)
+    assert "x the speed of KV cache" not in screen.lab_commentary(rows[:1])
+    table = screen.lab_table(lab_rows())
+    assert [r[3] for r in table] == ["yes"] * 4 and table[3][9] == "0.50" and table[0][9] == "n/a"

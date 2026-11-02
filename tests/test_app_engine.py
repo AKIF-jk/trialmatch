@@ -105,7 +105,7 @@ def test_rationale_prompt_has_only_cited_sentences(engine, monkeypatch):
     assert [r.rationale for r in results] == ["because", None, None]
 
 
-MODES = ["no cache", "KV cache", "speculative"]
+MODES = ["no cache", "KV cache", "speculative", "speculative (prompt lookup)"]
 
 
 @pytest.mark.parametrize("backend,tile", [("sdpa", 64), ("tiled", 16)])
@@ -114,6 +114,9 @@ def test_lab_modes_match_cached_reference(engine, backend, tile):
     assert [r["mode"] for r in rows] == MODES and all(r["tokens_equal"] and r["tokens"] == 12 for r in rows)
     spec = rows[2]
     assert 0 <= spec["acceptance"] <= 1 and spec["tokens_per_round"] >= 1 and spec["target_forwards"] >= 2
+    lookup = rows[3]
+    assert lookup["acceptance"] is None or 0 <= lookup["acceptance"] <= 1
+    assert lookup["target_forwards"] >= 2 and lookup["draft_forwards"] == 0
     assert all(r["total_seconds"] > 0 and r["tokens_per_second"] > 0 for r in rows)
     assert rows[0]["backend"] == ("sdpa" if backend == "sdpa" else f"tiled {tile}")
     assert isinstance(text, str)
@@ -134,7 +137,7 @@ def test_lab_rejects_no_modes(engine):
 def test_lab_row_table_and_commentary(engine):
     rows, _ = engine.lab(SENTENCES, "inclusion", "Diabetes", MODES, new_tokens=10, force=True)
     table = screen.lab_table(rows)
-    assert len(table) == 3 and len(table[0]) == len(screen.LAB_HEADERS) and table[0][3] == "yes"
+    assert len(table) == 4 and len(table[0]) == len(screen.LAB_HEADERS) and table[0][3] == "yes"
     text = screen.lab_commentary(rows)
     assert "same tokens" in text and "x the speed of KV cache" in text and "Cost per round" in text
 

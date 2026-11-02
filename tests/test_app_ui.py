@@ -103,10 +103,10 @@ def test_lab_end_to_end_and_arguments(client):
     Calls.lab.clear()
     Calls.fail = None
     status, table, commentary, generated, js = client.predict(
-        NUMBERED, "inclusion", "Diabetes", ["no cache", "KV cache", "speculative"], "tiled online-softmax", 16, 4, "base", 24, True, 2, api_name="/lab"
+        NUMBERED, "inclusion", "Diabetes", ["no cache", "KV cache", "speculative", "speculative (prompt lookup)"], "tiled online-softmax", 16, 4, "base", 24, True, 2, api_name="/lab"
     )
-    assert Calls.lab[-1] == (["no cache", "KV cache", "speculative"], "tiled", 16, 4, "base", 24, True, 2)
-    assert "Live run" in status and len(table["data"]) == 3 and table["data"][2][3] == "yes"
+    assert Calls.lab[-1] == (["no cache", "KV cache", "speculative", "speculative (prompt lookup)"], "tiled", 16, 4, "base", 24, True, 2)
+    assert "Live run" in status and len(table["data"]) == 4 and table["data"][3][3] == "yes"
     assert "same tokens" in commentary and "label" in generated
     assert json.loads(Path(js).read_text())["provenance"]["device"] == "stub"
 

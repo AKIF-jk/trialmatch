@@ -204,8 +204,9 @@ def build_ui(screen_fn, lab_fn, lookup_fn=text.fetch_trial):
             with gr.Tab("Inference Lab"):
                 gr.Markdown(
                     "Run one criterion prompt live through the decoding mechanisms written for this project and compare them. Tokens are checked "
-                    "against a KV-cache run with sdpa attention. Speculative decoding was **slower** than cached greedy in the T4 and CPU "
-                    "benchmarks of the report: one draft step costs 0.8x a target step here, so no K breaks even. Run it and see whether this device changes that."
+                    "against a KV-cache run with sdpa attention. In the report's T4 and CPU benchmarks speculative decoding with a 0.5B draft model was "
+                    "**slower** than cached greedy: one draft step costs 0.8x a target step, so no K breaks even. Prompt lookup has no draft model "
+                    "(it copies the tokens that followed an earlier match in the text) and was faster on the T4. Run both and see what this device does."
                 )
                 lab_note = gr.Textbox(lines=6, value=LAB_NOTE, label="Numbered note")
                 with gr.Row():
