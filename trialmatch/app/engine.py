@@ -71,6 +71,16 @@ def fetch_adapter(repo, revision, folder, expected_sha256=None):
     return path
 
 
+def local_adapter(root, folder, expected_sha256):
+    import hashlib
+
+    path = Path(root) / folder
+    digest = hashlib.sha256((path / "adapter_model.safetensors").read_bytes()).hexdigest()
+    if digest != expected_sha256:
+        raise RuntimeError(f"adapter {folder} checksum {digest[:12]} differs from the recorded {expected_sha256[:12]}")
+    return path
+
+
 @contextmanager
 def attention_backend(models, backend, tile):
     """Run with sdpa or the tiled online-softmax backend on every model, then restore each model's own setting."""
@@ -104,7 +114,9 @@ class Engine:
             model.generation_config.eos_token_id = None
 
     @classmethod
-    def load(cls):
+    def load(cls, adapter_root=None):
+        """Build the real engine. With adapter_root, the adapters come from <root>/<folder> (checked against the recorded
+        sha256) instead of the private Hub repo, for hosts that cannot read it, such as Kaggle."""
         from trialmatch.decoding.experiment import load_model_for, load_tokenizer
 
         config = final_config()
@@ -114,16 +126,19 @@ class Engine:
         folders, sha = hub["folders"], hub["sha256"]
         deployed = config["deployed_adapter"].split()[0]
         target_folder = next(folders[seed] for seed, run in config["runs"].items() if run == deployed)
-        target_path = fetch_adapter(hub["hf_repo"], hub["hf_revision"], target_folder, sha[target_folder])
-        draft_path = fetch_adapter(hub["hf_repo"], hub["hf_revision"], folders["draft"], sha["draft"])
+        if adapter_root:
+            target_path, draft_path = local_adapter(adapter_root, target_folder, sha[target_folder]), local_adapter(adapter_root, folders["draft"], sha["draft"])
+        else:
+            target_path = fetch_adapter(hub["hf_repo"], hub["hf_revision"], target_folder, sha[target_folder])
+            draft_path = fetch_adapter(hub["hf_repo"], hub["hf_revision"], folders["draft"], sha["draft"])
         target = load_model_for("target", dtype, device, target_path)
         drafts = {"base": load_model_for("draft", dtype, device), "LoRA": load_model_for("draft", dtype, device, draft_path)}
         adapters = Adapters(hub["hf_repo"], hub["hf_revision"], target_folder, folders["draft"], {target_folder: sha[target_folder], "draft": sha["draft"]})
-        engine = cls(load_tokenizer(), target, drafts, device, dtype, adapters)
-        # ZeroGPU wants every model placed on the device at import time, so the untuned model for rationales loads now too.
-        engine._base = load_model_for("target", dtype, device)
-        engine._base.generation_config.eos_token_id = None
-        return engine
+        engine = cls(load_tokenizer(), target, drafts, device, dtype, adapters, base_loader=lambda: load_model_for("target", dtype, device))
+        if device == "cuda":
+            # ZeroGPU wants every model placed on the device at import time, so the untuned model for rationales loads now too.
+            engine.base_model()
+        return engine  # On CPU it loads on first use: all four models in float32 would not fit in 16 GB.
 
     # ---- shared helpers --------------------------------------------------------------------------------------------
 
