@@ -98,8 +98,8 @@ def main():
         "all_match_generate": all(r["matches_generate"] for r in records),
         "all_cache_growth_ok": all(r["cache_growth_ok"] for r in records),
         "all_padded_equal_alone": all(all(r["equals_alone"]) for r in records if r["kind"] == "padded_batch"),
-        "max_logit_diff": {d: max(r["max_logit_diff"] for r in records if r["dtype"] == d) for d in args.dtypes},
-        "min_top2_margin": {d: min(r["min_top2_margin"] for r in records if r["dtype"] == d) for d in args.dtypes},
+        "max_logit_diff": {d: max(r["max_logit_diff"] or 0 for r in records if r["dtype"] == d) for d in args.dtypes},
+        "min_top2_margin": {d: min(r["min_top2_margin"] for r in records if r["dtype"] == d and r["min_top2_margin"] is not None) for d in args.dtypes},
         "mismatches": [r for r in records if not r["tokens_equal"]],
     }
     write_json(out / "report.json", summary)

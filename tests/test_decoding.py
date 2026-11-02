@@ -162,6 +162,18 @@ def test_compare_reports_first_divergence():
     assert not compare(result([[1, 2, 3]]), result([[1, 2]]))["tokens_equal"]
 
 
+def test_compare_reports_logits_at_divergence():
+    def result(token, logits):
+        return DecodeResult(torch.tensor([[0, token]]), 0.0, 0.0, [], [], 0, torch.tensor([[[5.0, 1.0, 0.0], logits]]))
+
+    report = compare(result(1, [0.0, 2.0, 1.75]), result(2, [0.0, 1.875, 2.0]))
+    assert report["first_divergence"] == 1 and report["max_logit_diff"] == 0.0
+    assert report["divergence"] == {
+        "row": 0, "reference_token": 1, "cached_token": 2, "max_logit_diff": 0.25,
+        "reference_path_logits": [2.0, 1.75], "cached_path_logits": [1.875, 2.0],
+    }
+
+
 def test_rejects_no_output(model):
     ids, mask = single(4)
     with pytest.raises(ValueError):

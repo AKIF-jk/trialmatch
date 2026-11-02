@@ -158,4 +158,17 @@ def compare(reference, cached):
         report["mean_logit_diff"] = float(diff.double().mean()) if keep else None
         # A token can only flip when the numerical difference reaches the gap between the top two logits.
         report["min_top2_margin"] = float((top[..., 0] - top[..., 1]).min()) if keep else None
+        if len(differs):
+            report["divergence"] = _divergence(reference, cached, report["first_divergence"])
     return report
+
+
+def _divergence(reference, cached, step):
+    """Logits behind the first differing token. Inputs up to this step were identical, so any gap here is numerical."""
+    row = int((reference.tokens[:, step] != cached.tokens[:, step]).nonzero()[0])
+    a, b = int(reference.tokens[row, step]), int(cached.tokens[row, step])
+    ref, new = reference.logits[row, step], cached.logits[row, step]
+    return {
+        "row": row, "reference_token": a, "cached_token": b, "max_logit_diff": float((ref - new).abs().max()),
+        "reference_path_logits": [float(ref[a]), float(ref[b])], "cached_path_logits": [float(new[a]), float(new[b])],
+    }
