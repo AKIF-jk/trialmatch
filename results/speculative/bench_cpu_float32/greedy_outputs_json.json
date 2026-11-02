@@ -1,0 +1,6 @@
+[
+ "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}",
+ "{\"evidence_sentence_ids\":[0],\"label\":\"included\"}",
+ "{\"evidence_sentence_ids\":[0],\"label\":\"included\"}",
+ "{\"evidence_sentence_ids\":[8],\"label\":\"included\"}"
+]

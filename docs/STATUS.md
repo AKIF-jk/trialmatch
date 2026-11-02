@@ -3,12 +3,12 @@
 Read this first, then `docs/PLAN.md`. Update this file at the end of every phase or work session, and commit and push it.
 
 **Last updated:** 2026-11-02
-**Current phase:** Phase 4 done (exit gate met: float32 errors and tokens are within tolerance, and the 2 fp16 token flips have a documented cause). Phase 5 is next. Phase 3 done. Phase 2 mostly done. Evaluator, untuned baselines, sweep and 3-seed runs are done and the config is frozen (`configs/final.json`). The three `over4` target adapters and the draft adapter are on HF (private). Phase 1 code is done. The Phase 1 exit-gate tests pass locally and on a CPU Kaggle kernel (15 tests, `results/tests/`). The source review is done for the main text of all 7 papers. `docs/sources.md` lists what was not read (appendices, the TrialGPT Methods section, parts of the Qwen2.5 evaluation).
+**Current phase:** Phase 5 done (exit gate met: speculative tokens equal greedy in every test, float32 and fp16; it is slower than cached greedy on both T4 and CPU, and the reason is measured). Phase 6 is next. Phase 4 done. Phase 3 done. Phase 2 mostly done. Evaluator, untuned baselines, sweep and 3-seed runs are done and the config is frozen (`configs/final.json`). The three `over4` target adapters and the draft adapter are on HF (private). Phase 1 code is done. The Phase 1 exit-gate tests pass locally and on a CPU Kaggle kernel (15 tests, `results/tests/`). The source review is done for the main text of all 7 papers. `docs/sources.md` lists what was not read (appendices, the TrialGPT Methods section, parts of the Qwen2.5 evaluation).
 **Deadline:** November 10, 2026, plus a 2-hour grace period. Target submission is November 9.
 
 ## Next Steps
 
-1. Phase 5: speculative decoding with the base and LoRA drafts, using the adapters in the HF repo. Run its token-equality tests in float32, because fp16 greedy paths can flip near ties (see "Phase 3 Results" and "Phase 4 Results"). Next delta build: base URL is the version 15 `src.tar.gz` output URL, base commit `e0a9aa6`.
+1. Phase 6: Gradio app on ZeroGPU (see `docs/PLAN.md`). The Inference Lab tab should show the Phase 5 slowdown live and say why, not hide it. Next delta build: base URL is the version 17 `src.tar.gz` output URL (get a fresh one), base commit `894901b`.
 2. The rare-class gap (no run predicts `excluded` correctly) is still open. Revisit only if time allows, on validation data only.
 
 ## Accounts And Locations
@@ -17,12 +17,12 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
 |---|---|
 | GitHub repo | `AKIF-jk/trialmatch` (private until submission) |
 | Kaggle user | `akifjawad` |
-| Source kernel | `akifjawad/trialmatch-src` (version 15 at commit `e0a9aa6`; version 3 was a mistaken partial upload and failed) |
-| Test kernel | `akifjawad/trialmatch-tests` (CPU, version 8, commit `e0a9aa6`, 371 passed, `results/tests/`) |
+| Source kernel | `akifjawad/trialmatch-src` (version 17 at commit `894901b`; version 3 was a mistaken partial upload and failed) |
+| Test kernel | `akifjawad/trialmatch-tests` (CPU, version 10, commit `894901b`, 435 passed and 3 skipped, `results/tests/`) |
 | Hugging Face user | `AkifJK` |
 | Adapter repo | `AkifJK/trialmatch-qwen2.5-1.5b-lora` (private), revision `6fd2471b3894cdbe84d46f9d1278233a3279e77e`: `seed42/`, `seed43/`, `seed44/` (target adapters, first uploaded at `a4c9e329`), `draft/` (0.5B draft adapter), each with `adapter_model.safetensors` + `adapter_config.json`, and a model card. Read back and checksums matched. Make it public only at submission. |
 | Dataset revision | `ncbi/TrialGPT-Criterion-Annotations` at `1cfcafde94a1560a33b4addc1638664fe28fc059` |
-| GPU quota | 30 h/week, resets November 7, 00:00 UTC. 4.44 h used as of November 2 (15,983 s). |
+| GPU quota | 30 h/week, resets November 7, 00:00 UTC. About 4.9 h used as of November 2 (4.44 h before Phase 5, plus about 1,800 s of Phase 5 kernel time). |
 
 ## Phase 1 Results
 
@@ -178,11 +178,54 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
   - **Not measured:** end-to-end decode speed with the tiled backend inside the model. Phase 6 shows it live as an app mode.
 - **Local PyTorch install mistake:** this session installed CPU PyTorch into a scratch venv outside the repo, against the constraint below, and then deleted it with its pip cache after the user pointed it out. Nothing from it was used. All results above come from Kaggle.
 
+## Phase 5 Results
+
+- **Code (commit `894901b`, source v17):** `trialmatch/decoding/speculative.py`. Batch 1, no padding. Target cache holds `seq[:-1]`. Each round the draft proposes k tokens, the target reads `[seq[-1], d1..dk]` in one pass (`logits_to_keep=k+1`), the longest matching prefix m is accepted, and the target's token after it is emitted (correction if m < k, bonus if m == k). The target cache is cropped to `seq + d1..dm` with `cache.crop(-n)`. The draft (`ModelDraft`, own cache) is truncated to the same prefix, and at the start of the next round it feeds the tokens it has not read (the correction or bonus, and `d_k` after a full accept). k is limited to `remaining - 1`. A stop token ends the output at its first occurrence, from the draft or the target. `decode_speculative` takes any draft with `start`, `propose`, `truncate`, so tests use stubs.
+- **Tests (`tests/test_speculative.py`, CPU kernel v10, 435 passed and 3 skipped in the full suite):** tiny random Qwen2 in float64 against `decode_cached`. Stub drafts that always agree (rounds = `ceil((N-1)/(K+1))`, acceptance 1.0), always disagree (1 token per round, target forwards = N) and a scripted mix (accepted count per round equals the script). A random draft model for K 0, 1, 2, 4, 8 and 5 prompt/output sizes (tokens equal, max logit difference under 1e-9). The target as its own draft (acceptance 1.0). A stop token at positions 0, 1, 2, 5, 11. Target pass sizes and cache length follow the accepted text (forward hook). Draft forward count. The tiled attention backend and float32. Input rejection. Negative control: with `crop` turned off the run fails. The first CPU run failed that control with a `RuntimeError` (sdpa saw a mask shorter than the keys) before the decoder's own cache assertion; the test now accepts either error. The 3 skips are cases where the stop token already appears earlier in a random output.
+- **Equality on the real models (T4, `results/speculative/equivalence/`).** Target Qwen2.5-1.5B with the seed-44 adapter merged in (`over4_s44`), draft Qwen2.5-0.5B base or with the draft adapter merged in, K 1/2/4/8, validation rows with real stop tokens plus token-pool prompts with 64 forced new tokens, all against `decode_cached` with the same masks.
+
+| Dtype | Cases x drafts x K | Tokens equal | Max logit difference | Min top-2 margin | HF assisted generation equal |
+|---|---|---|---|---|---|
+| float32 | 12 x 2 x 4 = 96 | 96 | 1.2e-4 | 0.027 | 96 of 96 |
+| fp16 | 20 x 2 x 4 = 160 | 160 | 0.067 | 0.031 | not run |
+
+  - **No fp16 flip appeared here, unlike Phases 3 and 4.** Those flips were at output 256, and this run uses at most 96 new tokens (validation rows) and 64 (pool prompts). Treat it as "no flip seen", not a guarantee. The largest logit difference between the paths is 0.067 in fp16 (about 4 ulps if the logits are in the 16 to 32 range, which was not checked), and the smallest top-2 margin is 0.031, so a near tie could still break the other way.
+  - **Draft quality on the validation JSON (acceptance = accepted / proposed, fp16, 16 rows):** base draft 0.93 / 0.92 / 0.69 / 0.57 and LoRA draft 0.97 / 0.93 / 0.72 / 0.61 for K = 1 / 2 / 4 / 8. The LoRA draft is better at every K. On pool prompts (not JSON) the two are within 0.03 of each other, as expected.
+- **T4 benchmark (fp16, sdpa, 12 validation rows, one prompt at a time, warm-up, 3 repeats, median of the sum over prompts, `results/speculative/bench_cuda_float16/report.json`, about 18 min).** Speedup is greedy total time over speculative total time (prefill included). The JSON workload uses the fine-tuned target (164 greedy tokens over 12 prompts, so about 14 tokens each). The text workload uses the untuned target and draft with a free-text prompt (1131 tokens, cap 128).
+
+| Workload | Draft | K | Acceptance | Tokens per round | Target passes | Speedup |
+|---|---|---|---|---|---|---|
+| JSON | base | 1 / 2 / 4 / 8 | 0.94 / 0.91 / 0.66 / 0.56 | 1.85 / 2.81 / 3.38 / 5.07 | 94 / 66 / 57 / 42 | 0.90 / 0.94 / 0.75 / 0.64 |
+| JSON | LoRA | 1 / 2 / 4 / 8 | 0.97 / 0.94 / 0.70 / 0.63 | 1.95 / 2.81 / 3.53 / 5.63 | 90 / 66 / 55 / 39 | 0.92 / 0.93 / 0.76 / 0.71 |
+| Text | base | 1 / 2 / 4 / 8 | 0.81 / 0.72 / 0.62 / 0.43 | 1.80 / 2.43 / 3.44 / 4.34 | 645 / 481 / 358 / 270 | 0.93 / 0.87 / 0.77 / 0.59 |
+
+  - Greedy cached: JSON total 5.56 s (IQR 0.10), 29.5 tokens/s. Text total 37.5 s (IQR 1.3), 30.2 tokens/s. Decode is 32.8 ms per token in both. Speculative IQRs are 0.04 to 0.22 s (JSON) and 0.3 to 1.2 s (text), so every gap above is larger than the spread.
+  - **Every setting is slower than greedy. Best is 0.94, worst 0.59.** The target passes drop (JSON LoRA K=8: 39 against 164 tokens) but each round costs more than the passes it replaces.
+  - **Why (measured):** one draft step takes 26 to 29 ms and one target pass 33.5 to 35.6 ms, whatever K. A target pass over 2 to 9 tokens takes 33.5 to 35.6 ms against 32.8 ms for one token, so on the T4 the cost is per call, not per token, at these lengths (measured here; Phase 3 showed the same flatness across prompt lengths). So a round costs about `K x 28 + 35` ms, and the check matches the data: JSON base K=2 is 2 x 28.1 + 35.0 = 91.2 ms against 91.2 ms measured, K=8 is 8 x 27.7 + 35.6 = 257 ms against 257.5 ms. That round emits 2.81 tokens at K=2, so 32.5 ms per token against 32.8 for greedy: break even before prefill. Prefill adds the draft's prompt pass on top. The draft is only 0.8 times as costly as the target (24 layers against 28, launch bound), so no K can win. A larger K lowers acceptance faster than it saves passes.
+  - **Prefill:** speculative total minus decode shows the draft's prompt pass. On T4 it is small (JSON total speedup 0.94 against decode speedup 1.01 at K=2 for both drafts).
+  - **One fp16 token flip in the text workload.** 1 of 12 prompts differs from greedy at K = 1, 2 and 4 (base draft) and none at K=8. The benchmark keeps no logits, so the cause is not isolated. It matches the Phase 3 and 4 pattern (fp16 near ties across different tensor shapes), but this is a guess. The float32 equality results above do not have it. All 12 JSON prompts are equal in every cell. The fine-tuned target's merged output is valid JSON for 12 of 12 prompts.
+  - **Memory:** peak extra memory above the loaded models is 34 MB (JSON) and 25 MB (text) for greedy, and the same for every speculative cell. The draft's cache is small (about 12 KB per token in fp16) and the models, not the caches, dominate. Both models stay resident, so speculative decoding adds the 0.5B draft weights (about 1 GB in fp16).
+- **CPU benchmark (float32, 2 threads on 4 CPUs, 4 rows, K 2 and 4, 1 repeat, text capped at 64 tokens, `results/speculative/bench_cpu_float32/report.json`).** Reduced grid, single repeat, so no IQR: read gaps under about 10% as noise.
+
+| Workload | Draft | K | Acceptance | Total speedup | Decode-only speedup |
+|---|---|---|---|---|---|
+| JSON (53 tokens over 4 prompts) | base | 2 / 4 | 0.94 / 0.63 | 0.82 / 0.82 | 0.94 / 0.93 |
+| JSON | LoRA | 2 / 4 | 0.97 / 0.77 | 0.87 / 0.87 | 1.06 / 1.08 |
+| Text (243 tokens) | base | 2 / 4 | 0.69 / 0.58 | 0.85 / 0.91 | 0.86 / 0.93 |
+
+  - All 24 prompt comparisons (4 prompts x 6 cells) are token-equal in float32.
+  - **Slower on CPU too. My expectation that the CPU would show a speedup was wrong.** Greedy is 543 to 553 ms per token. A draft step is 208 to 261 ms (about 0.4 times the target, so the draft really is cheaper here). But a verification pass over 3 to 5 tokens takes 1.04 to 1.18 s, about 1.9 to 2.1 times a one-token step, because CPU cost grows with tokens processed (compute bound). A round at K=2 costs about 2 x 0.22 + 1.1 = 1.5 s for 2.88 tokens, which is 0.53 s per token against 0.55 for greedy: roughly break even in decode (0.94 to 1.08, within the noise of one repeat). Total speedup is lower because the draft's prompt pass adds 11 to 12 s on top of a 37 s greedy prefill (JSON outputs are only about 13 tokens, so prefill dominates the total: 37 s of 64 s).
+  - **The LoRA draft decode-only values above 1 (1.06, 1.08) are one repeat and are not a result.**
+- **What would make speculative decoding win (not tested):** a draft much cheaper than the target per call (here 0.8 times on T4), or a target pass whose cost grows less than the tokens it verifies (T4 passes: flat, CPU: not flat), or a batch of several prompts where the target step is no longer launch bound. Phase 6 shows the live trade-off; do not claim a speedup in the report.
+- **Not done:** HF assisted generation was only run in float32 (cross-check); batch sizes above 1; draft prefill reuse; sampling (only greedy is verified).
+- **Quirks found:** `list_notebook_session_output` needs `kernelSlug` without the owner prefix and `userName` separately (`akifjawad/trialmatch-src` as the slug is denied). Kernel logs appear only after the kernel ends.
+- **Job arguments:** adapter files reach the job as `--fetch <folder>/<file>=<signed output URL>` (target and draft adapters came from the `best/` folders of `trialmatch-seeds-y` and `trialmatch-draft`). Jobs here were written straight into `save_notebook` with the arguments inlined (same template as `tools/build_kernel.py job`, commit `894901b`, tree hash `c5cdc271`). The signed URLs expire, so refetch before rerunning.
+
 ## Known Constraints
 
 - **Local machine:** 7 GB RAM and about 1.7 GB free disk. Do not install PyTorch or download models locally.
 - **Kaggle attachments:** `kernelDataSources` is silently dropped by the MCP server. Pass outputs between kernels through signed output URLs from `list_notebook_session_output`. Fetch a fresh URL for each job, because their lifetime is unknown.
-- **Delta source build:** `python3 tools/build_kernel.py src --base-url URL --base-commit SHA` inlines only files that differ from `SHA`. `URL` is the `src.tar.gz` output URL of the previous source kernel version, and `SHA` is the commit that version was built from (version 2 is `3cc217d`). The kernel asserts the base tree hash and the new tree hash. Tested locally for change, delete and wrong-base cases. Run on Kaggle from `3cc217d` to `f07a7b0`: both hash asserts passed and 20 files were packed. The next delta must use a fresh version 15 `src.tar.gz` URL with `--base-commit e0a9aa6748296ad97ec38a4dec86a376781fdc67`. `tools/build_kernel.py job` needs its positionals before the options (`job scripts/x.py arg1 arg2 --source-url URL`). It cannot take arguments that start with `--`, so build with a dummy arg `x` and replace `['x']` in `build/<name>_kernel.py` with the real list (this also allows the bare `--` run separator). Without the flags, the build inlines every file.
+- **Delta source build:** `python3 tools/build_kernel.py src --base-url URL --base-commit SHA` inlines only files that differ from `SHA`. `URL` is the `src.tar.gz` output URL of the previous source kernel version, and `SHA` is the commit that version was built from (version 2 is `3cc217d`). The kernel asserts the base tree hash and the new tree hash. Tested locally for change, delete and wrong-base cases. Run on Kaggle from `3cc217d` to `f07a7b0`: both hash asserts passed and 20 files were packed. The next delta must use a fresh version 17 `src.tar.gz` URL with `--base-commit 894901b639911cea66c717f3ea4e8eeddc9ad399`. The `list_notebook_session_output` tool takes `kernelSlug` without the owner prefix. `tools/build_kernel.py job` needs its positionals before the options (`job scripts/x.py arg1 arg2 --source-url URL`). It cannot take arguments that start with `--`, so build with a dummy arg `x` and replace `['x']` in `build/<name>_kernel.py` with the real list (this also allows the bare `--` run separator). Without the flags, the build inlines every file.
 - **Source kernel size:** every byte of a delta is retyped through `save_notebook`, so keep committed files small. The manifest is written one key per line for this reason. Check that the text sent matches `build/src_kernel.py` in full. The hash asserts catch a truncated or mistyped upload.
 - **Kaggle slugs:** Create a kernel with `newTitle`. Update one with `slug: "akifjawad/<name>"`.
 - **Kaggle sessions:** T4 jobs use `enableGpu: true` and `machineShape: "NvidiaTeslaT4"`. A timed-out kernel keeps the files it wrote and its log, so write results incrementally. Status then reads `CANCEL_ACKNOWLEDGED`. `cancel_notebook_session` needs a session ID, and no tool returns one for a running kernel. It only appears in output URLs (`/kf/<id>/`) after files exist, so stop a running kernel from the Kaggle page.
@@ -199,7 +242,7 @@ None. Resolved on 2026-11-01: the rubric total is 135 (the table is right and th
 
 ## Kernels In Flight
 
-None. Finished in Phase 4: `trialmatch-tests` v6 to v8 (CPU tests), `trialmatch-attn-check` v1 (CPU error table), `trialmatch-attn-bench-t4` v1 (about 30 s), `trialmatch-attn-equiv-t4` v1 (about 7 min). Finished: `trialmatch-decode-equivalence` v2 (fp16; v1 timed out), `trialmatch-decode-bench-cpu` v1, `trialmatch-decode-bench-t4` v1, `trialmatch-draft` v1 (draft training). Finished: `trialmatch-seeds-x` v1 and `trialmatch-seeds-y` v1 (seed runs, source v9), sweep kernels (`trialmatch-sweep-a` v1, `trialmatch-sweep-b` v1). Their best adapters sit in the kernel outputs and are not yet downloaded or uploaded to HF. Old notes follow.
+None. Finished in Phase 5: `trialmatch-tests` v9 and v10 (CPU tests), `trialmatch-spec-equiv-f32` v1 (about 7 min on T4), `trialmatch-spec-equiv-f16` v1 (about 4 min), `trialmatch-spec-bench-t4` v1 (about 18 min), `trialmatch-spec-bench-cpu` v1 (about 20 min). Finished in Phase 4: `trialmatch-tests` v6 to v8 (CPU tests), `trialmatch-attn-check` v1 (CPU error table), `trialmatch-attn-bench-t4` v1 (about 30 s), `trialmatch-attn-equiv-t4` v1 (about 7 min). Finished: `trialmatch-decode-equivalence` v2 (fp16; v1 timed out), `trialmatch-decode-bench-cpu` v1, `trialmatch-decode-bench-t4` v1, `trialmatch-draft` v1 (draft training). Finished: `trialmatch-seeds-x` v1 and `trialmatch-seeds-y` v1 (seed runs, source v9), sweep kernels (`trialmatch-sweep-a` v1, `trialmatch-sweep-b` v1). Their best adapters sit in the kernel outputs and are not yet downloaded or uploaded to HF. Old notes follow.
 
 - (done) `akifjawad/trialmatch-sweep-a` v1: `base_r16`, `r8` (alpha 16), `r32` (alpha 64). T4, 3 epochs, micro-batch 4, seed 42.
 - `akifjawad/trialmatch-sweep-b` v1: `label_first`, `over4` (rare labels x4), `last2` (lr 2e-5). Same settings; later runs pass `--order evidence_first` explicitly because runs inherit the first run's flags.

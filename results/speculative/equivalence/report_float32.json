@@ -1,0 +1,21 @@
+{
+  "dtype": "float32",
+  "device": "cuda",
+  "n_records": 96,
+  "cases": 12,
+  "tokens_equal": true,
+  "tokens_equal_by_draft_and_k": {
+    "base/k1": true,
+    "base/k2": true,
+    "base/k4": true,
+    "base/k8": true,
+    "lora/k1": true,
+    "lora/k2": true,
+    "lora/k4": true,
+    "lora/k8": true
+  },
+  "max_logit_diff": 0.0001201629638671875,
+  "min_top2_margin": 0.027301788330078125,
+  "assisted_all_equal": true,
+  "mismatches": []
+}

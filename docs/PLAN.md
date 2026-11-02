@@ -119,6 +119,8 @@ Results are in `results/attention/` and `docs/STATUS.md`. Errors are within tole
 
 ### Phase 5: Speculative Decoding (Nov 5) — F1-F3
 
+DONE on Nov 2. Results are in `results/speculative/` and `docs/STATUS.md`. Tokens equal greedy in every test (float64, float32, fp16 on real models). Speculative decoding is slower than cached greedy on both the T4 (0.59 to 0.94) and the CPU (0.82 to 0.91), and the cost model explains why.
+
 - Each round: the draft proposes K tokens, the target verifies them in one forward pass, the longest matching prefix is accepted, and the target's next token is added as the correction or bonus token.
 - Use `cache.crop()` on both caches after each round, and feed the correction token to the draft so its state stays aligned.
 - Handle EOS inside a draft and limit K near `max_new_tokens`.
