@@ -3,14 +3,13 @@
 Read this first, then `docs/PLAN.md`. Update this file at the end of every phase or work session, and commit and push it.
 
 **Last updated:** 2026-11-02
-**Current phase:** Phase 3 done (exit gate met: float32 tokens all match, and the 3 fp16 mismatches have a documented cause). Phase 4 is next. Phase 2 mostly done. Evaluator, untuned baselines, sweep and 3-seed runs are done and the config is frozen (`configs/final.json`). The three `over4` target adapters and the draft adapter are on HF (private). Phase 1 code is done. The Phase 1 exit-gate tests pass locally and on a CPU Kaggle kernel (15 tests, `results/tests/`). The source review is done for the main text of all 7 papers. `docs/sources.md` lists what was not read (appendices, the TrialGPT Methods section, parts of the Qwen2.5 evaluation).
+**Current phase:** Phase 4 done (exit gate met: float32 errors and tokens are within tolerance, and the 2 fp16 token flips have a documented cause). Phase 5 is next. Phase 3 done. Phase 2 mostly done. Evaluator, untuned baselines, sweep and 3-seed runs are done and the config is frozen (`configs/final.json`). The three `over4` target adapters and the draft adapter are on HF (private). Phase 1 code is done. The Phase 1 exit-gate tests pass locally and on a CPU Kaggle kernel (15 tests, `results/tests/`). The source review is done for the main text of all 7 papers. `docs/sources.md` lists what was not read (appendices, the TrialGPT Methods section, parts of the Qwen2.5 evaluation).
 **Deadline:** November 10, 2026, plus a 2-hour grace period. Target submission is November 9.
 
 ## Next Steps
 
-1. Phase 4: tiled online-softmax attention.
-2. Phase 5: speculative decoding with the base and LoRA drafts, using the adapters in the HF repo. Run its token-equality tests in float32, because fp16 greedy paths can flip near ties (see "Phase 3 Results").
-3. The rare-class gap (no run predicts `excluded` correctly) is still open. Revisit only if time allows, on validation data only.
+1. Phase 5: speculative decoding with the base and LoRA drafts, using the adapters in the HF repo. Run its token-equality tests in float32, because fp16 greedy paths can flip near ties (see "Phase 3 Results" and "Phase 4 Results"). Next delta build: base URL is the version 15 `src.tar.gz` output URL, base commit `e0a9aa6`.
+2. The rare-class gap (no run predicts `excluded` correctly) is still open. Revisit only if time allows, on validation data only.
 
 ## Accounts And Locations
 
@@ -18,12 +17,12 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
 |---|---|
 | GitHub repo | `AKIF-jk/trialmatch` (private until submission) |
 | Kaggle user | `akifjawad` |
-| Source kernel | `akifjawad/trialmatch-src` (version 13 at commit `97ae4db`; version 3 was a mistaken partial upload and failed) |
-| Test kernel | `akifjawad/trialmatch-tests` (CPU, version 5, commit `97ae4db`, 65 passed) |
+| Source kernel | `akifjawad/trialmatch-src` (version 15 at commit `e0a9aa6`; version 3 was a mistaken partial upload and failed) |
+| Test kernel | `akifjawad/trialmatch-tests` (CPU, version 8, commit `e0a9aa6`, 371 passed, `results/tests/`) |
 | Hugging Face user | `AkifJK` |
 | Adapter repo | `AkifJK/trialmatch-qwen2.5-1.5b-lora` (private), revision `6fd2471b3894cdbe84d46f9d1278233a3279e77e`: `seed42/`, `seed43/`, `seed44/` (target adapters, first uploaded at `a4c9e329`), `draft/` (0.5B draft adapter), each with `adapter_model.safetensors` + `adapter_config.json`, and a model card. Read back and checksums matched. Make it public only at submission. |
 | Dataset revision | `ncbi/TrialGPT-Criterion-Annotations` at `1cfcafde94a1560a33b4addc1638664fe28fc059` |
-| GPU quota | 30 h/week, resets November 7, 00:00 UTC. About 4.3 h used as of November 2. |
+| GPU quota | 30 h/week, resets November 7, 00:00 UTC. 4.44 h used as of November 2 (15,983 s). |
 
 ## Phase 1 Results
 
@@ -150,11 +149,40 @@ Read this first, then `docs/PLAN.md`. Update this file at the end of every phase
 
   - **Reading:** the cache helps much more on CPU than on the T4 at short prompts (5.5x against 1.0x at 64 x 16). CPU cost grows with the tokens processed, and the T4 cost at these lengths does not. Prefill matches on both paths (about 2.1 s at prompt 64, 6.7 s at prompt 256). Peak RSS is dominated by the float32 model, so the cache does not show in it.
 
+## Phase 4 Results
+
+- **Code (commit `e0a9aa6`, source v15):** `trialmatch/attention/reference.py` (full score matrix, stable softmax, bottom-right causal rule), `tiled.py` (online softmax over key tiles, running max `m`, normalizer `l`, accumulator `acc`; statistics in float32, or float64 for float64 input), `hf.py` (registers a named backend `tiled_<tile>` with `AttentionInterface` and `AttentionMaskInterface`, switched with `use_tiled_attention(model, tile)`), `cases.py` (shared inputs and masks). Grouped KV heads are not expanded: `q` is viewed as `[B, Hkv, rep, Tq, D]` and matmul broadcasts over `rep`. Rows with no allowed key output zeros, in both functions. The tile loop does not skip fully masked tiles. It handles them through the `-inf` shift rule, and the tests cover them.
+- **Tests:** 371 passed on the CPU kernel (full suite, `results/tests/`). New: `tests/test_attention.py` (294 cases) and `tests/test_attention_hf.py` (12). They cover T 1, 7, 64, 256, 1024, tiles 1, 16, 64 and larger than T, six mask kinds (none, causal, padding, causal plus padding, rectangular, sparse), float32 and float64, fully masked rows and tiles, the running maximum in the first or last tile, extreme scores, and negative controls (naive softmax overflows, a wrong scale changes the output). The reference is checked against `F.scaled_dot_product_attention` in float64.
+- **Bug found by the tests:** the first HF run failed 10 of 12 tests because the backend compared `attention_mask.dtype != bool` instead of `torch.bool`. Fixed in `e0a9aa6`.
+- **Error table (`results/attention/check/report.json`, 240 cases):** against the float64 reference, worst max error is 1.08e-6 in float32 (tolerance 1e-5) and 2.1e-15 in float64 (tolerance 1e-12). Worst mean error 4.3e-8 and 8.1e-17. No NaN.
+- **End-to-end tokens (T4, `results/attention/equivalence/`, Qwen2.5-1.5B, the hand-written cached decoder with sdpa against tiled, tiles 16/64/256, 7 inputs per tile: 4 single prompts, 2 left-padded batches, 16 validation rows with real stop tokens):**
+
+| Dtype | Records | Tokens equal | Max logit difference | Min top-2 margin |
+|---|---|---|---|---|
+| float32 | 21 | 21 | 8.0e-4 | 0.0021 |
+| fp16 | 21 | 19 | 0.33 | 0.0 |
+
+  - **The 2 fp16 flips** are both validation rows, row 2, step 11 (tile 16 and tile 64). The sdpa logits for the two tokens tie exactly at 28.53125. The tiled path gives token 220 a logit higher by 1 fp16 ulp (28.546875, tile 16) or 2 ulps (28.5625, tile 64). One ulp in this range is 0.015625. Same kind of near tie as Phase 3. It is not a defect in the tiled function, but the tiled path is not bit-equal to sdpa, so ties can break the other way. Tile 256 flipped nothing in the same rows, but its min top-2 margin is 0.0, so a tie exists there too. Not isolated beyond that.
+  - **Consequence:** equality is claimed in float32. Fp16 token equality is not guaranteed between attention implementations.
+- **Attention benchmark (T4, fp16, 12 query heads, 2 KV heads, head dim 128, batch 1, 5 repeats, median ms and peak extra MB, `results/attention/bench_cuda_float16/report.json`):**
+
+| Case | T | Reference | Tiled 64 | Tiled 256 | Tiled 1024 | sdpa |
+|---|---|---|---|---|---|---|
+| prefill | 1024 | 6.38 ms, 151 MB | 10.47 ms, 36 MB | 6.48 ms, 60 MB | 5.70 ms, 157 MB | 5.16 ms, 138 MB |
+| prefill | 4096 | 70.9 ms, 2345 MB | 110.5 ms, 145 MB | 69.8 ms, 242 MB | 61.6 ms, 821 MB | 53.4 ms, 1896 MB |
+| decode | 1024 | 0.96 ms, 12 MB | 6.97 ms, 0.5 MB | 2.34 ms, 1.8 MB | 1.35 ms, 7.1 MB | 1.05 ms, 20 MB |
+| decode | 4096 | 1.15 ms, 48 MB | 25.7 ms, 0.5 MB | 6.98 ms, 1.8 MB | 2.48 ms, 7.2 MB | 1.23 ms, 80 MB |
+
+  - Also measured at T 256 and 2048 (in the report). The max error against float64 is 9e-4 for prefill and 3e-5 to 1e-4 for decode, equal across all five backends, so it is fp16 output rounding and not an algorithm difference.
+  - **Reading:** tiling cuts the temporary memory a lot. At T 4096 prefill, tile 64 uses 145 MB where the reference uses 2345 MB (16 times less) and tile 256 uses 242 MB (10 times less). The Python loop is slower. Tile 64 is 1.56 times the reference time at prefill T 4096, and 22 times at decode T 4096, because one decode step runs 64 loop iterations (4096/64) of several small kernels in every layer. Tile 1024 at prefill beats the reference (61.6 against 70.9 ms) but keeps 821 MB. `sdpa` is fastest at prefill (53.4 ms at T 4096), and its 1896 MB peak shows that it did not save memory in this setup. Which sdpa backend it used was not checked. The tiled function is a correctness and memory demonstration, not a speed path. A fused kernel avoids both the launch overhead and the score-matrix traffic, which a Python loop cannot.
+  - **Not measured:** end-to-end decode speed with the tiled backend inside the model. Phase 6 shows it live as an app mode.
+- **Local PyTorch install mistake:** this session installed CPU PyTorch into a scratch venv outside the repo, against the constraint below, and then deleted it with its pip cache after the user pointed it out. Nothing from it was used. All results above come from Kaggle.
+
 ## Known Constraints
 
 - **Local machine:** 7 GB RAM and about 1.7 GB free disk. Do not install PyTorch or download models locally.
 - **Kaggle attachments:** `kernelDataSources` is silently dropped by the MCP server. Pass outputs between kernels through signed output URLs from `list_notebook_session_output`. Fetch a fresh URL for each job, because their lifetime is unknown.
-- **Delta source build:** `python3 tools/build_kernel.py src --base-url URL --base-commit SHA` inlines only files that differ from `SHA`. `URL` is the `src.tar.gz` output URL of the previous source kernel version, and `SHA` is the commit that version was built from (version 2 is `3cc217d`). The kernel asserts the base tree hash and the new tree hash. Tested locally for change, delete and wrong-base cases. Run on Kaggle from `3cc217d` to `f07a7b0`: both hash asserts passed and 20 files were packed. The next delta must use a fresh version 13 `src.tar.gz` URL with `--base-commit 97ae4db038ec842abf65b4d6669ef2683acdbe6d`. `tools/build_kernel.py job` needs its positionals before the options (`job scripts/x.py arg1 arg2 --source-url URL`). It cannot take arguments that start with `--`, so build with a dummy arg `x` and replace `['x']` in `build/<name>_kernel.py` with the real list (this also allows the bare `--` run separator). Without the flags, the build inlines every file.
+- **Delta source build:** `python3 tools/build_kernel.py src --base-url URL --base-commit SHA` inlines only files that differ from `SHA`. `URL` is the `src.tar.gz` output URL of the previous source kernel version, and `SHA` is the commit that version was built from (version 2 is `3cc217d`). The kernel asserts the base tree hash and the new tree hash. Tested locally for change, delete and wrong-base cases. Run on Kaggle from `3cc217d` to `f07a7b0`: both hash asserts passed and 20 files were packed. The next delta must use a fresh version 15 `src.tar.gz` URL with `--base-commit e0a9aa6748296ad97ec38a4dec86a376781fdc67`. `tools/build_kernel.py job` needs its positionals before the options (`job scripts/x.py arg1 arg2 --source-url URL`). It cannot take arguments that start with `--`, so build with a dummy arg `x` and replace `['x']` in `build/<name>_kernel.py` with the real list (this also allows the bare `--` run separator). Without the flags, the build inlines every file.
 - **Source kernel size:** every byte of a delta is retyped through `save_notebook`, so keep committed files small. The manifest is written one key per line for this reason. Check that the text sent matches `build/src_kernel.py` in full. The hash asserts catch a truncated or mistyped upload.
 - **Kaggle slugs:** Create a kernel with `newTitle`. Update one with `slug: "akifjawad/<name>"`.
 - **Kaggle sessions:** T4 jobs use `enableGpu: true` and `machineShape: "NvidiaTeslaT4"`. A timed-out kernel keeps the files it wrote and its log, so write results incrementally. Status then reads `CANCEL_ACKNOWLEDGED`. `cancel_notebook_session` needs a session ID, and no tool returns one for a running kernel. It only appears in output URLs (`/kf/<id>/`) after files exist, so stop a running kernel from the Kaggle page.
@@ -171,7 +199,7 @@ None. Resolved on 2026-11-01: the rubric total is 135 (the table is right and th
 
 ## Kernels In Flight
 
-None. Finished: `trialmatch-decode-equivalence` v2 (fp16; v1 timed out), `trialmatch-decode-bench-cpu` v1, `trialmatch-decode-bench-t4` v1, `trialmatch-draft` v1 (draft training). Finished: `trialmatch-seeds-x` v1 and `trialmatch-seeds-y` v1 (seed runs, source v9), sweep kernels (`trialmatch-sweep-a` v1, `trialmatch-sweep-b` v1). Their best adapters sit in the kernel outputs and are not yet downloaded or uploaded to HF. Old notes follow.
+None. Finished in Phase 4: `trialmatch-tests` v6 to v8 (CPU tests), `trialmatch-attn-check` v1 (CPU error table), `trialmatch-attn-bench-t4` v1 (about 30 s), `trialmatch-attn-equiv-t4` v1 (about 7 min). Finished: `trialmatch-decode-equivalence` v2 (fp16; v1 timed out), `trialmatch-decode-bench-cpu` v1, `trialmatch-decode-bench-t4` v1, `trialmatch-draft` v1 (draft training). Finished: `trialmatch-seeds-x` v1 and `trialmatch-seeds-y` v1 (seed runs, source v9), sweep kernels (`trialmatch-sweep-a` v1, `trialmatch-sweep-b` v1). Their best adapters sit in the kernel outputs and are not yet downloaded or uploaded to HF. Old notes follow.
 
 - (done) `akifjawad/trialmatch-sweep-a` v1: `base_r16`, `r8` (alpha 16), `r32` (alpha 64). T4, 3 epochs, micro-batch 4, seed 42.
 - `akifjawad/trialmatch-sweep-b` v1: `label_first`, `over4` (rare labels x4), `last2` (lr 2e-5). Same settings; later runs pass `--order evidence_first` explicitly because runs inherit the first run's flags.

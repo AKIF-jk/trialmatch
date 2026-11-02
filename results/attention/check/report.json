@@ -1,0 +1,2429 @@
+{
+  "cases": 240,
+  "worst_max_error": {
+    "float32": 1.0782426405064882e-06,
+    "float64": 2.1094237467877974e-15
+  },
+  "any_nan": false,
+  "environment": {
+    "commit": "e0a9aa6748296ad97ec38a4dec86a376781fdc67",
+    "python": "3.13.15",
+    "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+    "cpu_count": 4,
+    "packages": {
+      "torch": "2.11.0+cpu",
+      "transformers": "5.16.1",
+      "peft": "0.20.0",
+      "accelerate": "1.14.0",
+      "datasets": "4.8.5",
+      "gradio": "6.26.0",
+      "numpy": "2.1.3",
+      "scikit-learn": "1.6.1"
+    },
+    "cuda_available": false,
+    "torch_cuda": null,
+    "nvidia_smi": null
+  },
+  "rows": [
+    {
+      "mask": "none",
+      "length": 1,
+      "queries": 1,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 1,
+      "queries": 1,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 1,
+      "queries": 1,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 1,
+      "queries": 1,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 1,
+      "queries": 1,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 1,
+      "queries": 1,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 1,
+      "queries": 1,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 1,
+      "queries": 1,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 7,
+      "queries": 7,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 6.744575702377631e-07,
+      "mean_error": 3.7643996164468e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 7,
+      "queries": 7,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 2.0182235926924363e-07,
+      "mean_error": 3.096740303889629e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 7,
+      "queries": 7,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 2.0182235926924363e-07,
+      "mean_error": 3.096740303889629e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 7,
+      "queries": 7,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 2.0182235926924363e-07,
+      "mean_error": 3.096740303889629e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 7,
+      "queries": 7,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 6.661338147750939e-16,
+      "mean_error": 7.887954994775978e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 7,
+      "queries": 7,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 4.440892098500626e-16,
+      "mean_error": 4.7804709346843105e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 7,
+      "queries": 7,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 4.440892098500626e-16,
+      "mean_error": 4.7804709346843105e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 7,
+      "queries": 7,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 4.440892098500626e-16,
+      "mean_error": 4.7804709346843105e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 64,
+      "queries": 64,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 4.604103394090231e-07,
+      "mean_error": 3.002013316832442e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 64,
+      "queries": 64,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 2.8829903711558025e-07,
+      "mean_error": 2.329796209896141e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 64,
+      "queries": 64,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 3.7039651634707127e-07,
+      "mean_error": 2.8667823707850163e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 64,
+      "queries": 64,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 3.7039651634707127e-07,
+      "mean_error": 2.8667823707850163e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 64,
+      "queries": 64,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 1.6653345369377348e-15,
+      "mean_error": 7.40130887671193e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 64,
+      "queries": 64,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 9.992007221626409e-16,
+      "mean_error": 4.8883516292867565e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 64,
+      "queries": 64,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 1.2212453270876722e-15,
+      "mean_error": 5.316077542333128e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 64,
+      "queries": 64,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 1.2212453270876722e-15,
+      "mean_error": 5.316077542333128e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 256,
+      "queries": 256,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 5.411598037463605e-07,
+      "mean_error": 2.673505034761365e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 256,
+      "queries": 256,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 3.168898036615131e-07,
+      "mean_error": 1.4554984994815939e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 256,
+      "queries": 256,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 3.5414270664613223e-07,
+      "mean_error": 1.627379706646137e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 256,
+      "queries": 256,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 3.988461902276752e-07,
+      "mean_error": 2.3410027424982758e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 256,
+      "queries": 256,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 1.3322676295501878e-15,
+      "mean_error": 6.550248721804763e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 256,
+      "queries": 256,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 6.661338147750939e-16,
+      "mean_error": 4.131010739221345e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 256,
+      "queries": 256,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 6.661338147750939e-16,
+      "mean_error": 4.373613017901473e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 256,
+      "queries": 256,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 1.2212453270876722e-15,
+      "mean_error": 5.1577026626312176e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 5.124579247062222e-07,
+      "mean_error": 2.855926858015054e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 2.304701335886783e-07,
+      "mean_error": 1.0314423798728602e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 2.5129360931019917e-07,
+      "mean_error": 9.608029742477604e-09,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 1024,
+      "queries": 1024,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 3.788036229135372e-07,
+      "mean_error": 1.337195054557331e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 9.43689570931383e-16,
+      "mean_error": 5.953369992462959e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 4.440892098500626e-16,
+      "mean_error": 2.6900387669198863e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 6.106226635438361e-16,
+      "mean_error": 2.5986949552961213e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "none",
+      "length": 1024,
+      "queries": 1024,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 7.771561172376096e-16,
+      "mean_error": 3.045078215481319e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 1,
+      "queries": 1,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 1,
+      "queries": 1,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 1,
+      "queries": 1,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 1,
+      "queries": 1,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 1,
+      "queries": 1,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 1,
+      "queries": 1,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 1,
+      "queries": 1,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 1,
+      "queries": 1,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 7,
+      "queries": 7,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 2.1614870038266787e-07,
+      "mean_error": 2.71989175798522e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 7,
+      "queries": 7,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 2.3149753447526678e-07,
+      "mean_error": 2.611557172493056e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 7,
+      "queries": 7,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 2.3149753447526678e-07,
+      "mean_error": 2.611557172493056e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 7,
+      "queries": 7,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 2.3149753447526678e-07,
+      "mean_error": 2.611557172493056e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 7,
+      "queries": 7,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 5.551115123125783e-16,
+      "mean_error": 5.618378614490781e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 7,
+      "queries": 7,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 4.440892098500626e-16,
+      "mean_error": 3.9035740258039587e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 7,
+      "queries": 7,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 4.440892098500626e-16,
+      "mean_error": 3.9035740258039587e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 7,
+      "queries": 7,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 4.440892098500626e-16,
+      "mean_error": 3.9035740258039587e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 64,
+      "queries": 64,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 4.123431467384364e-07,
+      "mean_error": 3.049658621836804e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 64,
+      "queries": 64,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 4.907416344401838e-07,
+      "mean_error": 2.7369267561759114e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 64,
+      "queries": 64,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 4.907416344401838e-07,
+      "mean_error": 3.024979761176022e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 64,
+      "queries": 64,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 4.907416344401838e-07,
+      "mean_error": 3.024979761176022e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 64,
+      "queries": 64,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 9.992007221626409e-16,
+      "mean_error": 7.478980391768108e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 64,
+      "queries": 64,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 6.661338147750939e-16,
+      "mean_error": 4.803680263732971e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 64,
+      "queries": 64,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 6.661338147750939e-16,
+      "mean_error": 4.7640579401604053e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 64,
+      "queries": 64,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 6.661338147750939e-16,
+      "mean_error": 4.7640579401604053e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 256,
+      "queries": 256,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 6.350764075735427e-07,
+      "mean_error": 2.867804893651646e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 256,
+      "queries": 256,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 5.241177696291288e-07,
+      "mean_error": 1.993636324330457e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 256,
+      "queries": 256,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 5.241177696291288e-07,
+      "mean_error": 2.2782503151899907e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 256,
+      "queries": 256,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 5.241177696291288e-07,
+      "mean_error": 2.6272209190993918e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 256,
+      "queries": 256,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 1.2212453270876722e-15,
+      "mean_error": 7.079432998918996e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 256,
+      "queries": 256,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 6.661338147750939e-16,
+      "mean_error": 4.429221899927568e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 256,
+      "queries": 256,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 8.881784197001252e-16,
+      "mean_error": 4.7298260398621786e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 256,
+      "queries": 256,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 1.1102230246251565e-15,
+      "mean_error": 5.1279949077861366e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 5.953880219955465e-07,
+      "mean_error": 2.9037349394015057e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 4.2413646281214135e-07,
+      "mean_error": 1.4091607835690842e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 4.7626730126371086e-07,
+      "mean_error": 1.4732605911737055e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 1024,
+      "queries": 1024,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 4.7626730126371086e-07,
+      "mean_error": 1.943318173920689e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 1.0269562977782698e-15,
+      "mean_error": 6.523553328690992e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 9.992007221626409e-16,
+      "mean_error": 3.543053839814355e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 7.771561172376096e-16,
+      "mean_error": 3.613893752677278e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal",
+      "length": 1024,
+      "queries": 1024,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 9.43689570931383e-16,
+      "mean_error": 4.123565002285394e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 1,
+      "queries": 1,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 1,
+      "queries": 1,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 1,
+      "queries": 1,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 1,
+      "queries": 1,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 1,
+      "queries": 1,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 1,
+      "queries": 1,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 1,
+      "queries": 1,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 1,
+      "queries": 1,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 7,
+      "queries": 7,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 6.744575702377631e-07,
+      "mean_error": 3.938444228849625e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 7,
+      "queries": 7,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 2.775765983731304e-07,
+      "mean_error": 3.3169415225930925e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 7,
+      "queries": 7,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 2.775765983731304e-07,
+      "mean_error": 3.3169415225930925e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 7,
+      "queries": 7,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 2.775765983731304e-07,
+      "mean_error": 3.3169415225930925e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 7,
+      "queries": 7,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 4.440892098500626e-16,
+      "mean_error": 7.50338993625185e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 7,
+      "queries": 7,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 4.440892098500626e-16,
+      "mean_error": 4.916056708598374e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 7,
+      "queries": 7,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 4.440892098500626e-16,
+      "mean_error": 4.916056708598374e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 7,
+      "queries": 7,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 4.440892098500626e-16,
+      "mean_error": 4.916056708598374e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 64,
+      "queries": 64,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 5.064406627397489e-07,
+      "mean_error": 3.244113701639658e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 64,
+      "queries": 64,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 5.521083086268419e-07,
+      "mean_error": 2.6992382680585676e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 64,
+      "queries": 64,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 4.6270134146375597e-07,
+      "mean_error": 3.114910745960454e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 64,
+      "queries": 64,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 4.6270134146375597e-07,
+      "mean_error": 3.114910745960454e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 64,
+      "queries": 64,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 1.6653345369377348e-15,
+      "mean_error": 7.810808278551001e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 64,
+      "queries": 64,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 9.992007221626409e-16,
+      "mean_error": 5.367806191837805e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 64,
+      "queries": 64,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 1.2212453270876722e-15,
+      "mean_error": 5.627024743477223e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 64,
+      "queries": 64,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 1.2212453270876722e-15,
+      "mean_error": 5.627024743477223e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 256,
+      "queries": 256,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 5.264851622444056e-07,
+      "mean_error": 2.670678873239752e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 256,
+      "queries": 256,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 3.168898036615131e-07,
+      "mean_error": 1.6352442226173472e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 256,
+      "queries": 256,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 3.5414270664613223e-07,
+      "mean_error": 1.8660524880022043e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 256,
+      "queries": 256,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 4.875356289790744e-07,
+      "mean_error": 2.4112693087558286e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 256,
+      "queries": 256,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 1.3322676295501878e-15,
+      "mean_error": 6.521105201718906e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 256,
+      "queries": 256,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 6.661338147750939e-16,
+      "mean_error": 4.137878309321839e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 256,
+      "queries": 256,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 6.661338147750939e-16,
+      "mean_error": 4.4836866166830915e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 256,
+      "queries": 256,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 1.2212453270876722e-15,
+      "mean_error": 5.0170006886482544e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 5.526069389860666e-07,
+      "mean_error": 2.7977377819796617e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 2.552198405947337e-07,
+      "mean_error": 1.1177767114487203e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 4.3403377492090556e-07,
+      "mean_error": 1.1165001526809671e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 1024,
+      "queries": 1024,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 6.327785518900342e-07,
+      "mean_error": 1.57385193390958e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 2.1094237467877974e-15,
+      "mean_error": 6.066235900516678e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 6.661338147750939e-16,
+      "mean_error": 3.0238969848337214e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 7.771561172376096e-16,
+      "mean_error": 3.021696896530921e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "padding",
+      "length": 1024,
+      "queries": 1024,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 1.2212453270876722e-15,
+      "mean_error": 3.5654072579701924e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 1,
+      "queries": 1,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 1,
+      "queries": 1,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 1,
+      "queries": 1,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 1,
+      "queries": 1,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 1,
+      "queries": 1,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 1,
+      "queries": 1,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 1,
+      "queries": 1,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 1,
+      "queries": 1,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 7,
+      "queries": 7,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 2.1614870038266787e-07,
+      "mean_error": 2.069719223351681e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 7,
+      "queries": 7,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 2.3149753447526678e-07,
+      "mean_error": 2.1536801974608628e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 7,
+      "queries": 7,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 2.3149753447526678e-07,
+      "mean_error": 2.1536801974608628e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 7,
+      "queries": 7,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 2.3149753447526678e-07,
+      "mean_error": 2.1536801974608628e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 7,
+      "queries": 7,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 4.440892098500626e-16,
+      "mean_error": 4.743199972446287e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 7,
+      "queries": 7,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 4.440892098500626e-16,
+      "mean_error": 3.2508625371204703e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 7,
+      "queries": 7,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 4.440892098500626e-16,
+      "mean_error": 3.2508625371204703e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 7,
+      "queries": 7,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 4.440892098500626e-16,
+      "mean_error": 3.2508625371204703e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 64,
+      "queries": 64,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 4.123431467384364e-07,
+      "mean_error": 2.3684983779989318e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 64,
+      "queries": 64,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 5.205932505081279e-07,
+      "mean_error": 2.210703626846535e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 64,
+      "queries": 64,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 5.205932505081279e-07,
+      "mean_error": 2.3612305290437193e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 64,
+      "queries": 64,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 5.205932505081279e-07,
+      "mean_error": 2.3612305290437193e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 64,
+      "queries": 64,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 9.992007221626409e-16,
+      "mean_error": 5.885035032395884e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 64,
+      "queries": 64,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 6.661338147750939e-16,
+      "mean_error": 3.780470956817585e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 64,
+      "queries": 64,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 6.661338147750939e-16,
+      "mean_error": 3.635690692255286e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 64,
+      "queries": 64,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 6.661338147750939e-16,
+      "mean_error": 3.635690692255286e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 256,
+      "queries": 256,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 6.350764075735427e-07,
+      "mean_error": 2.106513619389261e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 256,
+      "queries": 256,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 5.241177696291288e-07,
+      "mean_error": 1.5807502811891554e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 256,
+      "queries": 256,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 5.241177696291288e-07,
+      "mean_error": 1.779676216541539e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 256,
+      "queries": 256,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 5.241177696291288e-07,
+      "mean_error": 1.9839376866772855e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 256,
+      "queries": 256,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 1.2212453270876722e-15,
+      "mean_error": 5.231004508213644e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 256,
+      "queries": 256,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 6.661338147750939e-16,
+      "mean_error": 3.290219128182699e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 256,
+      "queries": 256,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 6.661338147750939e-16,
+      "mean_error": 3.4576880832378054e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 256,
+      "queries": 256,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 6.661338147750939e-16,
+      "mean_error": 3.695732574124546e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 5.953880219955465e-07,
+      "mean_error": 2.175142147775446e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 5.017294166798081e-07,
+      "mean_error": 1.1302557876519054e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 5.174063283375219e-07,
+      "mean_error": 1.208753140882913e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 1024,
+      "queries": 1024,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 5.174063283375219e-07,
+      "mean_error": 1.5598096561440836e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 1.8318679906315083e-15,
+      "mean_error": 4.984502131106466e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 7.771561172376096e-16,
+      "mean_error": 2.78620097754579e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 8.881784197001252e-16,
+      "mean_error": 2.8677711457247686e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "causal_padding",
+      "length": 1024,
+      "queries": 1024,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 9.992007221626409e-16,
+      "mean_error": 3.2538243420297215e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 1,
+      "queries": 1,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 1,
+      "queries": 1,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 1,
+      "queries": 1,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 1,
+      "queries": 1,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 1,
+      "queries": 1,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 1,
+      "queries": 1,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 1,
+      "queries": 1,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 1,
+      "queries": 1,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 7,
+      "queries": 1,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 2.1032556851707795e-07,
+      "mean_error": 3.823956462894638e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 7,
+      "queries": 1,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 2.1032556851707795e-07,
+      "mean_error": 4.26503477526718e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 7,
+      "queries": 1,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 2.1032556851707795e-07,
+      "mean_error": 4.26503477526718e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 7,
+      "queries": 1,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 2.1032556851707795e-07,
+      "mean_error": 4.26503477526718e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 7,
+      "queries": 1,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 4.440892098500626e-16,
+      "mean_error": 7.773390763542165e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 7,
+      "queries": 1,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 4.440892098500626e-16,
+      "mean_error": 5.1577530224208856e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 7,
+      "queries": 1,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 4.440892098500626e-16,
+      "mean_error": 5.1577530224208856e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 7,
+      "queries": 1,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 4.440892098500626e-16,
+      "mean_error": 5.1577530224208856e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 64,
+      "queries": 16,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 4.21079335066743e-07,
+      "mean_error": 3.504194845640942e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 64,
+      "queries": 16,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 2.322396698284379e-07,
+      "mean_error": 2.6722335007428396e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 64,
+      "queries": 16,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 3.329552000011504e-07,
+      "mean_error": 3.06595434370352e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 64,
+      "queries": 16,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 3.329552000011504e-07,
+      "mean_error": 3.06595434370352e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 64,
+      "queries": 16,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 8.881784197001252e-16,
+      "mean_error": 7.590245365861289e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 64,
+      "queries": 16,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 5.551115123125783e-16,
+      "mean_error": 5.095273423776795e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 64,
+      "queries": 16,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 4.440892098500626e-16,
+      "mean_error": 5.3547497248950844e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 64,
+      "queries": 16,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 4.440892098500626e-16,
+      "mean_error": 5.3547497248950844e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 256,
+      "queries": 64,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 4.3231213670003044e-07,
+      "mean_error": 2.892612840396557e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 256,
+      "queries": 64,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 2.2373250857521398e-07,
+      "mean_error": 1.7268444694899168e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 256,
+      "queries": 64,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 3.2287117890383854e-07,
+      "mean_error": 1.905068269481892e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 256,
+      "queries": 64,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 3.429051695369445e-07,
+      "mean_error": 2.5275388489380747e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 256,
+      "queries": 64,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 1.3322676295501878e-15,
+      "mean_error": 7.045998035442176e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 256,
+      "queries": 64,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 1.1102230246251565e-15,
+      "mean_error": 4.390812665157645e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 256,
+      "queries": 64,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 6.661338147750939e-16,
+      "mean_error": 4.668277580339063e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 256,
+      "queries": 64,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 7.216449660063518e-16,
+      "mean_error": 5.374033827874564e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 1024,
+      "queries": 256,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 5.980414119477473e-07,
+      "mean_error": 2.750793629457849e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 1024,
+      "queries": 256,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 1.347448109201288e-07,
+      "mean_error": 1.1589430511786578e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 1024,
+      "queries": 256,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 1.5963836250132424e-07,
+      "mean_error": 1.0796614420435917e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 1024,
+      "queries": 256,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 2.0747386952901792e-07,
+      "mean_error": 1.4405323609148756e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 1024,
+      "queries": 256,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 6.661338147750939e-16,
+      "mean_error": 5.84171800871277e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 1024,
+      "queries": 256,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 3.885780586188048e-16,
+      "mean_error": 2.7868618289392646e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 1024,
+      "queries": 256,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 3.608224830031759e-16,
+      "mean_error": 2.721289187434867e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "rectangular",
+      "length": 1024,
+      "queries": 256,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 7.216449660063518e-16,
+      "mean_error": 3.1318724149499986e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 1,
+      "queries": 1,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 1,
+      "queries": 1,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 1,
+      "queries": 1,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 1,
+      "queries": 1,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 1,
+      "queries": 1,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 1,
+      "queries": 1,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 1,
+      "queries": 1,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 1,
+      "queries": 1,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 7,
+      "queries": 7,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 7,
+      "queries": 7,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 7,
+      "queries": 7,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 7,
+      "queries": 7,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 7,
+      "queries": 7,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 7,
+      "queries": 7,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 7,
+      "queries": 7,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 7,
+      "queries": 7,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 0.0,
+      "mean_error": 0.0,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 64,
+      "queries": 64,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 3.1533824307317104e-07,
+      "mean_error": 2.5786328485781712e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 64,
+      "queries": 64,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 2.86731585363853e-07,
+      "mean_error": 2.7057245657877633e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 64,
+      "queries": 64,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 2.86731585363853e-07,
+      "mean_error": 2.6639843129795737e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 64,
+      "queries": 64,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 2.86731585363853e-07,
+      "mean_error": 2.6639843129795737e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 64,
+      "queries": 64,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 8.881784197001252e-16,
+      "mean_error": 6.133826806977948e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 64,
+      "queries": 64,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 8.881784197001252e-16,
+      "mean_error": 4.349900973805262e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 64,
+      "queries": 64,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 6.661338147750939e-16,
+      "mean_error": 3.6809742399401645e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 64,
+      "queries": 64,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 6.661338147750939e-16,
+      "mean_error": 3.6809742399401645e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 256,
+      "queries": 256,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 3.971704802818721e-07,
+      "mean_error": 3.2492504028738305e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 256,
+      "queries": 256,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 3.8026629267662315e-07,
+      "mean_error": 3.354408212776037e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 256,
+      "queries": 256,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 3.5838448786407184e-07,
+      "mean_error": 3.187028222959423e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 256,
+      "queries": 256,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 4.593545716025105e-07,
+      "mean_error": 3.349049612361658e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 256,
+      "queries": 256,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 1.3322676295501878e-15,
+      "mean_error": 8.111635224753482e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 256,
+      "queries": 256,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 1.3322676295501878e-15,
+      "mean_error": 5.852500405901979e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 256,
+      "queries": 256,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 8.881784197001252e-16,
+      "mean_error": 5.4489229451645395e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 256,
+      "queries": 256,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 6.661338147750939e-16,
+      "mean_error": 4.680142772782858e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 1,
+      "dtype": "float32",
+      "max_error": 7.601794216327562e-07,
+      "mean_error": 3.0137723884623015e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 16,
+      "dtype": "float32",
+      "max_error": 7.930655721022362e-07,
+      "mean_error": 2.992969562617109e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 64,
+      "dtype": "float32",
+      "max_error": 1.0782426405064882e-06,
+      "mean_error": 2.5885519554369346e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 1024,
+      "queries": 1024,
+      "tile": "larger",
+      "dtype": "float32",
+      "max_error": 7.930655721022362e-07,
+      "mean_error": 2.4458583661986745e-08,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 1,
+      "dtype": "float64",
+      "max_error": 1.3322676295501878e-15,
+      "mean_error": 7.013184323702592e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 16,
+      "dtype": "float64",
+      "max_error": 1.5543122344752192e-15,
+      "mean_error": 5.0339783816972107e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 1024,
+      "queries": 1024,
+      "tile": 64,
+      "dtype": "float64",
+      "max_error": 1.1102230246251565e-15,
+      "mean_error": 4.1894060505497764e-17,
+      "has_nan": false
+    },
+    {
+      "mask": "sparse",
+      "length": 1024,
+      "queries": 1024,
+      "tile": "larger",
+      "dtype": "float64",
+      "max_error": 6.661338147750939e-16,
+      "mean_error": 3.319324827050634e-17,
+      "has_nan": false
+    }
+  ]
+}

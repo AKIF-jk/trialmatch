@@ -106,7 +106,9 @@ Results are in `results/decoding/` and `docs/STATUS.md`. Qwen2 in transformers 5
 - Benchmark on T4 and CPU with warm-up, `torch.cuda.synchronize()`, at least 5 repeats, and median plus IQR. Measure prefill, decode, tokens/s and peak memory.
 - **Exit gate:** All token sequences match, or any mismatch has a documented cause.
 
-### Phase 4: Tiled Online-Softmax Attention (Nov 4) — E1-E3
+### Phase 4: Tiled Online-Softmax Attention (Nov 4) — E1-E3 — DONE
+
+Results are in `results/attention/` and `docs/STATUS.md`. Errors are within tolerance in float32 and float64, and float32 tokens match end to end. Two fp16 flips have a documented cause (rounding at near ties). The Python tiled loop is slower than sdpa and saves memory instead.
 
 - Reference: scaled dot-product attention with correct `sqrt(d_k)` scaling, causal masking and a stable softmax.
 - Tiled: iterate over KV tiles, keeping a running maximum and normalizer. Rescale the accumulated output when the maximum changes, and handle fully masked tiles and rows without NaNs.

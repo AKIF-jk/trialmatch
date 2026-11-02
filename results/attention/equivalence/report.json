@@ -1,0 +1,71 @@
+{
+  "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "device": "cuda",
+  "n_records": 42,
+  "tokens_equal": {
+    "float32": true,
+    "float16": false
+  },
+  "max_logit_diff": {
+    "float32": 0.0008025169372558594,
+    "float16": 0.33203125
+  },
+  "min_top2_margin": {
+    "float32": 0.002079010009765625,
+    "float16": 0.0
+  },
+  "mismatches": [
+    {
+      "kind": "validation_rows",
+      "dtype": "float16",
+      "tile": 16,
+      "rows": 16,
+      "shape_equal": true,
+      "first_divergence": 11,
+      "tokens_equal": false,
+      "max_logit_diff": 0.1005859375,
+      "mean_logit_diff": 0.009048396619969935,
+      "min_top2_margin": 0.078125,
+      "divergence": {
+        "row": 2,
+        "reference_token": 17,
+        "cached_token": 220,
+        "max_logit_diff": 0.032745361328125,
+        "reference_path_logits": [
+          28.53125,
+          28.53125
+        ],
+        "cached_path_logits": [
+          28.53125,
+          28.546875
+        ]
+      }
+    },
+    {
+      "kind": "validation_rows",
+      "dtype": "float16",
+      "tile": 64,
+      "rows": 16,
+      "shape_equal": true,
+      "first_divergence": 11,
+      "tokens_equal": false,
+      "max_logit_diff": 0.11328125,
+      "mean_logit_diff": 0.009212132212622367,
+      "min_top2_margin": 0.078125,
+      "divergence": {
+        "row": 2,
+        "reference_token": 17,
+        "cached_token": 220,
+        "max_logit_diff": 0.046875,
+        "reference_path_logits": [
+          28.53125,
+          28.53125
+        ],
+        "cached_path_logits": [
+          28.53125,
+          28.5625
+        ]
+      }
+    }
+  ]
+}
