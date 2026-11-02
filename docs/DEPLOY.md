@@ -12,6 +12,17 @@ python app.py          # http://localhost:7860
 
 On CPU the models load in float32 (about 12 GB of RAM for all four) and one criterion takes tens of seconds.
 
+## Hosting status
+
+Hugging Face refused to create the Space on this account on 2026-11-02: ZeroGPU gave `402 Payment Required` ("not eligible to host ZeroGPU Spaces for free") and a free `cpu-basic` Gradio Space gave `402` too ("hosting Gradio and Docker Spaces on free cpu-basic requires a PRO subscription"). No Space exists. The steps below work once the account has PRO (or a grant); until then the app runs on Kaggle.
+
+## Run it on a Kaggle T4 (works without PRO)
+
+`scripts/serve_app.py` runs the same app on a Kaggle GPU kernel. Kaggle cannot read the private adapter repo, so the adapters arrive as signed kernel-output URLs through `--fetch <folder>/<file>=<url>` (target adapter in folder `seed44`, draft adapter in `draft`; both are checked against the sha256 in `configs/final.json`).
+
+- `--selftest`: launch on localhost, drive the app through `gradio_client` (segmentation, screening with rationale, empty note, broken numbering, no criteria, recovery, report files, the Inference Lab in every mode with sdpa and tiled attention) and save everything to `results/app/selftest`.
+- `--serve-seconds N`: also open a public `*.gradio.live` share link for N seconds. The link is printed as `SHARE URL` in the kernel log, which Kaggle shows only to the owner while the kernel runs; the kernel stops after N seconds (a Kaggle session is at most 12 hours). Start it shortly before a demo or the defense.
+
 ## Deploy to a ZeroGPU Space
 
 1. Stage the files (no network, writes `build/space`): `python3 tools/deploy_space.py`
