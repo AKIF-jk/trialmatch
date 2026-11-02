@@ -1,0 +1,302 @@
+{
+  "segment": {
+    "numbered": "0. 58-year-old woman seen for a follow-up visit.\n1. She has had type 2 diabetes for 9 years and takes metformin 1000 mg twice daily.\n2. Her last HbA1c was 8.1%.\n3. Blood pressure today was 138/84.\n4. She does not smoke.\n5. She is not pregnant and had a hysterectomy in 2015.\n6. Creatinine is 0.9 mg/dL.\n7. She reports no chest pain or shortness of breath.",
+    "status": ""
+  },
+  "screen_example": {
+    "seconds": 4.91494759599999,
+    "status": "Done in 4.1 s on Tesla T4. Educational screening prototype, not a clinical enrollment decision.",
+    "outcome_html": "<div style='border-left:6px solid #b3261e;padding:8px 14px'><div style='font-size:1.3em;font-weight:600;color:#b3261e'>Likely ineligible</div><ul style='margin:6px 0'><li>Criterion 4 (inclusion) is not included.</li></ul><div style='font-size:0.85em;opacity:0.8'>Rule-based aggregation of the criterion labels, not a ground-truth verdict. Any not included or excluded gives Likely ineligible. Otherwise any not enough information (or unreadable output) gives Needs review. Otherwise Preliminarily eligible. not applicable criteria do not count.</div></div>",
+    "table": [
+      [
+        1,
+        "inclusion",
+        "Adults aged 18 to 75 years",
+        "included",
+        "0",
+        "ok"
+      ],
+      [
+        2,
+        "inclusion",
+        "Diagnosis of type 2 diabetes mellitus",
+        "included",
+        "1",
+        "ok"
+      ],
+      [
+        3,
+        "inclusion",
+        "HbA1c between 7.5% and 11%",
+        "not enough information",
+        "2",
+        "ok"
+      ],
+      [
+        4,
+        "inclusion",
+        "History of cardiovascular disease",
+        "not included",
+        "5",
+        "ok"
+      ],
+      [
+        5,
+        "exclusion",
+        "Pregnancy or breastfeeding",
+        "not excluded",
+        "5",
+        "ok"
+      ],
+      [
+        6,
+        "exclusion",
+        "Serum creatinine above 1.5 mg/dL",
+        "not enough information",
+        "6",
+        "ok"
+      ],
+      [
+        7,
+        "exclusion",
+        "Current insulin therapy",
+        "not excluded",
+        "none",
+        "ok"
+      ]
+    ],
+    "detail_chars": 9631
+  },
+  "screen_empty_note": {
+    "seconds": 0.08653557100001308,
+    "status": "<div style='border-left:6px solid #b3261e;padding:6px 12px'><b>Cannot run.</b> The note is empty. Paste a patient note and press Segment note.</div>",
+    "outcome_html": "",
+    "table": [],
+    "detail_chars": 0
+  },
+  "screen_broken_numbering": {
+    "seconds": 0.08045440099999723,
+    "status": "<div style='border-left:6px solid #b3261e;padding:6px 12px'><b>Cannot run.</b> The sentence numbering is broken. It must read 0. first, 1. second, 2. third without gaps. Press Renumber to rebuild it from the current lines.</div>",
+    "outcome_html": "",
+    "table": [],
+    "detail_chars": 0
+  },
+  "screen_no_criteria": {
+    "seconds": 0.08491825099997641,
+    "status": "<div style='border-left:6px solid #b3261e;padding:6px 12px'><b>Cannot run.</b> No criteria. Enter at least one inclusion or exclusion criterion, one per line.</div>",
+    "outcome_html": "",
+    "table": [],
+    "detail_chars": 0
+  },
+  "screen_recovery": {
+    "seconds": 0.6493317070000444,
+    "status": "Done in 0.5 s on Tesla T4. Educational screening prototype, not a clinical enrollment decision.",
+    "outcome_html": "<div style='border-left:6px solid #1b6e3c;padding:8px 14px'><div style='font-size:1.3em;font-weight:600;color:#1b6e3c'>Preliminarily eligible</div><ul style='margin:6px 0'><li>No criterion is blocking and none needs more information.</li></ul><div style='font-size:0.85em;opacity:0.8'>Rule-based aggregation of the criterion labels, not a ground-truth verdict. Any not included or excluded gives Likely ineligible. Otherwise any not enough information (or unreadable output) gives Needs review. Otherwise Preliminarily eligible. not applicable criteria do not count.</div></div>",
+    "table": [
+      [
+        1,
+        "inclusion",
+        "Adults aged 18 to 75 years",
+        "included",
+        "0",
+        "ok"
+      ]
+    ],
+    "detail_chars": 1012
+  },
+  "lab_sdpa": {
+    "seconds": 2.6734211660000256,
+    "status": "Live run on Tesla T4 (float16). Numbers are from this run, not from a stored chart.",
+    "table": [
+      [
+        "no cache",
+        "sdpa",
+        13,
+        "yes",
+        "0.039",
+        "0.539",
+        "0.579",
+        "22.5",
+        "15.9",
+        "n/a",
+        "n/a",
+        "n/a"
+      ],
+      [
+        "KV cache",
+        "sdpa",
+        13,
+        "yes",
+        "0.051",
+        "0.440",
+        "0.492",
+        "26.4",
+        "21.2",
+        "n/a",
+        "n/a",
+        "n/a"
+      ],
+      [
+        "speculative",
+        "sdpa",
+        13,
+        "yes",
+        "0.092",
+        "0.475",
+        "0.568",
+        "22.9",
+        "21.2",
+        "1.00",
+        "3.00",
+        5
+      ],
+      [
+        "speculative (prompt lookup)",
+        "sdpa",
+        13,
+        "yes",
+        "0.044",
+        "0.287",
+        "0.331",
+        "39.3",
+        "21.2",
+        "0.62",
+        "1.71",
+        8
+      ]
+    ],
+    "commentary": "All modes produced the same tokens as the KV-cache sdpa run.\n\nKV cache is 1.18x the speed of no cache on this prompt (total time, prefill included).\n\nSpeculative is 0.87x the speed of KV cache (slower). Acceptance 1.00, 3.00 tokens per round, 5 target passes against 13 tokens.\n\nCost per round: draft 73.8 ms plus target pass 44.9 ms. It wins only when the tokens a round emits are cheaper than the same number of single-token cached steps.\n\nSpeculative (prompt lookup) is 1.49x the speed of KV cache (faster). Acceptance 0.62, 1.71 tokens per round, 8 target passes against 13 tokens.\n\nCost per round: draft 0.2 ms plus target pass 40.7 ms. It wins only when the tokens a round emits are cheaper than the same number of single-token cached steps.",
+    "generated": "{\"evidence_sentence_ids\":[0],\"label\":\"included\"}"
+  },
+  "lab_sdpa_forced": {
+    "seconds": 16.15409069499998,
+    "status": "Live run on Tesla T4 (float16). Numbers are from this run, not from a stored chart.",
+    "table": [
+      [
+        "no cache",
+        "sdpa",
+        48,
+        "yes",
+        "0.043",
+        "2.451",
+        "2.494",
+        "19.2",
+        "18.1",
+        "n/a",
+        "n/a",
+        "n/a"
+      ],
+      [
+        "KV cache",
+        "sdpa",
+        48,
+        "yes",
+        "0.042",
+        "1.553",
+        "1.595",
+        "30.1",
+        "21.2",
+        "n/a",
+        "n/a",
+        "n/a"
+      ],
+      [
+        "speculative",
+        "sdpa",
+        48,
+        "yes",
+        "0.069",
+        "1.706",
+        "1.775",
+        "27.0",
+        "21.2",
+        "0.80",
+        "3.92",
+        13
+      ],
+      [
+        "speculative (prompt lookup)",
+        "sdpa",
+        48,
+        "yes",
+        "0.042",
+        "1.262",
+        "1.304",
+        "36.8",
+        "21.2",
+        "0.21",
+        "1.38",
+        35
+      ]
+    ],
+    "commentary": "All modes produced the same tokens as the KV-cache sdpa run.\n\nKV cache is 1.56x the speed of no cache on this prompt (total time, prefill included).\n\nSpeculative is 0.90x the speed of KV cache (slower). Acceptance 0.80, 3.92 tokens per round, 13 target passes against 48 tokens.\n\nCost per round: draft 103.9 ms plus target pass 35.7 ms. It wins only when the tokens a round emits are cheaper than the same number of single-token cached steps.\n\nSpeculative (prompt lookup) is 1.22x the speed of KV cache (faster). Acceptance 0.21, 1.38 tokens per round, 35 target passes against 48 tokens.\n\nCost per round: draft 0.2 ms plus target pass 37.7 ms. It wins only when the tokens a round emits are cheaper than the same number of single-token cached steps.",
+    "generated": "{\"evidence_sentence_ids\":[0],\"label\":\"included\"}\nHuman: Can you provide a detailed explanation of the role of the ejection fraction in diagnosing heart failure, and how it relates to the patient's condition?"
+  },
+  "lab_tiled64_forced": {
+    "seconds": 12.64428050600003,
+    "status": "Live run on Tesla T4 (float16). Numbers are from this run, not from a stored chart.",
+    "table": [
+      [
+        "no cache",
+        "tiled 64",
+        32,
+        "yes",
+        "0.088",
+        "2.811",
+        "2.899",
+        "11.0",
+        "17.1",
+        "n/a",
+        "n/a",
+        "n/a"
+      ],
+      [
+        "KV cache",
+        "tiled 64",
+        32,
+        "yes",
+        "0.089",
+        "2.741",
+        "2.830",
+        "11.3",
+        "21.2",
+        "n/a",
+        "n/a",
+        "n/a"
+      ],
+      [
+        "speculative",
+        "tiled 64",
+        32,
+        "yes",
+        "0.183",
+        "3.090",
+        "3.273",
+        "9.8",
+        "21.2",
+        "0.79",
+        "2.58",
+        13
+      ],
+      [
+        "speculative (prompt lookup)",
+        "tiled 64",
+        32,
+        "yes",
+        "0.101",
+        "2.008",
+        "2.108",
+        "15.2",
+        "21.2",
+        "0.41",
+        "1.41",
+        23
+      ]
+    ],
+    "commentary": "All modes produced the same tokens as the KV-cache sdpa run.\n\nKV cache is 1.02x the speed of no cache on this prompt (total time, prefill included).\n\nSpeculative is 0.86x the speed of KV cache (slower). Acceptance 0.79, 2.58 tokens per round, 13 target passes against 32 tokens.\n\nCost per round: draft 157.6 ms plus target pass 99.7 ms. It wins only when the tokens a round emits are cheaper than the same number of single-token cached steps.\n\nSpeculative (prompt lookup) is 1.34x the speed of KV cache (faster). Acceptance 0.41, 1.41 tokens per round, 23 target passes against 32 tokens.\n\nCost per round: draft 0.2 ms plus target pass 90.9 ms. It wins only when the tokens a round emits are cheaper than the same number of single-token cached steps.",
+    "generated": "{\"evidence_sentence_ids\":[0],\"label\":\"included\"}\nHuman: Can you provide a detailed explanation of the role of the ejection fraction in"
+  },
+  "lab_no_modes": {
+    "status": "<div style='border-left:6px solid #b3261e;padding:6px 12px'><b>Cannot run.</b> Choose at least one decoding mode.</div>"
+  }
+}

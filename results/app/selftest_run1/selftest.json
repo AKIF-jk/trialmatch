@@ -1,0 +1,107 @@
+{
+  "segment": {
+    "numbered": "0. 58-year-old woman seen for a follow-up visit.\n1. She has had type 2 diabetes for 9 years and takes metformin 1000 mg twice daily.\n2. Her last HbA1c was 8.1%.\n3. Blood pressure today was 138/84.\n4. She does not smoke.\n5. She is not pregnant and had a hysterectomy in 2015.\n6. Creatinine is 0.9 mg/dL.\n7. She reports no chest pain or shortness of breath.",
+    "status": ""
+  },
+  "screen_example": {
+    "seconds": 5.941457538999998,
+    "status": "Done in 4.9 s on Tesla T4. Educational screening prototype, not a clinical enrollment decision.",
+    "outcome_html": "<div style='border-left:6px solid #b3261e;padding:8px 14px'><div style='font-size:1.3em;font-weight:600;color:#b3261e'>Likely ineligible</div><ul style='margin:6px 0'><li>Criterion 4 (inclusion) is not included.</li></ul><div style='font-size:0.85em;opacity:0.8'>Rule-based aggregation of the criterion labels, not a ground-truth verdict. Any not included or excluded gives Likely ineligible. Otherwise any not enough information (or unreadable output) gives Needs review. Otherwise Preliminarily eligible. not applicable criteria do not count.</div></div>",
+    "table": [
+      [
+        1,
+        "inclusion",
+        "Adults aged 18 to 75 years",
+        "included",
+        "0",
+        "ok"
+      ],
+      [
+        2,
+        "inclusion",
+        "Diagnosis of type 2 diabetes mellitus",
+        "included",
+        "1",
+        "ok"
+      ],
+      [
+        3,
+        "inclusion",
+        "HbA1c between 7.5% and 11%",
+        "not enough information",
+        "2",
+        "ok"
+      ],
+      [
+        4,
+        "inclusion",
+        "History of cardiovascular disease",
+        "not included",
+        "5",
+        "ok"
+      ],
+      [
+        5,
+        "exclusion",
+        "Pregnancy or breastfeeding",
+        "not excluded",
+        "5",
+        "ok"
+      ],
+      [
+        6,
+        "exclusion",
+        "Serum creatinine above 1.5 mg/dL",
+        "not enough information",
+        "6",
+        "ok"
+      ],
+      [
+        7,
+        "exclusion",
+        "Current insulin therapy",
+        "not excluded",
+        "none",
+        "ok"
+      ]
+    ],
+    "detail_chars": 9631
+  },
+  "screen_empty_note": {
+    "seconds": 0.0808734080000022,
+    "status": "<div style='border-left:6px solid #b3261e;padding:6px 12px'><b>Cannot run.</b> The note is empty. Paste a patient note and press Segment note.</div>",
+    "outcome_html": "",
+    "table": [],
+    "detail_chars": 0
+  },
+  "screen_broken_numbering": {
+    "seconds": 0.07895620299996153,
+    "status": "<div style='border-left:6px solid #b3261e;padding:6px 12px'><b>Cannot run.</b> The sentence numbering is broken. It must read 0. first, 1. second, 2. third without gaps. Press Renumber to rebuild it from the current lines.</div>",
+    "outcome_html": "",
+    "table": [],
+    "detail_chars": 0
+  },
+  "screen_no_criteria": {
+    "seconds": 0.08490837900001225,
+    "status": "<div style='border-left:6px solid #b3261e;padding:6px 12px'><b>Cannot run.</b> No criteria. Enter at least one inclusion or exclusion criterion, one per line.</div>",
+    "outcome_html": "",
+    "table": [],
+    "detail_chars": 0
+  },
+  "screen_recovery": {
+    "seconds": 0.6488813779999987,
+    "status": "Done in 0.5 s on Tesla T4. Educational screening prototype, not a clinical enrollment decision.",
+    "outcome_html": "<div style='border-left:6px solid #1b6e3c;padding:8px 14px'><div style='font-size:1.3em;font-weight:600;color:#1b6e3c'>Preliminarily eligible</div><ul style='margin:6px 0'><li>No criterion is blocking and none needs more information.</li></ul><div style='font-size:0.85em;opacity:0.8'>Rule-based aggregation of the criterion labels, not a ground-truth verdict. Any not included or excluded gives Likely ineligible. Otherwise any not enough information (or unreadable output) gives Needs review. Otherwise Preliminarily eligible. not applicable criteria do not count.</div></div>",
+    "table": [
+      [
+        1,
+        "inclusion",
+        "Adults aged 18 to 75 years",
+        "included",
+        "0",
+        "ok"
+      ]
+    ],
+    "detail_chars": 1012
+  }
+}
