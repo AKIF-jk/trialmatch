@@ -1,0 +1,70 @@
+{
+  "authorship": "Written by the assistant for this project, not taken from the dataset, the training split or the test split, and not reviewed by a clinician. Expected labels follow the dataset's conventions as understood from the guidelines in the prompt. A qualitative sanity check, not a benchmark.",
+  "patients": [
+    {
+      "id": "unseen-pneumonia",
+      "sentences": [
+        "A 72-year-old man presents with three days of productive cough, fever of 38.9 C and shortness of breath.",
+        "He has a history of type 2 diabetes treated with metformin and a 40 pack-year smoking history.",
+        "On examination his oxygen saturation is 91% on room air and he has crackles over the right lower lobe.",
+        "A chest X-ray shows a right lower lobe consolidation.",
+        "His serum creatinine is 1.1 mg/dL and he takes no anticoagulants.",
+        "He lives alone and was discharged from a hospital stay for a hip fracture two weeks ago."
+      ],
+      "criteria": [
+        {"type": "inclusion", "text": "Adults aged 65 years or older.", "label": "included", "evidence": [0]},
+        {"type": "inclusion", "text": "Radiographic evidence of pneumonia.", "label": "included", "evidence": [3]},
+        {"type": "inclusion", "text": "Oxygen saturation below 90% on room air.", "label": "not included", "evidence": [2]},
+        {"type": "inclusion", "text": "Documented HIV infection.", "label": "not enough information", "evidence": []},
+        {"type": "inclusion", "text": "Negative pregnancy test at screening.", "label": "not applicable", "evidence": []},
+        {"type": "exclusion", "text": "Use of therapeutic anticoagulation.", "label": "not excluded", "evidence": [4]},
+        {"type": "exclusion", "text": "Hospital admission within the previous 30 days.", "label": "excluded", "evidence": [5]},
+        {"type": "exclusion", "text": "Severe renal impairment (serum creatinine above 3 mg/dL).", "label": "not excluded", "evidence": [4]},
+        {"type": "exclusion", "text": "Known allergy to macrolide antibiotics.", "label": "not enough information", "evidence": []},
+        {"type": "exclusion", "text": "Current pregnancy.", "label": "not applicable", "evidence": []}
+      ]
+    },
+    {
+      "id": "unseen-migraine",
+      "sentences": [
+        "A 34-year-old woman reports recurrent throbbing headaches for the past six months, usually on the left side.",
+        "Each episode lasts about 12 hours and is accompanied by nausea and sensitivity to light.",
+        "She has four to five episodes per month and takes sumatriptan with partial relief.",
+        "She has never had an aura.",
+        "Her blood pressure is 118/74 mmHg and a neurological examination is normal.",
+        "She is currently using an oral contraceptive pill."
+      ],
+      "criteria": [
+        {"type": "inclusion", "text": "At least 3 migraine attacks per month.", "label": "included", "evidence": [2]},
+        {"type": "inclusion", "text": "Migraine with aura.", "label": "not included", "evidence": [3]},
+        {"type": "inclusion", "text": "Age between 18 and 55 years.", "label": "included", "evidence": [0]},
+        {"type": "inclusion", "text": "Failure of at least two preventive treatments.", "label": "not enough information", "evidence": []},
+        {"type": "exclusion", "text": "Uncontrolled hypertension.", "label": "not excluded", "evidence": [4]},
+        {"type": "exclusion", "text": "Use of hormonal contraception.", "label": "excluded", "evidence": [5]},
+        {"type": "exclusion", "text": "History of cluster headache.", "label": "not enough information", "evidence": []},
+        {"type": "exclusion", "text": "Benign prostatic hyperplasia.", "label": "not applicable", "evidence": []}
+      ]
+    },
+    {
+      "id": "unseen-breast",
+      "sentences": [
+        "A 58-year-old woman is diagnosed with invasive ductal carcinoma of the left breast, 2.4 cm in diameter.",
+        "Biopsy shows estrogen receptor positive, progesterone receptor positive and HER2 negative disease.",
+        "Staging CT shows no distant metastases and sentinel lymph node biopsy is negative.",
+        "Her ECOG performance status is 0.",
+        "She has no history of heart failure, and her left ventricular ejection fraction is 62%.",
+        "She has received no prior chemotherapy."
+      ],
+      "criteria": [
+        {"type": "inclusion", "text": "Histologically confirmed breast cancer.", "label": "included", "evidence": [0]},
+        {"type": "inclusion", "text": "HER2-positive tumour.", "label": "not included", "evidence": [1]},
+        {"type": "inclusion", "text": "ECOG performance status of 0 or 1.", "label": "included", "evidence": [3]},
+        {"type": "inclusion", "text": "Measurable metastatic disease.", "label": "not included", "evidence": [2]},
+        {"type": "exclusion", "text": "Left ventricular ejection fraction below 50%.", "label": "not excluded", "evidence": [4]},
+        {"type": "exclusion", "text": "Prior systemic chemotherapy.", "label": "not excluded", "evidence": [5]},
+        {"type": "exclusion", "text": "Active infection requiring systemic treatment.", "label": "not enough information", "evidence": []},
+        {"type": "exclusion", "text": "Known brain metastases.", "label": "not excluded", "evidence": [2]}
+      ]
+    }
+  ]
+}
