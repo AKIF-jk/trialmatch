@@ -31,3 +31,14 @@ def test_test_table_numbers_come_from_the_saved_summary(tmp_path):
     for seed in ("seed42", "seed43", "seed44"):
         assert f"{summary['models'][seed]['strict']['macro_f1']:.3f}" in text
     assert f"{summary['majority']['strict']['accuracy']:.3f}" in text
+
+
+def test_bench_source_switches_between_the_rerun_and_the_earlier_reports(tmp_path):
+    pytest.importorskip("matplotlib")
+    outs = {}
+    for source in ("final", "earlier"):
+        out = tmp_path / source
+        subprocess.run([sys.executable, str(REPO / "scripts/make_report_assets.py"), "--out", str(out), "--bench-source", source], check=True, capture_output=True, cwd=REPO)
+        outs[source] = (out / "tables/decode_t4.tex").read_text()
+    assert "results/final_bench/decoding" in outs["final"] and "results/decoding" in outs["earlier"]
+    assert outs["final"] != outs["earlier"]

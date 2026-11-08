@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Regenerate every table and figure of the report from results/ with one command. CPU only.
 
-    python3 scripts/make_report_assets.py [--out report] [--png]
+    python3 scripts/make_report_assets.py [--out report] [--png] [--bench-source final|earlier]
 
 Tables go to <out>/tables/*.tex (booktabs rows, no caption; the paper adds captions), figures to <out>/figures/*.pdf
 (--png also writes previews). Each generator reads only files under results/ (plus splits/manifest.json). A generator whose inputs are missing is skipped with a warning, so a
@@ -19,8 +19,18 @@ SHORT = {"included": "incl.", "not included": "not incl.", "excluded": "excl.", 
 SEEDS = ("seed42", "seed43", "seed44")
 
 
+BENCH_SOURCE = "final"  # T4 benchmarks: results/final_bench (rerun from the final-freeze tag) or "earlier" (results/, each at its own commit)
+
+
 def load(path):
     return json.loads((ROOT / path).read_text())
+
+
+def bench(rel):
+    """Path of a T4 benchmark file: the rerun from the freeze tag when present and selected, else the earlier report."""
+    if BENCH_SOURCE == "final" and (RESULTS / "final_bench" / rel).exists():
+        return f"results/final_bench/{rel}"
+    return f"results/{rel}"
 
 
 def f3(x):
@@ -149,7 +159,7 @@ def unseen_table(out):
 
 
 def decode_table(out):
-    d = load("results/decoding/benchmark_cuda_float16/report.json")
+    d = load(bench("decoding/benchmark_cuda_float16/report.json"))
     rows = []
     for c in d["cells"]:
         u, k = c["paths"]["uncached"], c["paths"]["cached"]
@@ -157,11 +167,11 @@ def decode_table(out):
                      f"{u['total_seconds']['median'] / k['total_seconds']['median']:.1f}", f"{k['total_tokens_per_second']['median']:.1f}",
                      f"{k['peak_memory_gb']['median']:.2f}", "yes" if c["tokens_equal"] else "no"])
     return write_table(out, "decode_t4", ["Prompt x output", "Batch", "No cache s", "KV cache s", "Speedup", "Cached tok/s", "Peak GB", "Tokens equal"], rows, "lrrrrrrl",
-                       note="Tesla T4, fp16, sdpa, median of 5 repeats (results/decoding/benchmark_cuda_float16).")
+                       note=f"Tesla T4, fp16, sdpa, median of 5 repeats ({bench('decoding/benchmark_cuda_float16/report.json')}).")
 
 
 def attention_tables(out):
-    a = load("results/attention/bench_cuda_float16/report.json")
+    a = load(bench("attention/bench_cuda_float16/report.json"))
     rows = []
     for c in a["cells"]:
         b = c["backends"]
@@ -176,7 +186,7 @@ def attention_tables(out):
 
 def spec_table(out):
     rows = []
-    for tag, path in (("model draft", "results/speculative/bench_cuda_float16/report.json"), ("prompt lookup", "results/speculative/bench_cuda_float16_lookup/report.json")):
+    for tag, path in (("model draft", bench("speculative/bench_cuda_float16/report.json")), ("prompt lookup", bench("speculative/bench_cuda_float16_lookup/report.json"))):
         w = load(path)["workloads"]
         for kind in ("json", "text"):
             for c in w[kind]["cells"]:
@@ -232,7 +242,7 @@ def figures(out, png):
     save(fig, "val_macro_f1_by_epoch")
     written.append("val_macro_f1_by_epoch")
 
-    d = load("results/decoding/benchmark_cuda_float16/report.json")["cells"]
+    d = load(bench("decoding/benchmark_cuda_float16/report.json"))["cells"]
     single = [c for c in d if c["batch"] == 1 and c["output"] == 256]
     fig, ax = plt.subplots(figsize=(4.8, 3.2))
     xs = [c["prompt"] for c in single]
@@ -245,7 +255,7 @@ def figures(out, png):
     save(fig, "decode_tokens_per_second")
     written.append("decode_tokens_per_second")
 
-    a = load("results/attention/bench_cuda_float16/report.json")["cells"]
+    a = load(bench("attention/bench_cuda_float16/report.json"))["cells"]
     fig, ax = plt.subplots(figsize=(4.8, 3.2))
     pre = [c for c in a if c["case"] == "prefill"]
     for k, label in (("reference", "full score matrix"), ("tiled_64", "tiled, tile 64"), ("tiled_256", "tiled, tile 256"), ("sdpa", "sdpa")):
@@ -260,7 +270,7 @@ def figures(out, png):
 
     fig, ax = plt.subplots(figsize=(4.8, 3.2))
     series = {}
-    for path in ("results/speculative/bench_cuda_float16/report.json", "results/speculative/bench_cuda_float16_lookup/report.json"):
+    for path in (bench("speculative/bench_cuda_float16/report.json"), bench("speculative/bench_cuda_float16_lookup/report.json")):
         for c in load(path)["workloads"]["json"]["cells"]:
             series.setdefault(c["draft"], []).append((c["k"], c["speedup_total"]))
     for draft, pts in series.items():
@@ -280,7 +290,10 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--out", default=str(ROOT / "report"))
     parser.add_argument("--png", action="store_true")
+    parser.add_argument("--bench-source", choices=("final", "earlier"), default="final", help="T4 benchmark reports: the rerun from the final-freeze tag (default) or the earlier ones")
     args = parser.parse_args()
+    global BENCH_SOURCE
+    BENCH_SOURCE = args.bench_source
     out = Path(args.out)
     (out / "tables").mkdir(parents=True, exist_ok=True)
     (out / "figures").mkdir(parents=True, exist_ok=True)
