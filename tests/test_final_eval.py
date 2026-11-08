@@ -1,3 +1,4 @@
+import hashlib
 import json
 import statistics
 from pathlib import Path
@@ -219,3 +220,29 @@ def test_restrict_keeps_named_files_and_directories_only():
     files = {"trialmatch/eval/a.py": "1", "trialmatch/evalx/b.py": "2", "scripts/final_eval.py": "3", "scripts/train.py": "4", "configs/final.json": "5"}
     assert set(build.restrict(files, ["trialmatch/eval/", "scripts/final_eval.py"])) == {"trialmatch/eval/a.py", "scripts/final_eval.py"}
     assert build.restrict(files, []) == files
+
+
+def test_hashes_use_the_form_the_kaggle_tarball_stores(tmp_path):
+    import hashlib
+
+    root = make_tree(tmp_path)
+    (root / "trialmatch/data/__init__.py").write_text("")
+    (root / "trialmatch/eval/b.py").write_text("y = 2\n\n\n")
+    (root / "trialmatch/runtime.py").write_text("z = 3")
+    found = file_hashes(root)
+    assert found["trialmatch/data/__init__.py"] == hashlib.sha256(b"\n").hexdigest()
+    assert found["trialmatch/eval/b.py"] == hashlib.sha256(b"y = 2\n").hexdigest()
+    assert found["trialmatch/runtime.py"] == hashlib.sha256(b"z = 3\n").hexdigest()
+
+
+def test_repo_hashes_equal_the_committed_tarball_form():
+    import subprocess
+
+    names = file_hashes(REPO)
+    for name, digest in names.items():
+        shown = subprocess.run(["git", "show", f"HEAD:{name}"], cwd=REPO, capture_output=True, text=True)
+        if shown.returncode:
+            pytest.skip("not a git checkout")
+        if (REPO / name).read_text() != shown.stdout:
+            continue  # edited since the last commit: nothing to compare yet
+        assert hashlib.sha256((shown.stdout.strip() + "\n").encode()).hexdigest() == digest, name

@@ -28,13 +28,17 @@ class FreezeError(RuntimeError):
 
 
 def file_hashes(root, patterns=FROZEN):
-    """sha256 per frozen file, keyed by path relative to root."""
+    """sha256 per frozen file, keyed by path relative to root.
+
+    Each file is hashed in the form tools/build_kernel.py stores it in the Kaggle tarball (text stripped, one trailing
+    newline), so the record made on the laptop equals what the job computes. An empty __init__.py is the case that differs.
+    """
     root = Path(root)
     found = {}
     for pattern in patterns:
         for path in root.glob(pattern):
             if path.is_file():
-                found[path.relative_to(root).as_posix()] = hashlib.sha256(path.read_bytes()).hexdigest()
+                found[path.relative_to(root).as_posix()] = hashlib.sha256((path.read_text().strip() + "\n").encode()).hexdigest()
     return dict(sorted(found.items()))
 
 
