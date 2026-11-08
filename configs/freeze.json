@@ -1,0 +1,52 @@
+{
+  "tag": "final-freeze",
+  "code_commit": "40cbfe9b40c9bb80d9791495d312dcab097ab4ac",
+  "manifest_sha256": "357486d0b76c2df3efc7c96a3894f92de2a062dff70448eb608c475166966cbf",
+  "target": {
+    "model": "Qwen/Qwen2.5-1.5B-Instruct",
+    "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306"
+  },
+  "draft": {
+    "model": "Qwen/Qwen2.5-0.5B-Instruct",
+    "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "run": "draft_over4",
+    "seed": 42,
+    "same_train_args_as_target": true,
+    "val_macro_f1": 0.438
+  },
+  "adapters": {
+    "hf_repo": "AkifJK/trialmatch-qwen2.5-1.5b-lora",
+    "hf_revision": "6fd2471b3894cdbe84d46f9d1278233a3279e77e",
+    "folders": {
+      "42": "seed42",
+      "43": "seed43",
+      "44": "seed44",
+      "draft": "draft"
+    },
+    "sha256": {
+      "seed42": "a5b54d4c13b886136d47172f45977ca9d9de3ffe4f6573e17c70acea093e40a6",
+      "seed43": "7ba9e86f6f2c7b1bf19977e9c3e33eea6e9626969d7410b6052bc27cd0bc04c2",
+      "seed44": "6d6cc082e60431ee6accf28146b58d03f51e966ec16a1866d19364a79f535034",
+      "draft": "91886b965f3a03a3cb5e86ed080c76025a086fbc865e56fa264db37a34388d44"
+    }
+  },
+  "files": {
+    "configs/final.json": "fabc5330d0b4ec2b1575df7c5b8d580eef51cd0181e2c830b0438317d35054aa",
+    "scripts/final_eval.py": "cc0cf14b4433326180d7dc6ffb3d766170b61f19889c9c78b2f9be089bbd5ce9",
+    "splits/manifest.json": "ef84563407deb4a9cbd26bb01118862ebfd42b26c565b6c7156c7ee7a3b32b19",
+    "trialmatch/data/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "trialmatch/data/encode.py": "5c059adae0bbf6f49dfdff0fd435f47314766f2d56b83ba10339fecbd8e7877c",
+    "trialmatch/data/load.py": "35dff60d33bfecf037bffad4a388b0aae10ea9f30e157abb3ee3c6201c972d87",
+    "trialmatch/data/note.py": "f8f158885e61458cba9555155c93540434a02867151283ce392060cf50f32bca",
+    "trialmatch/data/prompt.py": "08806fcb4c7591b4ec251f8bc62f8d682f6ce81fa6329de01ea743d94077b60a",
+    "trialmatch/data/split.py": "6113b96f412ea695d67299e49ee1033d2cc4769ece1fc16126a2915370bc7d7b",
+    "trialmatch/eval/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "trialmatch/eval/baselines.py": "cb5ec90bf1d9015ac457495d6bb1fafaecdd7f082aec0ceedef59884335f8e04",
+    "trialmatch/eval/freeze.py": "538c28104cc7e1dafe573b933c9f678926f988bcc52d6992b2c6c8b429e8843c",
+    "trialmatch/eval/generate.py": "a09a017b7b035d2562cc0e4af5231d4dd8d98fc1ef466bd8d909949ad5fc6d1e",
+    "trialmatch/eval/metrics.py": "9950767490cd022a3a503787687c06b070fa3daff7b8c46a878caffe57e01dcb",
+    "trialmatch/eval/parse.py": "bcdb9933d6ee2bf2d56818d12f491609c460cd9443f1bf69168d3263ba8a7267",
+    "trialmatch/eval/summary.py": "1d8de6b530c0b9d1c810a374e412103f244b091fbd9357709923bf0af5d6c261",
+    "trialmatch/runtime.py": "834567d627da9e720313224abcc872ca59e499ab8af02f6478cf6ddf3b6836e9"
+  }
+}
