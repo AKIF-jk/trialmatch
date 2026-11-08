@@ -82,11 +82,27 @@ with tarfile.open("/kaggle/working/src.tar.gz", "w:gz") as archive:
 print("packed", len(files), "files for", COMMIT, "from", BASE_COMMIT, "changed", len(CHANGED), "deleted", len(DELETED))
 """
 
+PINNED = ("transformers", "peft", "accelerate")
+
+
+def pins():
+    """The pip-installable lines of requirements-kaggle.txt that the Kaggle image does not keep fixed."""
+    lines = [l.strip() for l in (ROOT / "requirements-kaggle.txt").read_text().splitlines()]
+    return [l for l in lines if l.split("==")[0] in PINNED]
+
+
 JOB_TEMPLATE = """\
 import hashlib, io, json, os, subprocess, sys, tarfile, urllib.request
 
 JOB, ARGS, COMMIT, TREE_HASH = {job!r}, {args!r}, {commit!r}, {tree_hash!r}
 URL = {url!r}
+PINS = {pins!r}
+
+# The Kaggle image moves on (transformers 5.16.1 -> 5.20.2 between Phase 6 and Phase 7), so install the locked versions first.
+from importlib import metadata
+todo = [p for p in PINS if metadata.version(p.split("==")[0]) != p.split("==")[1]]
+if todo:
+    subprocess.run([sys.executable, "-m", "pip", "install", "-q", *todo], check=True)
 
 archive = tarfile.open(fileobj=io.BytesIO(urllib.request.urlopen(URL, timeout=120).read()), mode="r:gz")
 archive.extractall("/tmp/src", filter="data")
@@ -161,7 +177,7 @@ def main():
         if not (opts.job and opts.source_url):
             parser.error("job needs a script path and --source-url")
         out = BUILD / f"{Path(opts.job).stem}_kernel.py"
-        out.write_text(JOB_TEMPLATE.format(job=opts.job, args=opts.args, commit=commit, tree_hash=tree_hash(files), url=opts.source_url))
+        out.write_text(JOB_TEMPLATE.format(job=opts.job, args=opts.args, commit=commit, tree_hash=tree_hash(files), url=opts.source_url, pins=pins()))
     print(f"commit {commit}\ntree {tree_hash(files)}\nwrote {out} ({out.stat().st_size} bytes)")
 
 
