@@ -1,0 +1,26 @@
+{"id": 0, "patient": "unseen-pneumonia", "type": "inclusion", "criterion": "Adults aged 65 years or older.", "expected_label": "included", "expected_evidence": [0]}
+{"id": 1, "patient": "unseen-pneumonia", "type": "inclusion", "criterion": "Radiographic evidence of pneumonia.", "expected_label": "included", "expected_evidence": [3]}
+{"id": 2, "patient": "unseen-pneumonia", "type": "inclusion", "criterion": "Oxygen saturation below 90% on room air.", "expected_label": "not included", "expected_evidence": [2]}
+{"id": 3, "patient": "unseen-pneumonia", "type": "inclusion", "criterion": "Documented HIV infection.", "expected_label": "not enough information", "expected_evidence": []}
+{"id": 4, "patient": "unseen-pneumonia", "type": "inclusion", "criterion": "Negative pregnancy test at screening.", "expected_label": "not applicable", "expected_evidence": []}
+{"id": 5, "patient": "unseen-pneumonia", "type": "exclusion", "criterion": "Use of therapeutic anticoagulation.", "expected_label": "not excluded", "expected_evidence": [4]}
+{"id": 6, "patient": "unseen-pneumonia", "type": "exclusion", "criterion": "Hospital admission within the previous 30 days.", "expected_label": "excluded", "expected_evidence": [5]}
+{"id": 7, "patient": "unseen-pneumonia", "type": "exclusion", "criterion": "Severe renal impairment (serum creatinine above 3 mg/dL).", "expected_label": "not excluded", "expected_evidence": [4]}
+{"id": 8, "patient": "unseen-pneumonia", "type": "exclusion", "criterion": "Known allergy to macrolide antibiotics.", "expected_label": "not enough information", "expected_evidence": []}
+{"id": 9, "patient": "unseen-pneumonia", "type": "exclusion", "criterion": "Current pregnancy.", "expected_label": "not applicable", "expected_evidence": []}
+{"id": 10, "patient": "unseen-migraine", "type": "inclusion", "criterion": "At least 3 migraine attacks per month.", "expected_label": "included", "expected_evidence": [2]}
+{"id": 11, "patient": "unseen-migraine", "type": "inclusion", "criterion": "Migraine with aura.", "expected_label": "not included", "expected_evidence": [3]}
+{"id": 12, "patient": "unseen-migraine", "type": "inclusion", "criterion": "Age between 18 and 55 years.", "expected_label": "included", "expected_evidence": [0]}
+{"id": 13, "patient": "unseen-migraine", "type": "inclusion", "criterion": "Failure of at least two preventive treatments.", "expected_label": "not enough information", "expected_evidence": []}
+{"id": 14, "patient": "unseen-migraine", "type": "exclusion", "criterion": "Uncontrolled hypertension.", "expected_label": "not excluded", "expected_evidence": [4]}
+{"id": 15, "patient": "unseen-migraine", "type": "exclusion", "criterion": "Use of hormonal contraception.", "expected_label": "excluded", "expected_evidence": [5]}
+{"id": 16, "patient": "unseen-migraine", "type": "exclusion", "criterion": "History of cluster headache.", "expected_label": "not enough information", "expected_evidence": []}
+{"id": 17, "patient": "unseen-migraine", "type": "exclusion", "criterion": "Benign prostatic hyperplasia.", "expected_label": "not applicable", "expected_evidence": []}
+{"id": 18, "patient": "unseen-breast", "type": "inclusion", "criterion": "Histologically confirmed breast cancer.", "expected_label": "included", "expected_evidence": [0]}
+{"id": 19, "patient": "unseen-breast", "type": "inclusion", "criterion": "HER2-positive tumour.", "expected_label": "not included", "expected_evidence": [1]}
+{"id": 20, "patient": "unseen-breast", "type": "inclusion", "criterion": "ECOG performance status of 0 or 1.", "expected_label": "included", "expected_evidence": [3]}
+{"id": 21, "patient": "unseen-breast", "type": "inclusion", "criterion": "Measurable metastatic disease.", "expected_label": "not included", "expected_evidence": [2]}
+{"id": 22, "patient": "unseen-breast", "type": "exclusion", "criterion": "Left ventricular ejection fraction below 50%.", "expected_label": "not excluded", "expected_evidence": [4]}
+{"id": 23, "patient": "unseen-breast", "type": "exclusion", "criterion": "Prior systemic chemotherapy.", "expected_label": "not excluded", "expected_evidence": [5]}
+{"id": 24, "patient": "unseen-breast", "type": "exclusion", "criterion": "Active infection requiring systemic treatment.", "expected_label": "not enough information", "expected_evidence": []}
+{"id": 25, "patient": "unseen-breast", "type": "exclusion", "criterion": "Known brain metastases.", "expected_label": "not excluded", "expected_evidence": [2]}

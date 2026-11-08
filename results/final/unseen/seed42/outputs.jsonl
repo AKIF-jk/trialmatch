@@ -1,0 +1,26 @@
+{"id": 0, "text": "{\"evidence_sentence_ids\":[0],\"label\":\"included\"}", "label": "included", "evidence": [0]}
+{"id": 1, "text": "{\"evidence_sentence_ids\":[3],\"label\":\"included\"}", "label": "included", "evidence": [3]}
+{"id": 2, "text": "{\"evidence_sentence_ids\":[2],\"label\":\"not enough information\"}", "label": "not enough information", "evidence": [2]}
+{"id": 3, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "label": "not enough information", "evidence": []}
+{"id": 4, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "label": "not enough information", "evidence": []}
+{"id": 5, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "label": "not excluded", "evidence": []}
+{"id": 6, "text": "{\"evidence_sentence_ids\":[5],\"label\":\"not excluded\"}", "label": "not excluded", "evidence": [5]}
+{"id": 7, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"not excluded\"}", "label": "not excluded", "evidence": [4]}
+{"id": 8, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "label": "not excluded", "evidence": []}
+{"id": 9, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "label": "not excluded", "evidence": []}
+{"id": 10, "text": "{\"evidence_sentence_ids\":[0,1,2],\"label\":\"included\"}", "label": "included", "evidence": [0, 1, 2]}
+{"id": 11, "text": "{\"evidence_sentence_ids\":[3],\"label\":\"not included\"}", "label": "not included", "evidence": [3]}
+{"id": 12, "text": "{\"evidence_sentence_ids\":[0],\"label\":\"included\"}", "label": "included", "evidence": [0]}
+{"id": 13, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "label": "not enough information", "evidence": []}
+{"id": 14, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"not enough information\"}", "label": "not enough information", "evidence": [4]}
+{"id": 15, "text": "{\"evidence_sentence_ids\":[5],\"label\":\"not excluded\"}", "label": "not excluded", "evidence": [5]}
+{"id": 16, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "label": "not excluded", "evidence": []}
+{"id": 17, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "label": "not excluded", "evidence": []}
+{"id": 18, "text": "{\"evidence_sentence_ids\":[0],\"label\":\"included\"}", "label": "included", "evidence": [0]}
+{"id": 19, "text": "{\"evidence_sentence_ids\":[5],\"label\":\"not enough information\"}", "label": "not enough information", "evidence": [5]}
+{"id": 20, "text": "{\"evidence_sentence_ids\":[3],\"label\":\"included\"}", "label": "included", "evidence": [3]}
+{"id": 21, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "label": "not enough information", "evidence": []}
+{"id": 22, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"not excluded\"}", "label": "not excluded", "evidence": [4]}
+{"id": 23, "text": "{\"evidence_sentence_ids\":[5],\"label\":\"not excluded\"}", "label": "not excluded", "evidence": [5]}
+{"id": 24, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "label": "not excluded", "evidence": []}
+{"id": 25, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "label": "not excluded", "evidence": []}

@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 REPO = Path(__file__).resolve().parent.parent
-TABLES = ("split", "baselines_val", "sweep_val", "seeds_val", "test_main", "test_bootstrap", "test_per_class", "decode_t4", "attention_bench", "attention_errors", "speculative_t4")
+TABLES = ("split", "baselines_val", "sweep_val", "seeds_val", "test_main", "test_bootstrap", "test_per_class", "unseen_cases", "decode_t4", "attention_bench", "attention_errors", "speculative_t4")
 FIGURES = ("confusion_test_seed44", "val_macro_f1_by_epoch", "decode_tokens_per_second", "attention_peak_memory", "speculative_speedup")
 
 

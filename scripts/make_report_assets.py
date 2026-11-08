@@ -135,6 +135,19 @@ def test_tables(out):
     return [t1, t2, t3]
 
 
+def unseen_table(out):
+    cases = [json.loads(l) for l in open(RESULTS / "final/unseen/cases.jsonl")]
+    report = load("results/final/unseen/report.json")
+    rows = []
+    for seed in SEEDS:
+        preds = {o["id"]: o for o in map(json.loads, open(RESULTS / f"final/unseen/{seed}/outputs.jsonl"))}
+        hit = lambda kind: [preds[c["id"]]["label"] == c["expected_label"] for c in cases if kind is None or c["type"] == kind]
+        inc, exc, allc = hit("inclusion"), hit("exclusion"), hit(None)
+        rows.append([seed.replace("seed", "seed "), f"{sum(inc)}/{len(inc)}", f"{sum(exc)}/{len(exc)}", f"{sum(allc)}/{len(allc)}", f3(sum(allc) / len(allc)), f3(report["models"][seed]["evidence_macro_f1"])])
+    return write_table(out, "unseen_cases", ["Model", "Inclusion", "Exclusion", "All", "Label accuracy", "Evid. macro-F1"], rows, "lrrrrr",
+                       note="26 hand-written criteria on 3 unseen patients; expected labels written by the assistant, not clinician-reviewed.")
+
+
 def decode_table(out):
     d = load("results/decoding/benchmark_cuda_float16/report.json")
     rows = []
@@ -182,7 +195,7 @@ def figures(out, png):
 
     def save(fig, name):
         fig.tight_layout()
-        fig.savefig(out / "figures" / f"{name}.pdf")
+        fig.savefig(out / "figures" / f"{name}.pdf", metadata={"CreationDate": None, "Creator": "make_report_assets.py", "Producer": None})  # no timestamp: same bytes every run
         if png:
             fig.savefig(out / "figures" / f"{name}.png", dpi=120)
         plt.close(fig)
@@ -272,7 +285,7 @@ def main():
     (out / "tables").mkdir(parents=True, exist_ok=True)
     (out / "figures").mkdir(parents=True, exist_ok=True)
     produced = []
-    for gen in (split_table, baselines_table, sweep_table, seeds_table, test_tables, decode_table, attention_tables, spec_table):
+    for gen in (split_table, baselines_table, sweep_table, seeds_table, test_tables, unseen_table, decode_table, attention_tables, spec_table):
         try:
             made = gen(out)
             produced += made if isinstance(made, list) else [made]
