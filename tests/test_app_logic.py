@@ -283,3 +283,9 @@ def test_lab_commentary_flags_mismatch_and_handles_missing_modes():
     assert "x the speed of KV cache" not in screen.lab_commentary(rows[:1])
     table = screen.lab_table(lab_rows())
     assert [r[3] for r in table] == ["yes"] * 4 and table[3][9] == "0.50" and table[0][9] == "n/a"
+
+
+def test_lab_commentary_calls_ratios_near_one_the_same():
+    rows = lab_rows()
+    rows[2]["total_seconds"] = 1.005
+    assert "Speculative is 1.00x the speed of KV cache (about the same)" in screen.lab_commentary(rows)

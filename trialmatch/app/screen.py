@@ -201,7 +201,7 @@ def lab_commentary(rows):
             continue
         s, c = by[name], by["KV cache"]
         ratio = c["total_seconds"] / s["total_seconds"]
-        verdict = "faster" if ratio > 1 else "slower"
+        verdict = "faster" if ratio > 1.02 else "slower" if ratio < 0.98 else "about the same"
         lines.append(
             f"{name.capitalize()} is {ratio:.2f}x the speed of KV cache ({verdict}). Acceptance {_fmt(s.get('acceptance'), 2)}, "
             f"{_fmt(s.get('tokens_per_round'), 2)} tokens per round, {s.get('target_forwards')} target passes against {c['tokens']} tokens."
