@@ -1,0 +1,14 @@
+% Test split, 206 rows, 8 patients; `excluded` has no test row, so Macro-F1 (5) averages the five supported labels.
+\begin{tabular}{lrrrrrr}
+\toprule
+Model & Accuracy & Macro-F1 & Macro-F1 (5) & Evid. micro & Evid. macro & Malformed \\
+\midrule
+Majority class & 0.626 & 0.226 & 0.272 & 0.000 & 0.704 & 0 \\
+Base, strict & 0.000 & 0.000 & 0.000 & 0.000 & 0.160 & 169 \\
+Base, repaired & 0.146 & 0.121 & 0.145 & 0.153 & 0.320 & 3 \\
+Fine-tuned, seed 42 & 0.709 & 0.436 & 0.523 & 0.522 & 0.791 & 0 \\
+Fine-tuned, seed 43 & 0.689 & 0.410 & 0.492 & 0.539 & 0.817 & 0 \\
+Fine-tuned, seed 44 & 0.689 & 0.447 & 0.536 & 0.521 & 0.804 & 0 \\
+Fine-tuned, mean $\pm$ SD & 0.696 $\pm$ 0.011 & 0.431 $\pm$ 0.019 & 0.517 $\pm$ 0.023 & 0.527 $\pm$ 0.010 & 0.804 $\pm$ 0.013 & 0 \\
+\bottomrule
+\end{tabular}
