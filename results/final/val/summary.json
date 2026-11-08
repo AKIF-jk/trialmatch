@@ -1,0 +1,435 @@
+{
+  "split": "val",
+  "n_rows": 206,
+  "n_patients": 8,
+  "support": {
+    "inclusion": {
+      "not enough information": 27,
+      "included": 35,
+      "not included": 3,
+      "not applicable": 1
+    },
+    "exclusion": {
+      "not excluded": 101,
+      "not enough information": 26,
+      "not applicable": 11,
+      "excluded": 2
+    }
+  },
+  "commit": "eedf04ce06c8d2d542fe399392dedbf259c7a549",
+  "freeze": null,
+  "rerun_reason": null,
+  "earlier_test_runs": 0,
+  "model": {
+    "name": "Qwen/Qwen2.5-1.5B-Instruct",
+    "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "dtype": "float16"
+  },
+  "adapters": {
+    "hf_repo": "AkifJK/trialmatch-qwen2.5-1.5b-lora",
+    "hf_revision": "6fd2471b3894cdbe84d46f9d1278233a3279e77e",
+    "folders": {
+      "42": "seed42",
+      "43": "seed43",
+      "44": "seed44",
+      "draft": "draft"
+    },
+    "sha256": {
+      "seed42": "a5b54d4c13b886136d47172f45977ca9d9de3ffe4f6573e17c70acea093e40a6",
+      "seed43": "7ba9e86f6f2c7b1bf19977e9c3e33eea6e9626969d7410b6052bc27cd0bc04c2",
+      "seed44": "6d6cc082e60431ee6accf28146b58d03f51e966ec16a1866d19364a79f535034",
+      "draft": "91886b965f3a03a3cb5e86ed080c76025a086fbc865e56fa264db37a34388d44"
+    }
+  },
+  "decoding": {
+    "batch_size": 16,
+    "max_new_tokens": 96,
+    "stop_tokens": [
+      "<|im_end|>",
+      "<|endoftext|>"
+    ],
+    "order": "evidence_first",
+    "do_sample": false,
+    "repetition_penalty": 1.0,
+    "temperature": null,
+    "top_p": null,
+    "top_k": null
+  },
+  "models": {
+    "base": {
+      "strict": {
+        "accuracy": 0.014563106796116505,
+        "macro_f1": 0.014944769330734242,
+        "macro_f1_supported": 0.014944769330734242,
+        "evidence_micro_f1": 0.09467455621301776,
+        "evidence_macro_f1": 0.3583532971882486,
+        "malformed": 97,
+        "f1[included]": 0.05263157894736842,
+        "f1[not included]": 0.0,
+        "f1[excluded]": 0.037037037037037035,
+        "f1[not excluded]": 0.0,
+        "f1[not enough information]": 0.0,
+        "f1[not applicable]": 0.0
+      },
+      "repair": {
+        "accuracy": 0.1796116504854369,
+        "macro_f1": 0.1252335562194717,
+        "macro_f1_supported": 0.1252335562194717,
+        "evidence_micro_f1": 0.16913946587537093,
+        "evidence_macro_f1": 0.45065250283696884,
+        "malformed": 0,
+        "f1[included]": 0.6868686868686867,
+        "f1[not included]": 0.0,
+        "f1[excluded]": 0.028169014084507043,
+        "f1[not excluded]": 0.0,
+        "f1[not enough information]": 0.03636363636363636,
+        "f1[not applicable]": 0.0
+      },
+      "bootstrap_strict": {
+        "n_resamples": 1000,
+        "n_patients": 8,
+        "seed": 0,
+        "level": 0.95,
+        "accuracy": {
+          "point": 0.014563106796116505,
+          "lo": 0.004112345679012349,
+          "hi": 0.029949192524042816
+        },
+        "macro_f1": {
+          "point": 0.014944769330734242,
+          "lo": 0.0021749960146660325,
+          "hi": 0.034245201374357374
+        },
+        "evidence_macro_f1": {
+          "point": 0.3583532971882486,
+          "lo": 0.1974982627873954,
+          "hi": 0.4818746470920384
+        }
+      }
+    },
+    "seed42": {
+      "strict": {
+        "accuracy": 0.7378640776699029,
+        "macro_f1": 0.42581440076932325,
+        "macro_f1_supported": 0.42581440076932325,
+        "evidence_micro_f1": 0.5232067510548524,
+        "evidence_macro_f1": 0.7387078132223763,
+        "malformed": 0,
+        "f1[included]": 0.7457627118644068,
+        "f1[not included]": 0.0,
+        "f1[excluded]": 0.0,
+        "f1[not excluded]": 0.8559322033898306,
+        "f1[not enough information]": 0.5531914893617021,
+        "f1[not applicable]": 0.4
+      },
+      "repair": {
+        "accuracy": 0.7378640776699029,
+        "macro_f1": 0.42581440076932325,
+        "macro_f1_supported": 0.42581440076932325,
+        "evidence_micro_f1": 0.5232067510548524,
+        "evidence_macro_f1": 0.7387078132223763,
+        "malformed": 0,
+        "f1[included]": 0.7457627118644068,
+        "f1[not included]": 0.0,
+        "f1[excluded]": 0.0,
+        "f1[not excluded]": 0.8559322033898306,
+        "f1[not enough information]": 0.5531914893617021,
+        "f1[not applicable]": 0.4
+      },
+      "bootstrap_strict": {
+        "n_resamples": 1000,
+        "n_patients": 8,
+        "seed": 0,
+        "level": 0.95,
+        "accuracy": {
+          "point": 0.7378640776699029,
+          "lo": 0.6705865351921115,
+          "hi": 0.7826131503920172
+        },
+        "macro_f1": {
+          "point": 0.42581440076932325,
+          "lo": 0.33560702249877933,
+          "hi": 0.4842478544798727
+        },
+        "evidence_macro_f1": {
+          "point": 0.7387078132223763,
+          "lo": 0.7058537911398081,
+          "hi": 0.7825908421783915
+        }
+      }
+    },
+    "seed43": {
+      "strict": {
+        "accuracy": 0.7184466019417476,
+        "macro_f1": 0.44041820897460876,
+        "macro_f1_supported": 0.44041820897460876,
+        "evidence_micro_f1": 0.5304347826086957,
+        "evidence_macro_f1": 0.7428571428571429,
+        "malformed": 0,
+        "f1[included]": 0.711864406779661,
+        "f1[not included]": 0.0,
+        "f1[excluded]": 0.5,
+        "f1[not excluded]": 0.8559322033898306,
+        "f1[not enough information]": 0.5747126436781609,
+        "f1[not applicable]": 0.0
+      },
+      "repair": {
+        "accuracy": 0.7184466019417476,
+        "macro_f1": 0.44041820897460876,
+        "macro_f1_supported": 0.44041820897460876,
+        "evidence_micro_f1": 0.5304347826086957,
+        "evidence_macro_f1": 0.7428571428571429,
+        "malformed": 0,
+        "f1[included]": 0.711864406779661,
+        "f1[not included]": 0.0,
+        "f1[excluded]": 0.5,
+        "f1[not excluded]": 0.8559322033898306,
+        "f1[not enough information]": 0.5747126436781609,
+        "f1[not applicable]": 0.0
+      },
+      "bootstrap_strict": {
+        "n_resamples": 1000,
+        "n_patients": 8,
+        "seed": 0,
+        "level": 0.95,
+        "accuracy": {
+          "point": 0.7184466019417476,
+          "lo": 0.6507859454461397,
+          "hi": 0.7680148760330578
+        },
+        "macro_f1": {
+          "point": 0.44041820897460876,
+          "lo": 0.3288998567861959,
+          "hi": 0.532441774022567
+        },
+        "evidence_macro_f1": {
+          "point": 0.7428571428571429,
+          "lo": 0.7104796519222129,
+          "hi": 0.7860128185045948
+        }
+      }
+    },
+    "seed44": {
+      "strict": {
+        "accuracy": 0.7378640776699029,
+        "macro_f1": 0.47302528438431074,
+        "macro_f1_supported": 0.47302528438431074,
+        "evidence_micro_f1": 0.55,
+        "evidence_macro_f1": 0.7368007397133611,
+        "malformed": 0,
+        "f1[included]": 0.7619047619047619,
+        "f1[not included]": 0.2222222222222222,
+        "f1[excluded]": 0.0,
+        "f1[not excluded]": 0.8547008547008547,
+        "f1[not enough information]": 0.5287356321839081,
+        "f1[not applicable]": 0.47058823529411764
+      },
+      "repair": {
+        "accuracy": 0.7378640776699029,
+        "macro_f1": 0.47302528438431074,
+        "macro_f1_supported": 0.47302528438431074,
+        "evidence_micro_f1": 0.55,
+        "evidence_macro_f1": 0.7368007397133611,
+        "malformed": 0,
+        "f1[included]": 0.7619047619047619,
+        "f1[not included]": 0.2222222222222222,
+        "f1[excluded]": 0.0,
+        "f1[not excluded]": 0.8547008547008547,
+        "f1[not enough information]": 0.5287356321839081,
+        "f1[not applicable]": 0.47058823529411764
+      },
+      "bootstrap_strict": {
+        "n_resamples": 1000,
+        "n_patients": 8,
+        "seed": 0,
+        "level": 0.95,
+        "accuracy": {
+          "point": 0.7378640776699029,
+          "lo": 0.696969696969697,
+          "hi": 0.7738095238095238
+        },
+        "macro_f1": {
+          "point": 0.47302528438431074,
+          "lo": 0.3540638633944829,
+          "hi": 0.549184493739471
+        },
+        "evidence_macro_f1": {
+          "point": 0.7368007397133611,
+          "lo": 0.7041930639814584,
+          "hi": 0.7796230865120918
+        }
+      }
+    }
+  },
+  "majority": {
+    "strict": {
+      "accuracy": 0.6213592233009708,
+      "macro_f1": 0.21532596441066051,
+      "macro_f1_supported": 0.21532596441066051,
+      "evidence_micro_f1": 0.0,
+      "evidence_macro_f1": 0.5631067961165048,
+      "malformed": 0,
+      "f1[included]": 0.0,
+      "f1[not included]": 0.0,
+      "f1[excluded]": 0.0,
+      "f1[not excluded]": 0.8381742738589211,
+      "f1[not enough information]": 0.45378151260504207,
+      "f1[not applicable]": 0.0
+    },
+    "bootstrap_strict": {
+      "n_resamples": 1000,
+      "n_patients": 8,
+      "seed": 0,
+      "level": 0.95,
+      "accuracy": {
+        "point": 0.6213592233009708,
+        "lo": 0.518908908908909,
+        "hi": 0.7077676081949328
+      },
+      "macro_f1": {
+        "point": 0.21532596441066051,
+        "lo": 0.18617864458099564,
+        "hi": 0.23824713676562184
+      },
+      "evidence_macro_f1": {
+        "point": 0.5631067961165048,
+        "lo": 0.49627826941986236,
+        "hi": 0.6352274731087991
+      }
+    }
+  },
+  "fine_tuned_seeds": {
+    "accuracy": {
+      "per_seed": {
+        "seed42": 0.7378640776699029,
+        "seed43": 0.7184466019417476,
+        "seed44": 0.7378640776699029
+      },
+      "mean": 0.7313915857605178,
+      "sd": 0.011210684838633505,
+      "min": 0.7184466019417476,
+      "max": 0.7378640776699029
+    },
+    "macro_f1": {
+      "per_seed": {
+        "seed42": 0.42581440076932325,
+        "seed43": 0.44041820897460876,
+        "seed44": 0.47302528438431074
+      },
+      "mean": 0.44641929804274755,
+      "sd": 0.024170781647058395,
+      "min": 0.42581440076932325,
+      "max": 0.47302528438431074
+    },
+    "macro_f1_supported": {
+      "per_seed": {
+        "seed42": 0.42581440076932325,
+        "seed43": 0.44041820897460876,
+        "seed44": 0.47302528438431074
+      },
+      "mean": 0.44641929804274755,
+      "sd": 0.024170781647058395,
+      "min": 0.42581440076932325,
+      "max": 0.47302528438431074
+    },
+    "evidence_micro_f1": {
+      "per_seed": {
+        "seed42": 0.5232067510548524,
+        "seed43": 0.5304347826086957,
+        "seed44": 0.55
+      },
+      "mean": 0.5345471778878493,
+      "sd": 0.013861940465106908,
+      "min": 0.5232067510548524,
+      "max": 0.55
+    },
+    "evidence_macro_f1": {
+      "per_seed": {
+        "seed42": 0.7387078132223763,
+        "seed43": 0.7428571428571429,
+        "seed44": 0.7368007397133611
+      },
+      "mean": 0.7394552319309602,
+      "sd": 0.003096607951365197,
+      "min": 0.7368007397133611,
+      "max": 0.7428571428571429
+    },
+    "malformed": {
+      "per_seed": {
+        "seed42": 0,
+        "seed43": 0,
+        "seed44": 0
+      },
+      "mean": 0.0,
+      "sd": 0.0,
+      "min": 0,
+      "max": 0
+    },
+    "f1[included]": {
+      "per_seed": {
+        "seed42": 0.7457627118644068,
+        "seed43": 0.711864406779661,
+        "seed44": 0.7619047619047619
+      },
+      "mean": 0.7398439601829433,
+      "sd": 0.02553983166275128,
+      "min": 0.711864406779661,
+      "max": 0.7619047619047619
+    },
+    "f1[not included]": {
+      "per_seed": {
+        "seed42": 0.0,
+        "seed43": 0.0,
+        "seed44": 0.2222222222222222
+      },
+      "mean": 0.07407407407407407,
+      "sd": 0.12830005981991682,
+      "min": 0.0,
+      "max": 0.2222222222222222
+    },
+    "f1[excluded]": {
+      "per_seed": {
+        "seed42": 0.0,
+        "seed43": 0.5,
+        "seed44": 0.0
+      },
+      "mean": 0.16666666666666666,
+      "sd": 0.28867513459481287,
+      "min": 0.0,
+      "max": 0.5
+    },
+    "f1[not excluded]": {
+      "per_seed": {
+        "seed42": 0.8559322033898306,
+        "seed43": 0.8559322033898306,
+        "seed44": 0.8547008547008547
+      },
+      "mean": 0.8555217538268386,
+      "sd": 0.000710919497046527,
+      "min": 0.8547008547008547,
+      "max": 0.8559322033898306
+    },
+    "f1[not enough information]": {
+      "per_seed": {
+        "seed42": 0.5531914893617021,
+        "seed43": 0.5747126436781609,
+        "seed44": 0.5287356321839081
+      },
+      "mean": 0.5522132550745904,
+      "sd": 0.023004110572374337,
+      "min": 0.5287356321839081,
+      "max": 0.5747126436781609
+    },
+    "f1[not applicable]": {
+      "per_seed": {
+        "seed42": 0.4,
+        "seed43": 0.0,
+        "seed44": 0.47058823529411764
+      },
+      "mean": 0.2901960784313726,
+      "sd": 0.25378336764491666,
+      "min": 0.0,
+      "max": 0.47058823529411764
+    }
+  }
+}
