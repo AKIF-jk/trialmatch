@@ -1,0 +1,206 @@
+{"annotation_id": 159, "text": "{\"evidence_sentence_ids\":[0],\"label\":\"included\"}", "new_tokens": 13}
+{"annotation_id": 160, "text": "{\"evidence_sentence_ids\":[3],\"label\":\"included\"}", "new_tokens": 13}
+{"annotation_id": 161, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not included\"}", "new_tokens": 13}
+{"annotation_id": 162, "text": "{\"evidence_sentence_ids\":[0,1,2],\"label\":\"not enough information\"}", "new_tokens": 19}
+{"annotation_id": 163, "text": "{\"evidence_sentence_ids\":[0,1,2],\"label\":\"not enough information\"}", "new_tokens": 19}
+{"annotation_id": 164, "text": "{\"evidence_sentence_ids\":[0,1],\"label\":\"not enough information\"}", "new_tokens": 17}
+{"annotation_id": 165, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not applicable\"}", "new_tokens": 13}
+{"annotation_id": 166, "text": "{\"evidence_sentence_ids\":[1,2],\"label\":\"not excluded\"}", "new_tokens": 16}
+{"annotation_id": 167, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 168, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 169, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 170, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 171, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 172, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 173, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 174, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 175, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 176, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not included\"}", "new_tokens": 13}
+{"annotation_id": 177, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 178, "text": "{\"evidence_sentence_ids\":[3],\"label\":\"included\"}", "new_tokens": 13}
+{"annotation_id": 179, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 180, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 181, "text": "{\"evidence_sentence_ids\":[3],\"label\":\"not excluded\"}", "new_tokens": 14}
+{"annotation_id": 182, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 183, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 184, "text": "{\"evidence_sentence_ids\":[0,1,2],\"label\":\"excluded\"}", "new_tokens": 18}
+{"annotation_id": 185, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 186, "text": "{\"evidence_sentence_ids\":[2],\"label\":\"not enough information\"}", "new_tokens": 15}
+{"annotation_id": 187, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 188, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 189, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 190, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 191, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 192, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 193, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 194, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 195, "text": "{\"evidence_sentence_ids\":[0,1,2],\"label\":\"not enough information\"}", "new_tokens": 19}
+{"annotation_id": 196, "text": "{\"evidence_sentence_ids\":[0],\"label\":\"not excluded\"}", "new_tokens": 14}
+{"annotation_id": 197, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 198, "text": "{\"evidence_sentence_ids\":[5],\"label\":\"not excluded\"}", "new_tokens": 14}
+{"annotation_id": 199, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 304, "text": "{\"evidence_sentence_ids\":[0],\"label\":\"included\"}", "new_tokens": 13}
+{"annotation_id": 305, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 306, "text": "{\"evidence_sentence_ids\":[3,4],\"label\":\"not enough information\"}", "new_tokens": 17}
+{"annotation_id": 307, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 308, "text": "{\"evidence_sentence_ids\":[5],\"label\":\"included\"}", "new_tokens": 13}
+{"annotation_id": 309, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 310, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 311, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 312, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 313, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 314, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 315, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 316, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 317, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 318, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 319, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 320, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 321, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 322, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not applicable\"}", "new_tokens": 13}
+{"annotation_id": 323, "text": "{\"evidence_sentence_ids\":[0],\"label\":\"not included\"}", "new_tokens": 14}
+{"annotation_id": 324, "text": "{\"evidence_sentence_ids\":[0],\"label\":\"included\"}", "new_tokens": 13}
+{"annotation_id": 325, "text": "{\"evidence_sentence_ids\":[0],\"label\":\"not included\"}", "new_tokens": 14}
+{"annotation_id": 326, "text": "{\"evidence_sentence_ids\":[5],\"label\":\"not excluded\"}", "new_tokens": 14}
+{"annotation_id": 381, "text": "{\"evidence_sentence_ids\":[0],\"label\":\"included\"}", "new_tokens": 13}
+{"annotation_id": 382, "text": "{\"evidence_sentence_ids\":[0,1,2,3],\"label\":\"not enough information\"}", "new_tokens": 21}
+{"annotation_id": 383, "text": "{\"evidence_sentence_ids\":[0,1,2],\"label\":\"not included\"}", "new_tokens": 18}
+{"annotation_id": 384, "text": "{\"evidence_sentence_ids\":[2],\"label\":\"not enough information\"}", "new_tokens": 15}
+{"annotation_id": 385, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"not enough information\"}", "new_tokens": 15}
+{"annotation_id": 386, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"included\"}", "new_tokens": 13}
+{"annotation_id": 387, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"included\"}", "new_tokens": 13}
+{"annotation_id": 388, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 389, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 390, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 391, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 392, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 393, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 394, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 395, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 396, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 397, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 398, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 399, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 400, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 401, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 402, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 403, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 404, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 405, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 406, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 407, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 408, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 409, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 410, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 411, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 412, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 413, "text": "{\"evidence_sentence_ids\":[1,2],\"label\":\"not included\"}", "new_tokens": 16}
+{"annotation_id": 414, "text": "{\"evidence_sentence_ids\":[1,2,3],\"label\":\"not excluded\"}", "new_tokens": 18}
+{"annotation_id": 415, "text": "{\"evidence_sentence_ids\":[0],\"label\":\"included\"}", "new_tokens": 13}
+{"annotation_id": 416, "text": "{\"evidence_sentence_ids\":[0,1,5],\"label\":\"included\"}", "new_tokens": 17}
+{"annotation_id": 417, "text": "{\"evidence_sentence_ids\":[5],\"label\":\"included\"}", "new_tokens": 13}
+{"annotation_id": 418, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 419, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 420, "text": "{\"evidence_sentence_ids\":[0,1,4,5],\"label\":\"included\"}", "new_tokens": 19}
+{"annotation_id": 421, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 422, "text": "{\"evidence_sentence_ids\":[0],\"label\":\"not enough information\"}", "new_tokens": 15}
+{"annotation_id": 423, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 424, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 425, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 426, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 427, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 428, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 429, "text": "{\"evidence_sentence_ids\":[3],\"label\":\"not excluded\"}", "new_tokens": 14}
+{"annotation_id": 430, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 678, "text": "{\"evidence_sentence_ids\":[0],\"label\":\"not enough information\"}", "new_tokens": 15}
+{"annotation_id": 679, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 680, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 681, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 682, "text": "{\"evidence_sentence_ids\":[0],\"label\":\"included\"}", "new_tokens": 13}
+{"annotation_id": 683, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 684, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 685, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 686, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 687, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 688, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 689, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 690, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 691, "text": "{\"evidence_sentence_ids\":[0],\"label\":\"included\"}", "new_tokens": 13}
+{"annotation_id": 692, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 693, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 694, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 695, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 696, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 697, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not applicable\"}", "new_tokens": 13}
+{"annotation_id": 698, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 699, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 741, "text": "{\"evidence_sentence_ids\":[0,1,2],\"label\":\"not enough information\"}", "new_tokens": 19}
+{"annotation_id": 742, "text": "{\"evidence_sentence_ids\":[4],\"label\":\"included\"}", "new_tokens": 13}
+{"annotation_id": 743, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 744, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 745, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 746, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not included\"}", "new_tokens": 13}
+{"annotation_id": 747, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 748, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 749, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 750, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not applicable\"}", "new_tokens": 13}
+{"annotation_id": 751, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 752, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 753, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 754, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 755, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 756, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 757, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 758, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 759, "text": "{\"evidence_sentence_ids\":[0],\"label\":\"included\"}", "new_tokens": 13}
+{"annotation_id": 760, "text": "{\"evidence_sentence_ids\":[0],\"label\":\"not enough information\"}", "new_tokens": 15}
+{"annotation_id": 761, "text": "{\"evidence_sentence_ids\":[0,1,2],\"label\":\"not enough information\"}", "new_tokens": 19}
+{"annotation_id": 762, "text": "{\"evidence_sentence_ids\":[0,1,2],\"label\":\"not enough information\"}", "new_tokens": 19}
+{"annotation_id": 763, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 764, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 765, "text": "{\"evidence_sentence_ids\":[0,1,2],\"label\":\"not enough information\"}", "new_tokens": 19}
+{"annotation_id": 766, "text": "{\"evidence_sentence_ids\":[3],\"label\":\"not enough information\"}", "new_tokens": 15}
+{"annotation_id": 767, "text": "{\"evidence_sentence_ids\":[0,1,2],\"label\":\"not excluded\"}", "new_tokens": 18}
+{"annotation_id": 768, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 769, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 770, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 771, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 772, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 773, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 774, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 775, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 776, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 777, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 778, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 779, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 780, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 781, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 782, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 827, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5,6,7],\"label\":\"not included\"}", "new_tokens": 28}
+{"annotation_id": 828, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 829, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 830, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 831, "text": "{\"evidence_sentence_ids\":[7],\"label\":\"not enough information\"}", "new_tokens": 15}
+{"annotation_id": 832, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5,6,7],\"label\":\"not enough information\"}", "new_tokens": 29}
+{"annotation_id": 833, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 834, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 835, "text": "{\"evidence_sentence_ids\":[1],\"label\":\"not included\"}", "new_tokens": 14}
+{"annotation_id": 836, "text": "{\"evidence_sentence_ids\":[0,1,2,3,4,5,6,7],\"label\":\"not included\"}", "new_tokens": 28}
+{"annotation_id": 837, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 838, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not enough information\"}", "new_tokens": 14}
+{"annotation_id": 839, "text": "{\"evidence_sentence_ids\":[1],\"label\":\"not included\"}", "new_tokens": 14}
+{"annotation_id": 840, "text": "{\"evidence_sentence_ids\":[1],\"label\":\"not included\"}", "new_tokens": 14}
+{"annotation_id": 841, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 842, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 843, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 844, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 845, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 846, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 847, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 848, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 849, "text": "{\"evidence_sentence_ids\":[1,2,3,4,5,6,7],\"label\":\"not excluded\"}", "new_tokens": 26}
+{"annotation_id": 850, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 851, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 852, "text": "{\"evidence_sentence_ids\":[1],\"label\":\"not excluded\"}", "new_tokens": 14}
+{"annotation_id": 853, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
+{"annotation_id": 854, "text": "{\"evidence_sentence_ids\":[],\"label\":\"not excluded\"}", "new_tokens": 13}
