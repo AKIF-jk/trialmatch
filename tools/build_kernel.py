@@ -50,8 +50,13 @@ import hashlib, io, json, tarfile, urllib.request
 COMMIT, BASE_COMMIT = {commit!r}, {base_commit!r}
 BASE_TREE_HASH, TREE_HASH = {base_tree_hash!r}, {tree_hash!r}
 URL = {url!r}
+ONLY = {only!r}
 CHANGED = {files}
 DELETED = {deleted!r}
+
+
+def keep(path):
+    return not ONLY or any(path == o or (o.endswith("/") and path.startswith(o)) for o in ONLY)
 
 
 def tree_hash(files):
@@ -60,7 +65,7 @@ def tree_hash(files):
 
 
 with tarfile.open(fileobj=io.BytesIO(urllib.request.urlopen(URL, timeout=120).read()), mode="r:gz") as base:
-    files = {{m.name: base.extractfile(m).read() for m in base.getmembers()}}
+    files = {{m.name: base.extractfile(m).read() for m in base.getmembers() if keep(m.name)}}
 found = tree_hash(files)
 assert found == BASE_TREE_HASH, f"base tree hash {{found}} does not match {{BASE_TREE_HASH}} ({{BASE_COMMIT}})"
 for path in DELETED:
@@ -111,6 +116,11 @@ def committed_files():
     return files_at("HEAD")
 
 
+def restrict(files, only):
+    """Keep only the paths named in `only` (a file path, or a directory written with a trailing slash)."""
+    return {p: t for p, t in files.items() if not only or any(p == o or (o.endswith("/") and p.startswith(o)) for o in only)}
+
+
 def tree_hash(files):
     tree = {path: hashlib.sha256(text.encode()).hexdigest() for path, text in files.items()}
     return hashlib.sha256(json.dumps(tree, sort_keys=True).encode()).hexdigest()
@@ -129,19 +139,20 @@ def main():
     parser.add_argument("--source-url")
     parser.add_argument("--base-url")
     parser.add_argument("--base-commit")
+    parser.add_argument("--only", action="append", default=[], help="keep only this file or directory/ (repeatable); the tree hash covers just these")
     opts = parser.parse_args()
 
     BUILD.mkdir(exist_ok=True)
     commit = git("rev-parse", "HEAD")
-    files = committed_files()
+    files = restrict(committed_files(), opts.only)
     if opts.kind == "src" and (opts.base_url or opts.base_commit):
         if not (opts.base_url and opts.base_commit):
             parser.error("a delta build needs both --base-url and --base-commit")
-        base = files_at(opts.base_commit)
+        base = restrict(files_at(opts.base_commit), opts.only)
         changed = {path: text for path, text in files.items() if base.get(path) != text}
         deleted = sorted(set(base) - set(files))
         out = BUILD / "src_kernel.py"
-        out.write_text(DELTA_TEMPLATE.format(commit=commit, base_commit=git("rev-parse", opts.base_commit), base_tree_hash=tree_hash(base), tree_hash=tree_hash(files), url=opts.base_url, files=render_files(changed), deleted=deleted))
+        out.write_text(DELTA_TEMPLATE.format(commit=commit, base_commit=git("rev-parse", opts.base_commit), base_tree_hash=tree_hash(base), tree_hash=tree_hash(files), url=opts.base_url, only=opts.only, files=render_files(changed), deleted=deleted))
         print(f"delta against {opts.base_commit}: {len(changed)} changed, {len(deleted)} deleted")
     elif opts.kind == "src":
         out = BUILD / "src_kernel.py"

@@ -10,7 +10,9 @@ import json
 from pathlib import Path
 
 FREEZE_FILE = "configs/freeze.json"
-RUN_LOG = "results/final/test/run.json"
+# Kaggle jobs see only the committed trialmatch/, scripts/, configs/, tests/ and splits/ trees (tools/build_kernel.py),
+# so every frozen file and the run log must live in one of them. A test enforces this.
+RUN_LOG = "configs/test_runs.json"
 FROZEN = (
     "trialmatch/data/*.py",
     "trialmatch/eval/*.py",
@@ -18,7 +20,6 @@ FROZEN = (
     "scripts/final_eval.py",
     "configs/final.json",
     "splits/manifest.json",
-    "requirements-kaggle.txt",
 )
 
 

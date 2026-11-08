@@ -87,7 +87,7 @@ def test_rerun_needs_a_reason(tmp_path):
     root = make_tree(tmp_path)
     assert check_rerun(root, None) == []
     log = root / RUN_LOG
-    log.parent.mkdir(parents=True)
+    log.parent.mkdir(parents=True, exist_ok=True)
     log.write_text(json.dumps({"runs": [{"started": "t", "commit": SHA}]}))
     assert len(previous_runs(root)) == 1
     for reason in (None, "", "   "):
@@ -198,3 +198,24 @@ def test_seed_summary_aggregates_each_headline_number():
     assert summary["accuracy"]["sd"] == pytest.approx(statistics.stdev(accuracies))
     assert summary["malformed"]["per_seed"] == {"seed42": 0, "seed43": 1, "seed44": 0}
     assert "f1[excluded]" in summary and set(headline(reports["seed42"])) == set(summary)
+
+
+def test_frozen_files_and_run_log_are_in_the_kaggle_tarball():
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("build_kernel", REPO / "tools/build_kernel.py")
+    build = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(build)
+    for name in [*file_hashes(REPO), FREEZE_FILE, RUN_LOG]:
+        assert name.split("/")[0] in build.SOURCE_PATHS, f"{name} is not shipped to Kaggle jobs"
+
+
+def test_restrict_keeps_named_files_and_directories_only():
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("build_kernel", REPO / "tools/build_kernel.py")
+    build = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(build)
+    files = {"trialmatch/eval/a.py": "1", "trialmatch/evalx/b.py": "2", "scripts/final_eval.py": "3", "scripts/train.py": "4", "configs/final.json": "5"}
+    assert set(build.restrict(files, ["trialmatch/eval/", "scripts/final_eval.py"])) == {"trialmatch/eval/a.py", "scripts/final_eval.py"}
+    assert build.restrict(files, []) == files

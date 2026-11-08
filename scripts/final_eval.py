@@ -6,8 +6,9 @@
 
 This is the only script that may open the test split (`allow_test=True` appears nowhere else). Before it does, it checks:
 configs/freeze.json exists and every frozen file still has its recorded hash; the running commit is the one the freeze tag
-points at (--expect-commit); no earlier test run is on record in results/final/test/run.json, unless --rerun-reason says why
+points at (--expect-commit); no earlier test run is on record in configs/test_runs.json, unless --rerun-reason says why
 a rerun is needed, in which case the reason is written into the results. Run it once. Do not tune after it.
+After a test run, copy results/final/test/run.json to configs/test_runs.json and commit it, so the next job sees the record.
 
 Each model writes results/final/<split>/<name>/{outputs.jsonl,report.json}; the majority baseline and the seed summary go
 to results/final/<split>/{majority,summary.json}. Raw outputs are saved before any scoring, so a scoring change never needs
@@ -127,10 +128,8 @@ def run_model(name, adapter, tokenizer, rows, prompts, stop_ids, args, out):
 
 
 def recorded_validation(config, name):
-    """Strict validation headline of the run this seed's adapter came from, for the dry-run reproduction check."""
-    run = config["runs"][name.removeprefix("seed")]
-    report = json.loads((ROOT / "results/train" / run / "report.json").read_text())
-    return headline(report["best"]["strict"])
+    """Validation macro-F1 recorded in configs/final.json (3 decimals) for the run this seed's adapter came from."""
+    return config["val_macro_f1"][config["runs"][name.removeprefix("seed")]]
 
 
 def support(rows):
@@ -188,9 +187,8 @@ def main():
         scores = score_texts(rows, texts, boot_n=args.bootstrap)
         report = {"name": name, "split": args.split, "n_rows": len(rows), "adapter": None if name == "base" else config["adapters"]["folders"][name.removeprefix("seed")], **meta, **scores}
         if args.split == "val" and not args.limit and name != "base":
-            expected = recorded_validation(config, name)
-            found = headline(scores["strict"])
-            report["recorded_validation"] = {k: {"recorded": expected[k], "found": found[k]} for k in ("accuracy", "macro_f1", "evidence_macro_f1")}
+            recorded, found = recorded_validation(config, name), headline(scores["strict"])["macro_f1"]
+            report["recorded_validation_macro_f1"] = {"recorded": recorded, "found": found, "match_at_3_decimals": round(found, 3) == recorded}
         write_json(model_out / "report.json", report)
         reports[name], texts_by_model[name] = report, texts
         h = headline(scores["strict"])
