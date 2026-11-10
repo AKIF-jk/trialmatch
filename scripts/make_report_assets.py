@@ -286,6 +286,18 @@ def figures(out, png):
     return written
 
 
+def test_by_type_table(out):
+    """Test accuracy, macro-F1 and evidence F1 for inclusion and exclusion rows separately (strict parsing)."""
+    rows = []
+    for seed in SEEDS:
+        r = load(f"results/final/test/{seed}/report.json")["strict"]
+        for kind in ("inclusion", "exclusion"):
+            lab, ev = r["labels"][kind], r["evidence"][kind]
+            rows.append([seed.replace("seed", "seed "), kind, lab["n"], f3(lab["accuracy"]), f3(lab["macro_f1"]), f3(lab["macro_f1_supported"]), f3(ev["micro"]["f1"]), f3(ev["macro"]["f1"])])
+    return write_table(out, "test_by_type", ["Model", "Type", "Rows", "Accuracy", "Macro-F1", "Macro-F1 (supp.)", "Evid. micro F1", "Evid. macro F1"], rows, "llrrrrrr",
+                       note="Test split, strict parsing, inclusion and exclusion rows scored separately (macro-F1 over the six-label list; supp. = over labels with support).")
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--out", default=str(ROOT / "report"))
@@ -298,7 +310,7 @@ def main():
     (out / "tables").mkdir(parents=True, exist_ok=True)
     (out / "figures").mkdir(parents=True, exist_ok=True)
     produced = []
-    for gen in (split_table, baselines_table, sweep_table, seeds_table, test_tables, unseen_table, decode_table, attention_tables, spec_table):
+    for gen in (split_table, baselines_table, sweep_table, seeds_table, test_tables, test_by_type_table, unseen_table, decode_table, attention_tables, spec_table):
         try:
             made = gen(out)
             produced += made if isinstance(made, list) else [made]
